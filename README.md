@@ -33,7 +33,7 @@ const diffbot = new DiffBot('your-api-key-goes-here');
 
   // Crawl (new)
   let crawl = await diffbot.crawl().new({
-    name: 'my-new-crawl',
+    name: 'my-diffbot-crawl',
     seeds: [
       'https://www.cruisebar.com.au/',
       'https://www.sydneyharbourdinnercruises.com.au/',
@@ -41,6 +41,18 @@ const diffbot = new DiffBot('your-api-key-goes-here');
   });
   console.log(crawl.response);
   console.log(crawl.jobs);
+
+  // Crawl (get)
+  let crawlData = await diffbot.crawl().get({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlData);
+
+  // Crawl (details)
+  let crawlDetails = await diffbot.crawl().details({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlDetails.jobs);
 
   // Knowledge Graph
   let kg = await diffbot.knowledgeGraph({

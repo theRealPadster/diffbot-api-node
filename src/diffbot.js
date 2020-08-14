@@ -206,6 +206,34 @@ class DiffBot {
           }
         });
       },
+      /**
+       * Get Crawlbot job details
+       * @param {Object} options The options
+       * @param {string} [options.name] Name of crawl to retrieve.
+       * @returns {Object} This will return a JSON response of your token's crawls (and Bulk API) jobs in the jobs object. If you have specified a single job name, only one job's details will be returned.
+       */
+      details: function(options) {
+
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`;
+
+        if(options.name) {
+          diffbot_url += `&name=${encodeURIComponent(options.name)}`;
+        }
+
+        return new Promise(async (resolve, reject) => {
+          try {
+            let response = await fetch(diffbot_url);
+            if (!response.ok) {
+              throw new Error('response not ok.');
+            }
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
+            reject(err);
+          }
+        });
+      },
     }
   }
 }

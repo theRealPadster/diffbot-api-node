@@ -19,6 +19,7 @@
   "keywords": [
     "diffbot"
   ],
+  "license": "MIT",
   "main": "src/diffbot.js",
   "homepage": "https://github.com/therealpadster/diffbot-api-node"
 }

@@ -26,7 +26,7 @@ class DiffBot {
       throw new Error("missing url");
     }
 
-    let diffbot_url = `http://api.diffbot.com/v3/product?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+    let diffbot_url = `https://api.diffbot.com/v3/product?token=${this.token}&url=${encodeURIComponent(options.url)}`;
 
     if (options.fields) {
       diffbot_url += `&fields=${options.fields.join(',')}`;
@@ -78,7 +78,6 @@ class DiffBot {
   knowledgeGraph(options) {
     let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
 
-    // process extras
     if (options.from) {
       diffbot_url += `&from=${options.from}`;
     }
@@ -129,7 +128,7 @@ class DiffBot {
           throw new Error('missing seeds');
         }
 
-        let diffbot_url = `http://api.diffbot.com/v3/crawl?token=${this.token}`
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
           + `&seeds=${encodeURIComponent(options.seeds.join(' '))}`;
 
@@ -138,8 +137,6 @@ class DiffBot {
         } else {
           diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
         }
-
-        console.log(diffbot_url);
 
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
@@ -150,6 +147,54 @@ class DiffBot {
             let response = await fetch(diffbot_url, {
               method: 'POST'
             });
+            if (!response.ok) {
+              throw new Error('response not ok.');
+            }
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
+            reject(err);
+          }
+        });
+      },
+      /**
+       * Download a Crawlbot crawl job's results
+       * @param {Object} options The options
+       * @param {string} options.name Name of the crawl whose data you wish to download.
+       * @param {format} [options.format] Request format=csv to download the extracted data in CSV format (default: json). Note that CSV files will only contain top-level fields.
+       * @param {string} [options.type] Request type=urls to retrieve the crawl URL Report (CSV).
+       * @param {number} [options.num] Pass an integer value (e.g. num=100) to request a subset of URLs, most recently crawled first.
+       * @returns The crawl job's results
+       */
+      get: function(options) {
+        // TODO: Do I police the optional fields or leave the user to get a 400 error?
+        if (!options.name) {
+          throw new Error('missing name');
+        } else if (options.format && !['csv','json'].includes(options.format)) {
+          throw new Error('invalid format');
+        } else if (options.type && options.type != 'urls') {
+          throw new Error('invalid type');
+        }
+
+        let diffbot_url = `https://api.diffbot.com/v3/crawl/data?token=${this.token}`
+          + `&name=${encodeURIComponent(options.name)}`;
+
+        if (options.format) {
+          diffbot_url += `&format=${encodeURIComponent(options.format)}`;
+        }
+
+        if (options.type) {
+          diffbot_url += `&type=${encodeURIComponent(options.type)}`;
+        }
+
+        if (options.num) {
+          diffbot_url += `&num=${encodeURIComponent(options.num)}`;
+        }
+
+        return new Promise(async (resolve, reject) => {
+          try {
+            let response = await fetch(diffbot_url);
             if (!response.ok) {
               throw new Error('response not ok.');
             }

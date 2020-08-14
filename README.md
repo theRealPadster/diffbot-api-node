@@ -19,7 +19,7 @@ Currently supports the following features:
 ## Usage
 
 ```javascript
-const DiffBot = require('diffbot')
+const DiffBot = require('diffbot-api-node')
 const diffbot = new DiffBot('your-api-key-goes-here');
 
   // Product
@@ -44,6 +44,6 @@ const diffbot = new DiffBot('your-api-key-goes-here');
   let kg = await diffbot.knowledgeGraph({
     query: 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}'
   });
-  console.kg(p.hits);
-  console.kg(p.data);
+  console.log(kg.hits);
+  console.log(kg.data);
 ```

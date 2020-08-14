@@ -10,8 +10,9 @@ DiffBot-API-Node is a Promise-based library to use the the [DiffBot](https://www
 Currently supports the following features:
 * Product (no POST support yet)
 * Crawl
-  * New (with name, seeds, and apiUrl params)
-  * Get
+  * New (with `name`, `seeds`, and `apiUrl` params)
+  * Get (retrieve crawl job results)
+  * Details (retrieve crawl job details)
 * Knowledge Graph
 
 ## Install

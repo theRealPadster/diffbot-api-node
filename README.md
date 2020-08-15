@@ -8,6 +8,7 @@ DiffBot-API-Node is a Promise-based library to use the [DiffBot](https://www.dif
 ## Features
 
 Currently supports the following features:
+* Analyze (no POST support yet)
 * Product (no POST support yet)
 * Crawl
   * New (with `name`, `seeds`, and `apiUrl` params)
@@ -24,6 +25,16 @@ Currently supports the following features:
 ```javascript
 const DiffBot = require('diffbot-api-node')
 const diffbot = new DiffBot('your-api-key-goes-here');
+
+  // Analyze
+  let a = await diffbot.analyze({
+    url: 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual',
+    discussion: false,
+  });
+  console.log(a.humanLanguage);
+  console.log(a.title);
+  console.log(a.type);
+  console.log(a.objects);
 
   // Product
   let p = await diffbot.product({

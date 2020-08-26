@@ -10,6 +10,7 @@ DiffBot-API-Node is a Promise-based library to use the [DiffBot](https://www.dif
 Currently supports the following features:
 * Analyze (no POST support yet)
 * Product (no POST support yet)
+* Article (no POST support yet)
 * Crawl
   * New (with `name`, `seeds`, and `apiUrl` params)
   * Get (retrieve crawl job results)
@@ -27,21 +28,28 @@ const DiffBot = require('diffbot-api-node')
 const diffbot = new DiffBot('your-api-key-goes-here');
 
   // Analyze
-  let a = await diffbot.analyze({
+  let analyze = await diffbot.analyze({
     url: 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual',
     discussion: false,
   });
-  console.log(a.humanLanguage);
-  console.log(a.title);
-  console.log(a.type);
-  console.log(a.objects);
+  console.log(analyze.humanLanguage);
+  console.log(analyze.title);
+  console.log(analyze.type);
+  console.log(analyze.objects);
 
   // Product
-  let p = await diffbot.product({
+  let product = await diffbot.product({
     url: 'https://www.amazon.com/Qihua-Universe-Blanket-Blankets-Travelling/dp/B074J5CYTJ',
     discussion: false,
   });
-  console.log(p.objects);
+  console.log(product.objects);
+
+  // Article
+  let article = await diffbot.article({
+    url: 'https://www.amazon.com/Qihua-Universe-Blanket-Blankets-Travelling/dp/B074J5CYTJ',
+    discussion: false,
+  });
+  console.log(article.objects);
 
   // Crawl (new)
   let crawl = await diffbot.crawl().new({

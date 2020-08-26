@@ -1,6 +1,6 @@
 {
   "name": "diffbot-api-node",
-  "description": "Node.js library for DiffBot APIs",
+  "description": "Promise-based Node.js library for DiffBot APIs",
   "tags": [
     "diffbot",
     "api"
@@ -11,13 +11,15 @@
     "url": "https://github.com/therealpadster/diffbot-api-node.git"
   },
   "bugs": {
-    "web": "https://github.com/markbao/node-diffbot/issues"
+    "web": "https://github.com/therealpadster/node-diffbot/issues"
   },
   "dependencies": {
     "node-fetch": "^2.6.0"
   },
   "keywords": [
-    "diffbot"
+    "diffbot",
+    "api",
+    "node"
   ],
   "license": "MIT",
   "main": "src/diffbot.js",

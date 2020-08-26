@@ -128,6 +128,75 @@ class DiffBot {
     });
   }
 
+  /**
+   * Execute an article API call
+   * @param {Object} options The search options
+   * @param {string} options.url Web page URL of the article to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API.
+   * @param {boolean} [options.paging] Pass paging=false to disable automatic concatenation of multiple-page articles. (By default, Diffbot will concatenate up to 20 pages of a single article.)
+   * @param {number} [options.maxTags] Set the maximum number of automatically-generated tags to return. By default a maximum of ten tags will be returned.
+   * @param {number} [options.tagConfidence] Set the minimum relevance score of tags to return, between 0.0 and 1.0. By default only tags with a score equal to or above 0.5 will be returned.
+   * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of article comments.
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @returns {Object} The article query results
+   */
+  article(options) {
+
+    if (!options.url) {
+      throw new Error('missing url');
+    }
+
+    let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields) {
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+    }
+
+    // TODO: test if it works to pass paging=true
+    if (options.paging != undefined) {
+      diffbot_url += `&paging=${options.paging}`;
+    }
+
+    if (options.maxTags) {
+      diffbot_url += `&maxTags=${options.maxTags}`;
+    }
+
+    if (options.tagConfidence) {
+      diffbot_url += `&tagConfidence=${options.tagConfidence}`;
+    }
+
+    if (options.discussion) {
+      diffbot_url += `&discussion=${options.discussion}`;
+    }
+
+    if (options.timeout) {
+      diffbot_url += `&timeout=${options.timeout}`;
+    }
+
+    if (options.callback) {
+      diffbot_url += `&callback=${callback}`;
+    }
+
+    // TODO: add support for passing the markup in a POST
+    // if (options.html) {
+    //   diffbot_url += '&html=1';
+    // }
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        let response = await fetch(diffbot_url);
+        if (!response.ok) {
+          throw new Error('response not ok.');
+        }
+        // TODO: add some better error handling
+        const parsed = await response.json();
+        resolve(parsed);
+      } catch(err) {
+        reject(err);
+      }
+    });
+  }
 
   /**
    * Execute a query against the Knowledge Graph

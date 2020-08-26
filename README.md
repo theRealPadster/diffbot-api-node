@@ -39,7 +39,7 @@ const diffbot = new DiffBot('your-api-key-goes-here');
 
   // Product
   let product = await diffbot.product({
-    url: 'https://www.amazon.com/Qihua-Universe-Blanket-Blankets-Travelling/dp/B074J5CYTJ',
+    url: 'https://www.amazon.com/Resistance-Avalon-Social-Deduction-Game/dp/B009SAAV0C',
     discussion: false,
   });
   console.log(product.objects);
@@ -48,10 +48,10 @@ const diffbot = new DiffBot('your-api-key-goes-here');
   let article = await diffbot.article({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
   });
-  console.log(article.objects.authors);
-  console.log(article.objects.publisherRegion);
-  console.log(article.objects.sentiment);
-  console.log(article.objects.tags);
+  console.log(article.objects[0].authors);
+  console.log(article.objects[0].publisherRegion);
+  console.log(article.objects[0].sentiment);
+  console.log(article.objects[0].tags);
 
   // Crawl (new)
   let crawl = await diffbot.crawl().new({

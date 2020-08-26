@@ -46,10 +46,12 @@ const diffbot = new DiffBot('your-api-key-goes-here');
 
   // Article
   let article = await diffbot.article({
-    url: 'https://www.amazon.com/Qihua-Universe-Blanket-Blankets-Travelling/dp/B074J5CYTJ',
-    discussion: false,
+    url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
   });
-  console.log(article.objects);
+  console.log(article.objects.authors);
+  console.log(article.objects.publisherRegion);
+  console.log(article.objects.sentiment);
+  console.log(article.objects.tags);
 
   // Crawl (new)
   let crawl = await diffbot.crawl().new({

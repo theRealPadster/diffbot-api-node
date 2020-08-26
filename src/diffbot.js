@@ -42,7 +42,7 @@ class DiffBot {
       diffbot_url += `&fields=${options.fields.join(',')}`;
     }
 
-    if (options.discussion) {
+    if (options.discussion != undefined) {
       diffbot_url += `&discussion=${options.discussion}`;
     }
 
@@ -96,7 +96,7 @@ class DiffBot {
       diffbot_url += `&fields=${options.fields.join(',')}`;
     }
 
-    if (options.discussion) {
+    if (options.discussion != undefined) {
       diffbot_url += `&discussion=${options.discussion}`;
     }
 
@@ -166,7 +166,7 @@ class DiffBot {
       diffbot_url += `&tagConfidence=${options.tagConfidence}`;
     }
 
-    if (options.discussion) {
+    if (options.discussion != undefined) {
       diffbot_url += `&discussion=${options.discussion}`;
     }
 

@@ -11,11 +11,11 @@ Currently supports the following features:
 * Analyze (no POST support yet)
 * Product (no POST support yet)
 * Article (no POST support yet)
+* Knowledge Graph
 * Crawl
   * New (with `name`, `seeds`, and `apiUrl` params)
   * Get (retrieve crawl job results)
   * Details (retrieve crawl job details)
-* Knowledge Graph
 
 ## Install
 
@@ -26,8 +26,10 @@ Currently supports the following features:
 ```javascript
 const DiffBot = require('diffbot-api-node')
 const diffbot = new DiffBot('your-api-key-goes-here');
+```
 
-  // Analyze
+### Analyze API
+```javascript
   let analyze = await diffbot.analyze({
     url: 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual',
     discussion: false,
@@ -36,15 +38,19 @@ const diffbot = new DiffBot('your-api-key-goes-here');
   console.log(analyze.title);
   console.log(analyze.type);
   console.log(analyze.objects);
+```
 
-  // Product
+### Product API
+```javascript
   let product = await diffbot.product({
     url: 'https://www.amazon.com/Resistance-Avalon-Social-Deduction-Game/dp/B009SAAV0C',
     discussion: false,
   });
   console.log(product.objects);
+```
 
-  // Article
+### Article API
+```javascript
   let article = await diffbot.article({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
   });
@@ -52,7 +58,21 @@ const diffbot = new DiffBot('your-api-key-goes-here');
   console.log(article.objects[0].publisherRegion);
   console.log(article.objects[0].sentiment);
   console.log(article.objects[0].tags);
+```
 
+### Knowledge Graph API
+```javascript
+  // Knowledge Graph
+  let kg = await diffbot.knowledgeGraph({
+    query: 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}'
+  });
+  console.log(kg.hits);
+  console.log(kg.data);
+```
+
+
+### Crawl API
+```javascript
   // Crawl (new)
   let crawl = await diffbot.crawl().new({
     name: 'my-diffbot-crawl',
@@ -75,18 +95,12 @@ const diffbot = new DiffBot('your-api-key-goes-here');
     name: 'my-diffbot-crawl',
   });
   console.log(crawlDetails.jobs);
-
-  // Knowledge Graph
-  let kg = await diffbot.knowledgeGraph({
-    query: 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}'
-  });
-  console.log(kg.hits);
-  console.log(kg.data);
 ```
 
 ## Testing
 
 You must make a `.env` file with your diffbot API token in order to run the test suite.
+
 e.g. `echo "DIFFBOT_API_TOKEN=YOURTOKENGOESHERE" > .env`
 
-Then just run `mocha`
+Then just run `mocha`.

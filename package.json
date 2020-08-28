@@ -1,6 +1,6 @@
 {
   "name": "diffbot-api-node",
-  "description": "Promise-based Node.js library for DiffBot APIs",
+  "description": "Promise-based Node.js library for Diffbot APIs",
   "tags": [
     "diffbot",
     "api"

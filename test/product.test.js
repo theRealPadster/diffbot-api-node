@@ -1,6 +1,6 @@
 require('dotenv').config();
-const DiffBot = require('../src/diffbot.js');
-const diffbot = new DiffBot(process.env.DIFFBOT_API_TOKEN);
+const Diffbot = require('../src/diffbot.js');
+const diffbot = new Diffbot(process.env.DIFFBOT_API_TOKEN);
 const target_url = 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual';
 const expect = require('chai').expect;
 

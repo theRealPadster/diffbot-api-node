@@ -1,9 +1,9 @@
 const fetch = require('node-fetch');
 
-class DiffBot {
+class Diffbot {
   /**
-   * Instantiate a DiffBot
-   * @param {string} token The DiffBot API token to use
+   * Instantiate a Diffbot
+   * @param {string} token The Diffbot API token to use
    */
   constructor(token) {
     if (!token) throw new Error('missing token');
@@ -371,4 +371,4 @@ class DiffBot {
   }
 }
 
-module.exports = DiffBot;
+module.exports = Diffbot;

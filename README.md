@@ -83,3 +83,10 @@ const diffbot = new DiffBot('your-api-key-goes-here');
   console.log(kg.hits);
   console.log(kg.data);
 ```
+
+## Testing
+
+You must make a `.env` file with your diffbot API token in order to run the test suite.
+e.g. `echo "DIFFBOT_API_TOKEN=YOURTOKENGOESHERE" > .env`
+
+Then just run `mocha`

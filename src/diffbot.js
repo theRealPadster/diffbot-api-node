@@ -1,77 +1,17 @@
 const fetch = require('node-fetch');
+const axios = require('axios');
+const { response } = require('express');
 
-class Diffbot {
+const sleep = require('util').promisify(setTimeout);
+
+class DiffBot {
   /**
-   * Instantiate a Diffbot
-   * @param {string} token The Diffbot API token to use
+   * Instantiate a DiffBot
+   * @param {string} token The DiffBot API token to use
    */
   constructor(token) {
     if (!token) throw new Error('missing token');
     this.token = token;
-  }
-
-  /**
-   * Execute an analyze API call
-   * @param {Object} options The analyze options
-   * @param {string} options.url Web page URL of the analyze to process
-   * @param {string} [options.mode] By default the Analyze API will fully extract all pages that match an existing Automatic API -- articles, products or image pages. Set mode to a specific page-type (e.g., mode=article) to extract content only from that specific page-type. All other pages will simply return the default Analyze fields.
-   * @param {string} [options.fallback] Force any non-extracted pages (those with a type of "other") through a specific API. For example, to route all "other" pages through the Article API, pass &fallback=article. Pages that utilize this functionality will return a fallbackType field at the top-level of the response and a originalType field within each extracted object, both of which will indicate the fallback API used.
-   * @param {string[]} [options.fields] Specify optional fields to be returned from any fully-extracted pages, e.g.: &fields=querystring,links. See available fields within each API's individual documentation pages.
-   * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of comments or reviews from pages identified as articles or products. This will not affect pages identified as discussions.
-   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
-   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
-   * @returns {Object} The analyze query results
-   */
-  analyze(options) {
-
-    if (!options.url) {
-      throw new Error('missing url');
-    }
-
-    let diffbot_url = `https://api.diffbot.com/v3/analyze?token=${this.token}&url=${encodeURIComponent(options.url)}`;
-
-    if (options.mode) {
-      diffbot_url += `&mode=${options.mode}`;
-    }
-
-    if (options.fallback) {
-      diffbot_url += `&fallback=${options.fallback}`;
-    }
-
-    if (options.fields) {
-      diffbot_url += `&fields=${options.fields.join(',')}`;
-    }
-
-    if (options.discussion != undefined) {
-      diffbot_url += `&discussion=${options.discussion}`;
-    }
-
-    if (options.timeout) {
-      diffbot_url += `&timeout=${options.timeout}`;
-    }
-
-    if (options.callback) {
-      diffbot_url += `&callback=${callback}`;
-    }
-
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
-
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await fetch(diffbot_url);
-        if (!response.ok) {
-          throw new Error('response not ok.');
-        }
-        // TODO: add some better error handling
-        const parsed = await response.json();
-        resolve(parsed);
-      } catch(err) {
-        reject(err);
-      }
-    });
   }
 
   /**
@@ -87,7 +27,7 @@ class Diffbot {
   product(options) {
 
     if (!options.url) {
-      throw new Error('missing url');
+      throw new Error("missing url");
     }
 
     let diffbot_url = `https://api.diffbot.com/v3/product?token=${this.token}&url=${encodeURIComponent(options.url)}`;
@@ -96,7 +36,7 @@ class Diffbot {
       diffbot_url += `&fields=${options.fields.join(',')}`;
     }
 
-    if (options.discussion != undefined) {
+    if (options.discussion) {
       diffbot_url += `&discussion=${options.discussion}`;
     }
 
@@ -110,9 +50,8 @@ class Diffbot {
 
     // TODO: add support for passing the markup in a POST
     // if (options.html) {
-    //   diffbot_url += '&html=1';
+    //   diffbot_url += "&html=1";
     // }
-
     return new Promise(async (resolve, reject) => {
       try {
         let response = await fetch(diffbot_url);
@@ -128,75 +67,6 @@ class Diffbot {
     });
   }
 
-  /**
-   * Execute an article API call
-   * @param {Object} options The search options
-   * @param {string} options.url Web page URL of the article to process
-   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API.
-   * @param {boolean} [options.paging] Pass paging=false to disable automatic concatenation of multiple-page articles. (By default, Diffbot will concatenate up to 20 pages of a single article.)
-   * @param {number} [options.maxTags] Set the maximum number of automatically-generated tags to return. By default a maximum of ten tags will be returned.
-   * @param {number} [options.tagConfidence] Set the minimum relevance score of tags to return, between 0.0 and 1.0. By default only tags with a score equal to or above 0.5 will be returned.
-   * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of article comments.
-   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
-   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
-   * @returns {Object} The article query results
-   */
-  article(options) {
-
-    if (!options.url) {
-      throw new Error('missing url');
-    }
-
-    let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}&url=${encodeURIComponent(options.url)}`;
-
-    if (options.fields) {
-      diffbot_url += `&fields=${options.fields.join(',')}`;
-    }
-
-    // TODO: test if it works to pass paging=true
-    if (options.paging != undefined) {
-      diffbot_url += `&paging=${options.paging}`;
-    }
-
-    if (options.maxTags) {
-      diffbot_url += `&maxTags=${options.maxTags}`;
-    }
-
-    if (options.tagConfidence) {
-      diffbot_url += `&tagConfidence=${options.tagConfidence}`;
-    }
-
-    if (options.discussion != undefined) {
-      diffbot_url += `&discussion=${options.discussion}`;
-    }
-
-    if (options.timeout) {
-      diffbot_url += `&timeout=${options.timeout}`;
-    }
-
-    if (options.callback) {
-      diffbot_url += `&callback=${callback}`;
-    }
-
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
-
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await fetch(diffbot_url);
-        if (!response.ok) {
-          throw new Error('response not ok.');
-        }
-        // TODO: add some better error handling
-        const parsed = await response.json();
-        resolve(parsed);
-      } catch(err) {
-        reject(err);
-      }
-    });
-  }
 
   /**
    * Execute a query against the Knowledge Graph
@@ -209,7 +79,8 @@ class Diffbot {
    * @returns {Object} The query results
    */
   knowledgeGraph(options) {
-    let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
+    console.log(options);
+    let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}&size=1000`;
 
     if (options.from) {
       diffbot_url += `&from=${options.from}`;
@@ -226,6 +97,8 @@ class Diffbot {
     if (options.type) {
       diffbot_url += `&type=${options.type}`;
     }
+
+    console.log(diffbot_url);
 
     return new Promise(async (resolve, reject) => {
       try {
@@ -254,42 +127,122 @@ class Diffbot {
        * @param {string} [options.apiUrl] Full Diffbot API URL through which to process pages. E.g., &apiUrl=https://api.diffbot.com/v3/article to process matching links via the Article API. The Diffbot API URL can include querystring parameters to tailor the output. For example, &apiUrl=https://api.diffbot.com/v3/product?fields=querystring,meta will process matching links using the Product API, and also return the querystring and meta fields. Uses the Analyze API (Smart Processing) by default.
        * @returns {Object} The response and crawl job objects
        */
-      new: function(options) {
+      new: async function(options) {
+        console.log(options);
         if (!options.name) {
           throw new Error('missing name');
         } else if (!options.seeds) {
           throw new Error('missing seeds');
         }
-
+        let websites = options.seeds.split(' ');
+        const webhookURL = 'https://96e7875aace1.ngrok.io/step3webhook'
+        const maxToCrawl = websites.length*1000;
+        const maxToProcess = maxToCrawl;
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&seeds=${encodeURIComponent(options.seeds.join(' '))}`;
+          + `&seeds=${encodeURIComponent(options.seeds)}`
+          + `&notifyWebhook=${webhookURL}`;
 
         if (options.apiUrl) {
           diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
         } else {
           diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
         }
+        if(options.maxHops){
+          diffbot_url += `&maxHops=${options.maxHops}`;
+        }
+        else{
+          diffbot_url += `&maxHops=3`;
+        }
+        if(options.maxToProcess){
+          diffbot_url += `&maxToProcess=${options.maxToProcess}`;
+        }
+        else{
+          diffbot_url += `&maxToProcess=${maxToProcess}`;
+        }
+        if(options.useCanonical){
+          diffbot_url += `&useCanonical=${options.useCanonical}`;
+        }
+        else{
+          diffbot_url += `&useCanonical=1`;
+        }
+        if(options.maxToCrawl){
+          diffbot_url += `&maxToCrawl=${options.maxToCrawl}`;
+        }
+        else{
+          diffbot_url += `&maxToCrawl=${maxToCrawl}`;
+        }
 
+        console.log(diffbot_url);
+        //await sleep(2000);
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
+        return new Promise(async (resolve, reject) => {
+          axios.post(diffbot_url)
+        .then(response =>{
+          //console.log(response);
+          if(response.status == 200){
+            // console.log(response.data);
+            //console.log("Axios response++++++".response.data,"Axios response");
+            resolve(response.data)
+          }
+          else{
+            reject(response);
+          }
+        })
+        .catch(err => {
+          reject(err);
+        })
+          // try {
+          //   let response = await fetch(diffbot_url, {
+          //     method: 'POST'
+          //   });
+          //   if (!response.ok) {
+          //     throw new Error('response not ok.');
+          //   }
+          //   // TODO: add some better error handling
+          //   const parsed = await response.json();
+          //   resolve(parsed);
+          // } catch(err) {
+          //   console.log("ERROR in parsing req::",err);
+          //   reject(err);
+          // }
+        });
+      },
+      //To check status of existing job
+      status: async function(options){
+        console.log(options.jobname);
+        if (!options.jobname) {
+          throw new Error('missing name');
+        }
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
+          + `&name=${encodeURIComponent(options.jobname)}`;
+      
+        if (options.apiUrl) {
+          diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
+        } else {
+          diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
+        }
+
+        await sleep(200);
 
         return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url, {
-              method: 'POST'
-            });
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
+          
+        axios.post(diffbot_url)
+        .then(response =>{
+          if(response.status == 200){
+            resolve(response.data)
           }
-        });
+          else{
+            reject(response);
+          }
+        })
+        .catch(err => {
+          reject(err);
+        })
+      });
+
       },
       /**
        * Download a Crawlbot crawl job's results
@@ -316,6 +269,9 @@ class Diffbot {
         if (options.format) {
           diffbot_url += `&format=${encodeURIComponent(options.format)}`;
         }
+        else{
+          diffbot_url += `&format=${encodeURIComponent('json')}`;
+        }
 
         if (options.type) {
           diffbot_url += `&type=${encodeURIComponent(options.type)}`;
@@ -340,6 +296,78 @@ class Diffbot {
         });
       },
       /**
+       * Crawlbot data filtered by search API
+       * @param {Object} options The options
+       * @param {string} options.name Name of the crawl whose data you wish to download.
+       * @param {format} [options.format] Request format=csv to download the extracted data in CSV format (default: json). Note that CSV files will only contain top-level fields.
+       * @param {string} [options.type] Request type=urls to retrieve the crawl URL Report (CSV).
+       * @param {number} [options.num] Pass an integer value (e.g. num=100) to request a subset of URLs, most recently crawled first.
+       * @returns The crawl job's results
+       */
+      search: function(options) {
+        // TODO: Do I police the optional fields or leave the user to get a 400 error?
+        if (!options.name) {
+          throw new Error('missing name');
+        } else if (!options.query){
+          throw new Error('missing query');
+        }
+
+        let diffbot_url = `https://api.diffbot.com/v3/search?token=${this.token}`
+          + `&col=${encodeURIComponent(options.name)}`
+          + `&query=${encodeURIComponent(options.query)}`;
+
+        if (options.num) {
+          diffbot_url += `&num=${options.num}`;
+        }
+        else{
+          diffbot_url += `&num=all`;
+        }
+
+        return new Promise(async (resolve, reject) => {
+            
+          axios.get(diffbot_url)
+          .then(response =>{
+            if(response.status == 200){
+              resolve(response.data)
+            }
+            else{
+              reject(response);
+            }
+          })
+          .catch(err => {
+            reject(err);
+          })
+        });
+      },
+      /* Delete job and data when products retrieved */
+      delete: function(options) {
+        // TODO: Do I police the optional fields or leave the user to get a 400 error?
+        if (!options.name) {
+          throw new Error('missing name');
+        }
+
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
+          + `&name=${encodeURIComponent(options.name)}`
+          + `&delete=1`;
+
+        return new Promise(async (resolve, reject) => {
+          console.log(diffbot_url);
+            
+          axios.post(diffbot_url)
+          .then(response =>{
+            if(response.status == 200){
+              resolve(response.data)
+            }
+            else{
+              reject(response);
+            }
+          })
+          .catch(err => {
+            reject(err);
+          })
+        });
+      },
+      /**
        * Get Crawlbot job details
        * @param {Object} options The options
        * @param {string} [options.name] Name of crawl to retrieve.
@@ -352,6 +380,7 @@ class Diffbot {
         if(options.name) {
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
         }
+        
 
         return new Promise(async (resolve, reject) => {
           try {
@@ -371,4 +400,4 @@ class Diffbot {
   }
 }
 
-module.exports = Diffbot;
+module.exports = DiffBot;

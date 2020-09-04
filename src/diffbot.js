@@ -1,7 +1,5 @@
 const fetch = require('node-fetch');
 
-const sleep = require('util').promisify(setTimeout);
-
 class Diffbot {
   /**
    * Instantiate a Diffbot
@@ -254,88 +252,48 @@ class Diffbot {
        * @param {string} options.name Job name. This should be a unique identifier and can be used to modify your crawl or retrieve its output.
        * @param {string[]} options.seeds Seed URL(s). Separate multiple URLs with whitespace to spider multiple sites within the same crawl. If the seed contains a non-www subdomain ("http://blog.diffbot.com" or "http://support.diffbot.com") Crawlbot will restrict spidering to the specified subdomain.
        * @param {string} [options.apiUrl] Full Diffbot API URL through which to process pages. E.g., &apiUrl=https://api.diffbot.com/v3/article to process matching links via the Article API. The Diffbot API URL can include querystring parameters to tailor the output. For example, &apiUrl=https://api.diffbot.com/v3/product?fields=querystring,meta will process matching links using the Product API, and also return the querystring and meta fields. Uses the Analyze API (Smart Processing) by default.
+       * @param {boolean} [options.useCanonical] Pass useCanonical=false to disable deduplication of pages based on a canonical link definition.
+       * @param {number} [options.maxHops] Specify the depth of your crawl. A maxHops=0 will limit processing to the seed URL(s) only -- no other links will be processed; maxHops=1 will process all (otherwise matching) pages whose links appear on seed URL(s); maxHops=2 will process pages whose links appear on those pages; and so on. By default (maxHops=-1) Crawlbot will crawl and process links at any depth.
+       * @param {number} [options.maxToCrawl] Specify max pages to spider. Default: 100,000.
+       * @param {number} [options.maxToProcess] Specify max pages to process through Diffbot APIs. Default: 100,000.
+       * @param {string} [options.notifyWebhook] Pass a URL to be notified when the crawl hits the maxToCrawl or maxToProcess limit, or when the crawl completes. You will receive a POST with X-Crawl-Name and X-Crawl-Status in the headers, and the job's JSON metadata in the POST body. Note that in webhook POSTs the parent jobs will not be sent—only the individual job object will be returned.
        * @returns {Object} The response and crawl job objects
        */
-      new: async function(options) {
+      new: function(options) {
         if (!options.name) {
           throw new Error('missing name');
         } else if (!options.seeds) {
           throw new Error('missing seeds');
         }
-        let websites = options.seeds.split(' ');
-        const webhookURL = 'https://96e7875aace1.ngrok.io/step3webhook'
-        const maxToCrawl = websites.length*1000;
-        const maxToProcess = maxToCrawl;
+
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&seeds=${encodeURIComponent(options.seeds)}`
-          + `&notifyWebhook=${webhookURL}`;
+          + `&seeds=${encodeURIComponent(options.seeds.join(' '))}`;
 
         if (options.apiUrl) {
           diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
         } else {
           diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
         }
-        if(options.maxHops){
+        if(options.useCanonical != undefined){
+          diffbot_url += `&useCanonical=${+options.useCanonical}`;
+        }
+        if(options.maxHops != undefined){
           diffbot_url += `&maxHops=${options.maxHops}`;
         }
-        else{
-          diffbot_url += `&maxHops=3`;
-        }
-        if(options.maxToProcess){
-          diffbot_url += `&maxToProcess=${options.maxToProcess}`;
-        }
-        else{
-          diffbot_url += `&maxToProcess=${maxToProcess}`;
-        }
-        if(options.useCanonical){
-          diffbot_url += `&useCanonical=${options.useCanonical}`;
-        }
-        else{
-          diffbot_url += `&useCanonical=1`;
-        }
-        if(options.maxToCrawl){
+        if(options.maxToCrawl != undefined){
           diffbot_url += `&maxToCrawl=${options.maxToCrawl}`;
         }
-        else{
-          diffbot_url += `&maxToCrawl=${maxToCrawl}`;
+        if(options.maxToProcess != undefined){
+          diffbot_url += `&maxToProcess=${options.maxToProcess}`;
         }
-        //await sleep(2000);
+        if(options.notifyWebhook){
+          diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
+        }
+
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url, {
-              method: 'POST'
-            });
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
-      },
-      //To check status of existing job
-      status: async function(options){
-        console.log(options.jobname);
-        if (!options.jobname) {
-          throw new Error('missing name');
-        }
-        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
-          + `&name=${encodeURIComponent(options.jobname)}`;
-
-        if (options.apiUrl) {
-          diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
-        } else {
-          diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
-        }
-
-        await sleep(200);
 
         return new Promise(async (resolve, reject) => {
           try {
@@ -402,13 +360,13 @@ class Diffbot {
         });
       },
       /**
-       * Crawlbot data filtered by search API
+       * Search a Crawlbot crawl job's results
        * @param {Object} options The options
        * @param {string} options.name Name of the crawl whose data you wish to download.
-       * @param {format} [options.format] Request format=csv to download the extracted data in CSV format (default: json). Note that CSV files will only contain top-level fields.
-       * @param {string} [options.type] Request type=urls to retrieve the crawl URL Report (CSV).
-       * @param {number} [options.num] Pass an integer value (e.g. num=100) to request a subset of URLs, most recently crawled first.
-       * @returns The crawl job's results
+       * @param {string} options.query Search query. Must be URL-encoded. Please see query operators: https://www.diffbot.com/dev/docs/search/#query
+       * @param {number} [options.num] Number of results to return. Default is all.
+       * @param {number} [options.start] Ordinal position of first result to return. (First position is 0.) Default is 0.
+       * @returns The search results
        */
       search: function(options) {
         // TODO: Do I police the optional fields or leave the user to get a 400 error?
@@ -422,11 +380,14 @@ class Diffbot {
           + `&col=${encodeURIComponent(options.name)}`
           + `&query=${encodeURIComponent(options.query)}`;
 
-        if (options.num) {
+        if (options.num != undefined) {
           diffbot_url += `&num=${options.num}`;
-        }
-        else{
+        } else {
           diffbot_url += `&num=all`;
+        }
+
+        if (options.start != undefined) {
+          diffbot_url += `&start=${options.start}`;
         }
 
         return new Promise(async (resolve, reject) => {
@@ -445,7 +406,11 @@ class Diffbot {
           }
         });
       },
-      /* Delete job and data when products retrieved */
+      /**
+       * Delete a Crawlbot crawl job and its data
+       * @param {string} name Job name as defined when the crawl was created.
+       * @returns The operation results
+       */
       delete: function(options) {
         // TODO: Do I police the optional fields or leave the user to get a 400 error?
         if (!options.name) {

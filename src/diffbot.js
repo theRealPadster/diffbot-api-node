@@ -360,53 +360,6 @@ class Diffbot {
         });
       },
       /**
-       * Search a Crawlbot crawl job's results
-       * @param {Object} options The options
-       * @param {string} options.name Name of the crawl whose data you wish to download.
-       * @param {string} options.query Search query. Must be URL-encoded. Please see query operators: https://www.diffbot.com/dev/docs/search/#query
-       * @param {number} [options.num] Number of results to return. Default is all.
-       * @param {number} [options.start] Ordinal position of first result to return. (First position is 0.) Default is 0.
-       * @returns The search results
-       */
-      search: function(options) {
-        // TODO: Do I police the optional fields or leave the user to get a 400 error?
-        if (!options.name) {
-          throw new Error('missing name');
-        } else if (!options.query){
-          throw new Error('missing query');
-        }
-
-        let diffbot_url = `https://api.diffbot.com/v3/search?token=${this.token}`
-          + `&col=${encodeURIComponent(options.name)}`
-          + `&query=${encodeURIComponent(options.query)}`;
-
-        if (options.num != undefined) {
-          diffbot_url += `&num=${options.num}`;
-        } else {
-          diffbot_url += `&num=all`;
-        }
-
-        if (options.start != undefined) {
-          diffbot_url += `&start=${options.start}`;
-        }
-
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url, {
-              method: 'POST'
-            });
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
-      },
-      /**
        * Delete a Crawlbot crawl job and its data
        * @param {string} name Job name as defined when the crawl was created.
        * @returns The operation results
@@ -466,6 +419,54 @@ class Diffbot {
         });
       },
     }
+  }
+
+  /**
+   * Search a Crawlbot crawl job's results
+   * @param {Object} options The options
+   * @param {string} options.name Name of the crawl whose data you wish to download.
+   * @param {string} options.query Search query. Must be URL-encoded. Please see query operators: https://www.diffbot.com/dev/docs/search/#query
+   * @param {number} [options.num] Number of results to return. Default is all.
+   * @param {number} [options.start] Ordinal position of first result to return. (First position is 0.) Default is 0.
+   * @returns The search results
+   */
+  search(options) {
+    // TODO: Do I police the optional fields or leave the user to get a 400 error?
+    if (!options.name) {
+      throw new Error('missing name');
+    } else if (!options.query){
+      throw new Error('missing query');
+    }
+
+    let diffbot_url = `https://api.diffbot.com/v3/search?token=${this.token}`
+      + `&col=${encodeURIComponent(options.name)}`
+      + `&query=${encodeURIComponent(options.query)}`;
+
+    if (options.num != undefined) {
+      diffbot_url += `&num=${options.num}`;
+    } else {
+      diffbot_url += `&num=all`;
+    }
+
+    if (options.start != undefined) {
+      diffbot_url += `&start=${options.start}`;
+    }
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        let response = await fetch(diffbot_url, {
+          method: 'POST'
+        });
+        if (!response.ok) {
+          throw new Error('response not ok.');
+        }
+        // TODO: add some better error handling
+        const parsed = await response.json();
+        resolve(parsed);
+      } catch(err) {
+        reject(err);
+      }
+    });
   }
 }
 

@@ -158,7 +158,7 @@ class Diffbot {
       diffbot_url += `&paging=${options.paging}`;
     }
 
-    if (options.maxTags) {
+    if (options.maxTags != undefined) {
       diffbot_url += `&maxTags=${options.maxTags}`;
     }
 
@@ -215,7 +215,7 @@ class Diffbot {
       diffbot_url += `&from=${options.from}`;
     }
 
-    if (options.nonCanonicalFacts) {
+    if (options.nonCanonicalFacts != undefined) {
       diffbot_url += `&nonCanonicalFacts=${+options.nonCanonicalFacts}`;
     }
 
@@ -250,7 +250,7 @@ class Diffbot {
        * Generate a new Crawlbot crawl job
        * @param {Object} options The search options
        * @param {string} options.name Job name. This should be a unique identifier and can be used to modify your crawl or retrieve its output.
-       * @param {string[]} options.seeds Seed URL(s). Separate multiple URLs with whitespace to spider multiple sites within the same crawl. If the seed contains a non-www subdomain ("http://blog.diffbot.com" or "http://support.diffbot.com") Crawlbot will restrict spidering to the specified subdomain.
+       * @param {string[]} options.seeds Seed URL(s). If the seed contains a non-www subdomain ("http://blog.diffbot.com" or "http://support.diffbot.com") Crawlbot will restrict spidering to the specified subdomain.
        * @param {string} [options.apiUrl] Full Diffbot API URL through which to process pages. E.g., &apiUrl=https://api.diffbot.com/v3/article to process matching links via the Article API. The Diffbot API URL can include querystring parameters to tailor the output. For example, &apiUrl=https://api.diffbot.com/v3/product?fields=querystring,meta will process matching links using the Product API, and also return the querystring and meta fields. Uses the Analyze API (Smart Processing) by default.
        * @param {boolean} [options.useCanonical] Pass useCanonical=false to disable deduplication of pages based on a canonical link definition.
        * @param {number} [options.maxHops] Specify the depth of your crawl. A maxHops=0 will limit processing to the seed URL(s) only -- no other links will be processed; maxHops=1 will process all (otherwise matching) pages whose links appear on seed URL(s); maxHops=2 will process pages whose links appear on those pages; and so on. By default (maxHops=-1) Crawlbot will crawl and process links at any depth.

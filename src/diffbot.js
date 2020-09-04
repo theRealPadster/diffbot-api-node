@@ -1,13 +1,12 @@
 const fetch = require('node-fetch');
 const axios = require('axios');
-const { response } = require('express');
 
 const sleep = require('util').promisify(setTimeout);
 
-class DiffBot {
+class Diffbot {
   /**
-   * Instantiate a DiffBot
-   * @param {string} token The DiffBot API token to use
+   * Instantiate a Diffbot
+   * @param {string} token The Diffbot API token to use
    */
   constructor(token) {
     if (!token) throw new Error('missing token');
@@ -27,7 +26,7 @@ class DiffBot {
   product(options) {
 
     if (!options.url) {
-      throw new Error("missing url");
+      throw new Error('missing url');
     }
 
     let diffbot_url = `https://api.diffbot.com/v3/product?token=${this.token}&url=${encodeURIComponent(options.url)}`;
@@ -36,7 +35,7 @@ class DiffBot {
       diffbot_url += `&fields=${options.fields.join(',')}`;
     }
 
-    if (options.discussion) {
+    if (options.discussion != undefined) {
       diffbot_url += `&discussion=${options.discussion}`;
     }
 
@@ -50,7 +49,7 @@ class DiffBot {
 
     // TODO: add support for passing the markup in a POST
     // if (options.html) {
-    //   diffbot_url += "&html=1";
+    //   diffbot_url += '&html=1';
     // }
     return new Promise(async (resolve, reject) => {
       try {
@@ -79,8 +78,7 @@ class DiffBot {
    * @returns {Object} The query results
    */
   knowledgeGraph(options) {
-    console.log(options);
-    let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}&size=1000`;
+    let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
 
     if (options.from) {
       diffbot_url += `&from=${options.from}`;
@@ -98,7 +96,6 @@ class DiffBot {
       diffbot_url += `&type=${options.type}`;
     }
 
-    console.log(diffbot_url);
 
     return new Promise(async (resolve, reject) => {
       try {
@@ -400,4 +397,4 @@ class DiffBot {
   }
 }
 
-module.exports = DiffBot;
+module.exports = Diffbot;

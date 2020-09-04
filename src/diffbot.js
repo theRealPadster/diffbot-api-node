@@ -14,6 +14,70 @@ class Diffbot {
   }
 
   /**
+   * Execute an analyze API call
+   * @param {Object} options The analyze options
+   * @param {string} options.url Web page URL of the analyze to process
+   * @param {string} [options.mode] By default the Analyze API will fully extract all pages that match an existing Automatic API -- articles, products or image pages. Set mode to a specific page-type (e.g., mode=article) to extract content only from that specific page-type. All other pages will simply return the default Analyze fields.
+   * @param {string} [options.fallback] Force any non-extracted pages (those with a type of "other") through a specific API. For example, to route all "other" pages through the Article API, pass &fallback=article. Pages that utilize this functionality will return a fallbackType field at the top-level of the response and a originalType field within each extracted object, both of which will indicate the fallback API used.
+   * @param {string[]} [options.fields] Specify optional fields to be returned from any fully-extracted pages, e.g.: &fields=querystring,links. See available fields within each API's individual documentation pages.
+   * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of comments or reviews from pages identified as articles or products. This will not affect pages identified as discussions.
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @returns {Object} The analyze query results
+   */
+  analyze(options) {
+
+    if (!options.url) {
+      throw new Error('missing url');
+    }
+
+    let diffbot_url = `https://api.diffbot.com/v3/analyze?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.mode) {
+      diffbot_url += `&mode=${options.mode}`;
+    }
+
+    if (options.fallback) {
+      diffbot_url += `&fallback=${options.fallback}`;
+    }
+
+    if (options.fields) {
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+    }
+
+    if (options.discussion != undefined) {
+      diffbot_url += `&discussion=${options.discussion}`;
+    }
+
+    if (options.timeout) {
+      diffbot_url += `&timeout=${options.timeout}`;
+    }
+
+    if (options.callback) {
+      diffbot_url += `&callback=${callback}`;
+    }
+
+    // TODO: add support for passing the markup in a POST
+    // if (options.html) {
+    //   diffbot_url += '&html=1';
+    // }
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        let response = await fetch(diffbot_url);
+        if (!response.ok) {
+          throw new Error('response not ok.');
+        }
+        // TODO: add some better error handling
+        const parsed = await response.json();
+        resolve(parsed);
+      } catch(err) {
+        reject(err);
+      }
+    });
+  }
+
+  /**
    * Execute a product API call
    * @param {Object} options The search options
    * @param {string} options.url Web page URL of the product to process
@@ -51,6 +115,7 @@ class Diffbot {
     // if (options.html) {
     //   diffbot_url += '&html=1';
     // }
+
     return new Promise(async (resolve, reject) => {
       try {
         let response = await fetch(diffbot_url);
@@ -66,6 +131,75 @@ class Diffbot {
     });
   }
 
+  /**
+   * Execute an article API call
+   * @param {Object} options The search options
+   * @param {string} options.url Web page URL of the article to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API.
+   * @param {boolean} [options.paging] Pass paging=false to disable automatic concatenation of multiple-page articles. (By default, Diffbot will concatenate up to 20 pages of a single article.)
+   * @param {number} [options.maxTags] Set the maximum number of automatically-generated tags to return. By default a maximum of ten tags will be returned.
+   * @param {number} [options.tagConfidence] Set the minimum relevance score of tags to return, between 0.0 and 1.0. By default only tags with a score equal to or above 0.5 will be returned.
+   * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of article comments.
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @returns {Object} The article query results
+   */
+  article(options) {
+
+    if (!options.url) {
+      throw new Error('missing url');
+    }
+
+    let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields) {
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+    }
+
+    // TODO: test if it works to pass paging=true
+    if (options.paging != undefined) {
+      diffbot_url += `&paging=${options.paging}`;
+    }
+
+    if (options.maxTags) {
+      diffbot_url += `&maxTags=${options.maxTags}`;
+    }
+
+    if (options.tagConfidence) {
+      diffbot_url += `&tagConfidence=${options.tagConfidence}`;
+    }
+
+    if (options.discussion != undefined) {
+      diffbot_url += `&discussion=${options.discussion}`;
+    }
+
+    if (options.timeout) {
+      diffbot_url += `&timeout=${options.timeout}`;
+    }
+
+    if (options.callback) {
+      diffbot_url += `&callback=${callback}`;
+    }
+
+    // TODO: add support for passing the markup in a POST
+    // if (options.html) {
+    //   diffbot_url += '&html=1';
+    // }
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        let response = await fetch(diffbot_url);
+        if (!response.ok) {
+          throw new Error('response not ok.');
+        }
+        // TODO: add some better error handling
+        const parsed = await response.json();
+        resolve(parsed);
+      } catch(err) {
+        reject(err);
+      }
+    });
+  }
 
   /**
    * Execute a query against the Knowledge Graph
@@ -95,7 +229,6 @@ class Diffbot {
     if (options.type) {
       diffbot_url += `&type=${options.type}`;
     }
-
 
     return new Promise(async (resolve, reject) => {
       try {
@@ -215,7 +348,7 @@ class Diffbot {
         }
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.jobname)}`;
-      
+
         if (options.apiUrl) {
           diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
         } else {
@@ -225,7 +358,7 @@ class Diffbot {
         await sleep(200);
 
         return new Promise(async (resolve, reject) => {
-          
+
         axios.post(diffbot_url)
         .then(response =>{
           if(response.status == 200){
@@ -321,7 +454,7 @@ class Diffbot {
         }
 
         return new Promise(async (resolve, reject) => {
-            
+
           axios.get(diffbot_url)
           .then(response =>{
             if(response.status == 200){
@@ -349,7 +482,7 @@ class Diffbot {
 
         return new Promise(async (resolve, reject) => {
           console.log(diffbot_url);
-            
+
           axios.post(diffbot_url)
           .then(response =>{
             if(response.status == 200){
@@ -377,7 +510,6 @@ class Diffbot {
         if(options.name) {
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
         }
-        
 
         return new Promise(async (resolve, reject) => {
           try {

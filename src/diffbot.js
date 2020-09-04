@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const axios = require('axios');
 
 const sleep = require('util').promisify(setTimeout);
 
@@ -258,7 +257,6 @@ class Diffbot {
        * @returns {Object} The response and crawl job objects
        */
       new: async function(options) {
-        console.log(options);
         if (!options.name) {
           throw new Error('missing name');
         } else if (!options.seeds) {
@@ -302,42 +300,24 @@ class Diffbot {
         else{
           diffbot_url += `&maxToCrawl=${maxToCrawl}`;
         }
-
-        console.log(diffbot_url);
         //await sleep(2000);
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
         return new Promise(async (resolve, reject) => {
-          axios.post(diffbot_url)
-        .then(response =>{
-          //console.log(response);
-          if(response.status == 200){
-            // console.log(response.data);
-            //console.log("Axios response++++++".response.data,"Axios response");
-            resolve(response.data)
+          try {
+            let response = await fetch(diffbot_url, {
+              method: 'POST'
+            });
+            if (!response.ok) {
+              throw new Error('response not ok.');
+            }
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
+            reject(err);
           }
-          else{
-            reject(response);
-          }
-        })
-        .catch(err => {
-          reject(err);
-        })
-          // try {
-          //   let response = await fetch(diffbot_url, {
-          //     method: 'POST'
-          //   });
-          //   if (!response.ok) {
-          //     throw new Error('response not ok.');
-          //   }
-          //   // TODO: add some better error handling
-          //   const parsed = await response.json();
-          //   resolve(parsed);
-          // } catch(err) {
-          //   console.log("ERROR in parsing req::",err);
-          //   reject(err);
-          // }
         });
       },
       //To check status of existing job
@@ -358,21 +338,20 @@ class Diffbot {
         await sleep(200);
 
         return new Promise(async (resolve, reject) => {
-
-        axios.post(diffbot_url)
-        .then(response =>{
-          if(response.status == 200){
-            resolve(response.data)
+          try {
+            let response = await fetch(diffbot_url, {
+              method: 'POST'
+            });
+            if (!response.ok) {
+              throw new Error('response not ok.');
+            }
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
+            reject(err);
           }
-          else{
-            reject(response);
-          }
-        })
-        .catch(err => {
-          reject(err);
-        })
-      });
-
+        });
       },
       /**
        * Download a Crawlbot crawl job's results
@@ -398,9 +377,6 @@ class Diffbot {
 
         if (options.format) {
           diffbot_url += `&format=${encodeURIComponent(options.format)}`;
-        }
-        else{
-          diffbot_url += `&format=${encodeURIComponent('json')}`;
         }
 
         if (options.type) {
@@ -454,19 +430,19 @@ class Diffbot {
         }
 
         return new Promise(async (resolve, reject) => {
-
-          axios.get(diffbot_url)
-          .then(response =>{
-            if(response.status == 200){
-              resolve(response.data)
+          try {
+            let response = await fetch(diffbot_url, {
+              method: 'POST'
+            });
+            if (!response.ok) {
+              throw new Error('response not ok.');
             }
-            else{
-              reject(response);
-            }
-          })
-          .catch(err => {
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
             reject(err);
-          })
+          }
         });
       },
       /* Delete job and data when products retrieved */
@@ -481,20 +457,19 @@ class Diffbot {
           + `&delete=1`;
 
         return new Promise(async (resolve, reject) => {
-          console.log(diffbot_url);
-
-          axios.post(diffbot_url)
-          .then(response =>{
-            if(response.status == 200){
-              resolve(response.data)
+          try {
+            let response = await fetch(diffbot_url, {
+              method: 'POST'
+            });
+            if (!response.ok) {
+              throw new Error('response not ok.');
             }
-            else{
-              reject(response);
-            }
-          })
-          .catch(err => {
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
             reject(err);
-          })
+          }
         });
       },
       /**

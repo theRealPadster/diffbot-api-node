@@ -24,35 +24,28 @@ class Diffbot {
    */
   analyze(options) {
 
-    if (!options.url) {
+    if (!options.url)
       throw new Error('missing url');
-    }
 
     let diffbot_url = `https://api.diffbot.com/v3/analyze?token=${this.token}&url=${encodeURIComponent(options.url)}`;
 
-    if (options.mode) {
+    if (options.mode)
       diffbot_url += `&mode=${options.mode}`;
-    }
 
-    if (options.fallback) {
+    if (options.fallback)
       diffbot_url += `&fallback=${options.fallback}`;
-    }
 
-    if (options.fields) {
+    if (options.fields)
       diffbot_url += `&fields=${options.fields.join(',')}`;
-    }
 
-    if (options.discussion != undefined) {
+    if (options.discussion != undefined)
       diffbot_url += `&discussion=${options.discussion}`;
-    }
 
-    if (options.timeout) {
+    if (options.timeout)
       diffbot_url += `&timeout=${options.timeout}`;
-    }
 
-    if (options.callback) {
+    if (options.callback)
       diffbot_url += `&callback=${callback}`;
-    }
 
     // TODO: add support for passing the markup in a POST
     // if (options.html) {
@@ -74,27 +67,22 @@ class Diffbot {
    */
   product(options) {
 
-    if (!options.url) {
+    if (!options.url)
       throw new Error('missing url');
-    }
 
     let diffbot_url = `https://api.diffbot.com/v3/product?token=${this.token}&url=${encodeURIComponent(options.url)}`;
 
-    if (options.fields) {
+    if (options.fields)
       diffbot_url += `&fields=${options.fields.join(',')}`;
-    }
 
-    if (options.discussion != undefined) {
+    if (options.discussion != undefined)
       diffbot_url += `&discussion=${options.discussion}`;
-    }
 
-    if (options.timeout) {
+    if (options.timeout)
       diffbot_url += `&timeout=${options.timeout}`;
-    }
 
-    if (options.callback) {
+    if (options.callback)
       diffbot_url += `&callback=${callback}`;
-    }
 
     // TODO: add support for passing the markup in a POST
     // if (options.html) {
@@ -119,40 +107,31 @@ class Diffbot {
    */
   article(options) {
 
-    if (!options.url) {
+    if (!options.url)
       throw new Error('missing url');
-    }
 
     let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}&url=${encodeURIComponent(options.url)}`;
 
-    if (options.fields) {
+    if (options.fields)
       diffbot_url += `&fields=${options.fields.join(',')}`;
-    }
 
-    // TODO: test if it works to pass paging=true
-    if (options.paging != undefined) {
+    if (options.paging != undefined)
       diffbot_url += `&paging=${options.paging}`;
-    }
 
-    if (options.maxTags != undefined) {
+    if (options.maxTags != undefined)
       diffbot_url += `&maxTags=${options.maxTags}`;
-    }
 
-    if (options.tagConfidence) {
+    if (options.tagConfidence)
       diffbot_url += `&tagConfidence=${options.tagConfidence}`;
-    }
 
-    if (options.discussion != undefined) {
+    if (options.discussion != undefined)
       diffbot_url += `&discussion=${options.discussion}`;
-    }
 
-    if (options.timeout) {
+    if (options.timeout)
       diffbot_url += `&timeout=${options.timeout}`;
-    }
 
-    if (options.callback) {
+    if (options.callback)
       diffbot_url += `&callback=${callback}`;
-    }
 
     // TODO: add support for passing the markup in a POST
     // if (options.html) {
@@ -175,21 +154,17 @@ class Diffbot {
   knowledgeGraph(options) {
     let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
 
-    if (options.from) {
+    if (options.from)
       diffbot_url += `&from=${options.from}`;
-    }
 
-    if (options.nonCanonicalFacts != undefined) {
+    if (options.nonCanonicalFacts != undefined)
       diffbot_url += `&nonCanonicalFacts=${+options.nonCanonicalFacts}`;
-    }
 
-    if (options.size) {
+    if (options.size)
       diffbot_url += `&size=${options.size}`;
-    }
 
-    if (options.type) {
+    if (options.type)
       diffbot_url += `&type=${options.type}`;
-    }
 
     return fetch(diffbot_url);
   }
@@ -212,36 +187,34 @@ class Diffbot {
        * @returns {Object} The response and crawl job objects
        */
       new: function(options) {
-        if (!options.name) {
+        if (!options.name)
           throw new Error('missing name');
-        } else if (!options.seeds) {
+        else if (!options.seeds || !options.seeds.length)
           throw new Error('missing seeds');
-        }
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
           + `&seeds=${encodeURIComponent(options.seeds.join(' '))}`;
 
-        if (options.apiUrl) {
+        if (options.apiUrl)
           diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
-        } else {
+        else
           diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
-        }
-        if (options.useCanonical != undefined){
+
+        if (options.useCanonical != undefined)
           diffbot_url += `&useCanonical=${+options.useCanonical}`;
-        }
-        if (options.maxHops != undefined){
+
+        if (options.maxHops != undefined)
           diffbot_url += `&maxHops=${options.maxHops}`;
-        }
-        if (options.maxToCrawl != undefined){
+
+        if (options.maxToCrawl != undefined)
           diffbot_url += `&maxToCrawl=${options.maxToCrawl}`;
-        }
-        if (options.maxToProcess != undefined){
+
+        if (options.maxToProcess != undefined)
           diffbot_url += `&maxToProcess=${options.maxToProcess}`;
-        }
-        if (options.notifyWebhook){
+
+        if (options.notifyWebhook)
           diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
-        }
 
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
@@ -260,28 +233,24 @@ class Diffbot {
        */
       get: function(options) {
         // TODO: Do I police the optional fields or leave the user to get a 400 error?
-        if (!options.name) {
+        if (!options.name)
           throw new Error('missing name');
-        } else if (options.format && !['csv','json'].includes(options.format)) {
+        else if (options.format && !['csv','json'].includes(options.format))
           throw new Error('invalid format');
-        } else if (options.type && options.type != 'urls') {
+        else if (options.type && options.type != 'urls')
           throw new Error('invalid type');
-        }
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl/data?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`;
 
-        if (options.format) {
+        if (options.format)
           diffbot_url += `&format=${encodeURIComponent(options.format)}`;
-        }
 
-        if (options.type) {
+        if (options.type)
           diffbot_url += `&type=${encodeURIComponent(options.type)}`;
-        }
 
-        if (options.num) {
+        if (options.num)
           diffbot_url += `&num=${encodeURIComponent(options.num)}`;
-        }
 
         return fetch(diffbot_url);
       },
@@ -292,9 +261,8 @@ class Diffbot {
        */
       pause: function(options) {
         // TODO: Do I police the optional fields or leave the user to get a 400 error?
-        if (!options.name) {
+        if (!options.name)
           throw new Error('missing name');
-        }
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
@@ -309,9 +277,8 @@ class Diffbot {
        */
       resume: function(options) {
         // TODO: Do I police the optional fields or leave the user to get a 400 error?
-        if (!options.name) {
+        if (!options.name)
           throw new Error('missing name');
-        }
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
@@ -326,9 +293,8 @@ class Diffbot {
        */
       delete: function(options) {
         // TODO: Do I police the optional fields or leave the user to get a 400 error?
-        if (!options.name) {
+        if (!options.name)
           throw new Error('missing name');
-        }
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
@@ -346,9 +312,8 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`;
 
-        if (options.name) {
+        if (options.name)
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
-        }
 
         return fetch(diffbot_url);
       },
@@ -366,25 +331,22 @@ class Diffbot {
    */
   search(options) {
     // TODO: Do I police the optional fields or leave the user to get a 400 error?
-    if (!options.name) {
+    if (!options.name)
       throw new Error('missing name');
-    } else if (!options.query){
+    else if (!options.query)
       throw new Error('missing query');
-    }
 
     let diffbot_url = `https://api.diffbot.com/v3/search?token=${this.token}`
       + `&col=${encodeURIComponent(options.name)}`
       + `&query=${encodeURIComponent(options.query)}`;
 
-    if (options.num != undefined) {
+    if (options.num != undefined)
       diffbot_url += `&num=${options.num}`;
-    } else {
+    else
       diffbot_url += `&num=all`;
-    }
 
-    if (options.start != undefined) {
+    if (options.start != undefined)
       diffbot_url += `&start=${options.start}`;
-    }
 
     return fetch(diffbot_url, 'POST');
   }

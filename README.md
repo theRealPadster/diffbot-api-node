@@ -13,9 +13,13 @@ Currently supports the following features:
 * Article (no POST support yet)
 * Knowledge Graph
 * Crawl
-  * New (with `name`, `seeds`, and `apiUrl` params)
+  * New (supported params `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
   * Get (retrieve crawl job results)
   * Details (retrieve crawl job details)
+  * Pause
+  * Resume
+  * Delete
+* Search
 
 ## Install
 
@@ -70,7 +74,6 @@ const diffbot = new Diffbot('your-api-key-goes-here');
   console.log(kg.data);
 ```
 
-
 ### Crawl API
 ```javascript
   // Crawl (new)
@@ -95,6 +98,34 @@ const diffbot = new Diffbot('your-api-key-goes-here');
     name: 'my-diffbot-crawl',
   });
   console.log(crawlDetails.jobs);
+
+  // Crawl (pause)
+  let crawlPause = await diffbot.crawl().pause({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlPause);
+
+  // Crawl (resume)
+  let crawlResume = await diffbot.crawl().resume({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlResume);
+
+  // Crawl (delete)
+  let crawlDeletion = await diffbot.crawl().delete({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlDeletion);
+```
+
+### Search API
+```javascript
+  let search = await diffbot.search({
+    name: 'my-diffbot-crawl',
+    query: 'type:product',
+  });
+  console.log(article.objects[0].title);
+  console.log(article.objects[0].pageUrl);
 ```
 
 ## Testing

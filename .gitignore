@@ -109,3 +109,4 @@ dist
 # Custom files I don't want added to npm
 .vscode/
 sandbox.js
+TODO

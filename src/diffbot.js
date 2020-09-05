@@ -323,21 +323,17 @@ class DiffBot {
           diffbot_url += `&num=all`;
         }
 
-        return new Promise(async (resolve, reject) => {
+        
             
-          axios.get(diffbot_url)
-          .then(response =>{
-            if(response.status == 200){
-              resolve(response.data)
-            }
-            else{
-              reject(response);
-            }
-          })
-          .catch(err => {
-            reject(err);
-          })
-        });
+          return axios.get(diffbot_url)
+          // .then(response =>{
+          //   if(response.status == 200){
+          //     return response.data
+          //   }
+          // })
+          // .catch(err => {
+          //   return err
+          // })
       },
       /* Delete job and data when products retrieved */
       delete: function(options) {

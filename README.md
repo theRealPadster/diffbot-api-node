@@ -9,8 +9,9 @@ Diffbot-API-Node is a Promise-based library to use the [Diffbot](https://www.dif
 
 Currently supports the following features:
 * Analyze (no POST support yet)
-* Product (no POST support yet)
 * Article (no POST support yet)
+* Discussion (no POST support yet)
+* Product (no POST support yet)
 * Knowledge Graph
 * Crawl
   * New (supported params `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
@@ -18,6 +19,7 @@ Currently supports the following features:
   * Details (retrieve crawl job details)
   * Pause
   * Resume
+  * Restart
   * Delete
 * Search
 
@@ -44,15 +46,6 @@ const diffbot = new Diffbot('your-api-key-goes-here');
   console.log(analyze.objects);
 ```
 
-### Product API
-```javascript
-  let product = await diffbot.product({
-    url: 'https://www.amazon.com/Resistance-Avalon-Social-Deduction-Game/dp/B009SAAV0C',
-    discussion: false,
-  });
-  console.log(product.objects);
-```
-
 ### Article API
 ```javascript
   let article = await diffbot.article({
@@ -62,6 +55,26 @@ const diffbot = new Diffbot('your-api-key-goes-here');
   console.log(article.objects[0].publisherRegion);
   console.log(article.objects[0].sentiment);
   console.log(article.objects[0].tags);
+```
+
+### Discussion API
+```javascript
+  let discussion = await diffbot.discussion({
+    url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
+  });
+  console.log(discussion.objects[0].title);
+  console.log(discussion.objects[0].posts);
+  console.log(discussion.objects[0].participants);
+  console.log(discussion.objects[0].sentiment);
+```
+
+### Product API
+```javascript
+  let product = await diffbot.product({
+    url: 'https://www.amazon.com/Resistance-Avalon-Social-Deduction-Game/dp/B009SAAV0C',
+    discussion: false,
+  });
+  console.log(product.objects);
 ```
 
 ### Knowledge Graph API

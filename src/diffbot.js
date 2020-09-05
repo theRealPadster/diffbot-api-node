@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = require('./lib/fetch-promise');
 
 class Diffbot {
   /**
@@ -59,19 +59,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await fetch(diffbot_url);
-        if (!response.ok) {
-          throw new Error('response not ok.');
-        }
-        // TODO: add some better error handling
-        const parsed = await response.json();
-        resolve(parsed);
-      } catch(err) {
-        reject(err);
-      }
-    });
+    return fetch(diffbot_url);
   }
 
   /**
@@ -113,19 +101,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await fetch(diffbot_url);
-        if (!response.ok) {
-          throw new Error('response not ok.');
-        }
-        // TODO: add some better error handling
-        const parsed = await response.json();
-        resolve(parsed);
-      } catch(err) {
-        reject(err);
-      }
-    });
+    return fetch(diffbot_url);
   }
 
   /**
@@ -183,19 +159,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await fetch(diffbot_url);
-        if (!response.ok) {
-          throw new Error('response not ok.');
-        }
-        // TODO: add some better error handling
-        const parsed = await response.json();
-        resolve(parsed);
-      } catch(err) {
-        reject(err);
-      }
-    });
+    return fetch(diffbot_url);
   }
 
   /**
@@ -227,19 +191,7 @@ class Diffbot {
       diffbot_url += `&type=${options.type}`;
     }
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await fetch(diffbot_url);
-        if (!response.ok) {
-          throw new Error('response not ok.');
-        }
-        // TODO: add some better error handling
-        const parsed = await response.json();
-        resolve(parsed);
-      } catch(err) {
-        reject(err);
-      }
-    });
+    return fetch(diffbot_url);
   }
 
   // TODO: clean up weird architecture
@@ -275,19 +227,19 @@ class Diffbot {
         } else {
           diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
         }
-        if(options.useCanonical != undefined){
+        if (options.useCanonical != undefined){
           diffbot_url += `&useCanonical=${+options.useCanonical}`;
         }
-        if(options.maxHops != undefined){
+        if (options.maxHops != undefined){
           diffbot_url += `&maxHops=${options.maxHops}`;
         }
-        if(options.maxToCrawl != undefined){
+        if (options.maxToCrawl != undefined){
           diffbot_url += `&maxToCrawl=${options.maxToCrawl}`;
         }
-        if(options.maxToProcess != undefined){
+        if (options.maxToProcess != undefined){
           diffbot_url += `&maxToProcess=${options.maxToProcess}`;
         }
-        if(options.notifyWebhook){
+        if (options.notifyWebhook){
           diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
         }
 
@@ -295,21 +247,7 @@ class Diffbot {
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
 
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url, {
-              method: 'POST'
-            });
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
+        return fetch(diffbot_url, 'POST');
       },
       /**
        * Download a Crawlbot crawl job's results
@@ -345,19 +283,7 @@ class Diffbot {
           diffbot_url += `&num=${encodeURIComponent(options.num)}`;
         }
 
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url);
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
+        return fetch(diffbot_url);
       },
       /**
        * Pause a Crawlbot crawl job
@@ -374,21 +300,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&pause=1`;
 
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url, {
-              method: 'POST'
-            });
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
+        return fetch(diffbot_url, 'POST');
       },
       /**
        * Resume a paused Crawlbot crawl job
@@ -405,21 +317,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&pause=0`;
 
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url, {
-              method: 'POST'
-            });
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
+        return fetch(diffbot_url, 'POST');
       },
       /**
        * Delete a Crawlbot crawl job and its data
@@ -436,21 +334,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&delete=1`;
 
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url, {
-              method: 'POST'
-            });
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
+        return fetch(diffbot_url, 'POST');
       },
       /**
        * Get Crawlbot job details
@@ -462,23 +346,11 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`;
 
-        if(options.name) {
+        if (options.name) {
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
         }
 
-        return new Promise(async (resolve, reject) => {
-          try {
-            let response = await fetch(diffbot_url);
-            if (!response.ok) {
-              throw new Error('response not ok.');
-            }
-            // TODO: add some better error handling
-            const parsed = await response.json();
-            resolve(parsed);
-          } catch(err) {
-            reject(err);
-          }
-        });
+        return fetch(diffbot_url);
       },
     }
   }
@@ -514,21 +386,7 @@ class Diffbot {
       diffbot_url += `&start=${options.start}`;
     }
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await fetch(diffbot_url, {
-          method: 'POST'
-        });
-        if (!response.ok) {
-          throw new Error('response not ok.');
-        }
-        // TODO: add some better error handling
-        const parsed = await response.json();
-        resolve(parsed);
-      } catch(err) {
-        reject(err);
-      }
-    });
+    return fetch(diffbot_url, 'POST');
   }
 }
 

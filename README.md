@@ -11,6 +11,7 @@ Currently supports the following features:
 * Analyze (no POST support yet)
 * Article (no POST support yet)
 * Discussion (no POST support yet)
+* Image (no POST support yet)
 * Product (no POST support yet)
 * Knowledge Graph
 * Crawl
@@ -66,6 +67,16 @@ const diffbot = new Diffbot('your-api-key-goes-here');
   console.log(discussion.objects[0].posts);
   console.log(discussion.objects[0].participants);
   console.log(discussion.objects[0].sentiment);
+```
+
+### Image API
+```javascript
+  let image = await diffbot.image({
+    url: 'https://www.deviantart.com/up-tchi/art/Coral-village-852927725',
+  });
+  console.log(image.objects[0].title);
+  console.log(image.objects[0].url);
+  console.log(image.objects[0].naturalHeight);
 ```
 
 ### Product API

@@ -142,6 +142,39 @@ class Diffbot {
   }
 
   /**
+   * Execute an image API call
+   * @param {Object} options The call options
+   * @param {string} options.url Web page URL of the image to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Image API. See fields: https://www.diffbot.com/dev/docs/image/#fields
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @returns {Object} The image query results
+   */
+  image(options) {
+
+    if (!options.url)
+      throw new Error('missing url');
+
+    let diffbot_url = `https://api.diffbot.com/v3/image?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields)
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+
+    if (options.timeout)
+      diffbot_url += `&timeout=${options.timeout}`;
+
+    if (options.callback)
+      diffbot_url += `&callback=${callback}`;
+
+    // TODO: add support for passing the markup in a POST
+    // if (options.html) {
+    //   diffbot_url += '&html=1';
+    // }
+
+    return fetch(diffbot_url);
+  }
+
+  /**
    * Execute a product API call
    * @param {Object} options The search options
    * @param {string} options.url Web page URL of the product to process

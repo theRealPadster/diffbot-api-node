@@ -16,6 +16,8 @@ Currently supports the following features:
   * New (supported params `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
   * Get (retrieve crawl job results)
   * Details (retrieve crawl job details)
+  * Pause
+  * Resume
   * Delete
 * Search
 
@@ -96,6 +98,18 @@ const diffbot = new Diffbot('your-api-key-goes-here');
     name: 'my-diffbot-crawl',
   });
   console.log(crawlDetails.jobs);
+
+  // Crawl (pause)
+  let crawlPause = await diffbot.crawl().pause({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlPause);
+
+  // Crawl (resume)
+  let crawlResume = await diffbot.crawl().resume({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlResume);
 
   // Crawl (delete)
   let crawlDeletion = await diffbot.crawl().delete({

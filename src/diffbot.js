@@ -360,6 +360,68 @@ class Diffbot {
         });
       },
       /**
+       * Pause a Crawlbot crawl job
+       * @param {string} name Job name as defined when the crawl was created.
+       * @returns The operation results
+       */
+      pause: function(options) {
+        // TODO: Do I police the optional fields or leave the user to get a 400 error?
+        if (!options.name) {
+          throw new Error('missing name');
+        }
+
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
+          + `&name=${encodeURIComponent(options.name)}`
+          + `&pause=1`;
+
+        return new Promise(async (resolve, reject) => {
+          try {
+            let response = await fetch(diffbot_url, {
+              method: 'POST'
+            });
+            if (!response.ok) {
+              throw new Error('response not ok.');
+            }
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
+            reject(err);
+          }
+        });
+      },
+      /**
+       * Resume a paused Crawlbot crawl job
+       * @param {string} name Job name as defined when the crawl was created.
+       * @returns The operation results
+       */
+      resume: function(options) {
+        // TODO: Do I police the optional fields or leave the user to get a 400 error?
+        if (!options.name) {
+          throw new Error('missing name');
+        }
+
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
+          + `&name=${encodeURIComponent(options.name)}`
+          + `&pause=0`;
+
+        return new Promise(async (resolve, reject) => {
+          try {
+            let response = await fetch(diffbot_url, {
+              method: 'POST'
+            });
+            if (!response.ok) {
+              throw new Error('response not ok.');
+            }
+            // TODO: add some better error handling
+            const parsed = await response.json();
+            resolve(parsed);
+          } catch(err) {
+            reject(err);
+          }
+        });
+      },
+      /**
        * Delete a Crawlbot crawl job and its data
        * @param {string} name Job name as defined when the crawl was created.
        * @returns The operation results

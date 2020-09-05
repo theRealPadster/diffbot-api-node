@@ -287,6 +287,22 @@ class Diffbot {
         return fetch(diffbot_url, 'POST');
       },
       /**
+       * Restart a Crawlbot crawl job. Removes all crawled data while maintaining crawl settings.
+       * @param {string} name Job name as defined when the crawl was created.
+       * @returns The operation results
+       */
+      restart: function(options) {
+        // TODO: Do I police the optional fields or leave the user to get a 400 error?
+        if (!options.name)
+          throw new Error('missing name');
+
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
+          + `&name=${encodeURIComponent(options.name)}`
+          + `&restart=1`;
+
+        return fetch(diffbot_url, 'POST');
+      },
+      /**
        * Delete a Crawlbot crawl job and its data
        * @param {string} name Job name as defined when the crawl was created.
        * @returns The operation results

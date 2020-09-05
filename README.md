@@ -111,6 +111,12 @@ const diffbot = new Diffbot('your-api-key-goes-here');
   });
   console.log(crawlResume);
 
+  // Crawl (restart)
+  let crawlRestart = await diffbot.crawl().restart({
+    name: 'my-diffbot-crawl',
+  });
+  console.log(crawlRestart);
+
   // Crawl (delete)
   let crawlDeletion = await diffbot.crawl().delete({
     name: 'my-diffbot-crawl',

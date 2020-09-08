@@ -60,43 +60,6 @@ class DiffBot {
   }
 
   /**
-   * Execute a product API call
-   * @param {Object} options The search options
-   * @param {string} options.url Web page URL of the product to process
-   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Product API.
-   * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of product reviews.
-   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
-   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
-   * @returns {Object} The product query results
-   */
-  product(options) {
-
-    if (!options.url)
-      throw new Error('missing url');
-
-    let diffbot_url = `https://api.diffbot.com/v3/product?token=${this.token}&url=${encodeURIComponent(options.url)}`;
-
-    if (options.fields)
-      diffbot_url += `&fields=${options.fields.join(',')}`;
-
-    if (options.discussion != undefined)
-      diffbot_url += `&discussion=${options.discussion}`;
-
-    if (options.timeout)
-      diffbot_url += `&timeout=${options.timeout}`;
-
-    if (options.callback)
-      diffbot_url += `&callback=${callback}`;
-
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += "&html=1";
-    // }
-
-    return fetch(diffbot_url);
-  }
-
-  /**
    * Execute an article API call
    * @param {Object} options The search options
    * @param {string} options.url Web page URL of the article to process
@@ -127,6 +90,113 @@ class DiffBot {
 
     if (options.tagConfidence)
       diffbot_url += `&tagConfidence=${options.tagConfidence}`;
+
+    if (options.discussion != undefined)
+      diffbot_url += `&discussion=${options.discussion}`;
+
+    if (options.timeout)
+      diffbot_url += `&timeout=${options.timeout}`;
+
+    if (options.callback)
+      diffbot_url += `&callback=${callback}`;
+
+    // TODO: add support for passing the markup in a POST
+    // if (options.html) {
+    //   diffbot_url += "&html=1";
+    // }
+
+    return fetch(diffbot_url);
+  }
+
+  /**
+   * Execute a discussion API call
+   * @param {Object} options The call options
+   * @param {string} options.url Web page URL of the discussion to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Discussion API. See fields: https://www.diffbot.com/dev/docs/discussion/#fields
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {number|string} [options.maxPages] Set the maximum number of pages in a thread to automatically concatenate in a single response. Default = 1 (no concatenation). Set maxPages=all to retrieve all pages of a thread regardless of length. Each individual page will count as a separate API call.
+   * @returns {Object} The discussion query results
+   */
+  discussion(options) {
+
+    if (!options.url)
+      throw new Error('missing url');
+
+    let diffbot_url = `https://api.diffbot.com/v3/discussion?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields)
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+
+    if (options.timeout)
+      diffbot_url += `&timeout=${options.timeout}`;
+
+    if (options.callback)
+      diffbot_url += `&callback=${callback}`;
+
+    if (options.maxPages != undefined)
+      diffbot_url += `&maxPages=${options.maxPages}`;
+
+    // TODO: add support for passing the markup in a POST
+    // if (options.html) {
+    //   diffbot_url += '&html=1';
+    // }
+
+    return fetch(diffbot_url);
+  }
+
+  /**
+   * Execute an image API call
+   * @param {Object} options The call options
+   * @param {string} options.url Web page URL of the image to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Image API. See fields: https://www.diffbot.com/dev/docs/image/#fields
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @returns {Object} The image query results
+   */
+  image(options) {
+
+    if (!options.url)
+      throw new Error('missing url');
+
+    let diffbot_url = `https://api.diffbot.com/v3/image?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields)
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+
+    if (options.timeout)
+      diffbot_url += `&timeout=${options.timeout}`;
+
+    if (options.callback)
+      diffbot_url += `&callback=${callback}`;
+
+    // TODO: add support for passing the markup in a POST
+    // if (options.html) {
+    //   diffbot_url += '&html=1';
+    // }
+
+    return fetch(diffbot_url);
+  }
+
+  /**
+   * Execute a product API call
+   * @param {Object} options The search options
+   * @param {string} options.url Web page URL of the product to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Product API.
+   * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of product reviews.
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @returns {Object} The product query results
+   */
+  product(options) {
+
+    if (!options.url)
+      throw new Error('missing url');
+
+    let diffbot_url = `https://api.diffbot.com/v3/product?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields)
+      diffbot_url += `&fields=${options.fields.join(',')}`;
 
     if (options.discussion != undefined)
       diffbot_url += `&discussion=${options.discussion}`;
@@ -375,6 +445,22 @@ class DiffBot {
         return fetch(diffbot_url, 'POST');
       },
       /**
+       * Restart a Crawlbot crawl job. Removes all crawled data while maintaining crawl settings.
+       * @param {string} name Job name as defined when the crawl was created.
+       * @returns The operation results
+       */
+      restart: function(options) {
+        // TODO: Do I police the optional fields or leave the user to get a 400 error?
+        if (!options.name)
+          throw new Error('missing name');
+
+        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
+          + `&name=${encodeURIComponent(options.name)}`
+          + `&restart=1`;
+
+        return fetch(diffbot_url, 'POST');
+      },
+      /**
        * Delete a Crawlbot crawl job and its data
        * @param {string} name Job name as defined when the crawl was created.
        * @returns The operation results
@@ -481,7 +567,7 @@ class DiffBot {
    * @param {Object} options The options
    * @param {string} options.name Name of the crawl whose data you wish to download.
    * @param {string} options.query Search query. Must be URL-encoded. Please see query operators: https://www.diffbot.com/dev/docs/search/#query
-   * @param {number} [options.num] Number of results to return. Default is all.
+   * @param {number|string} [options.num] Number of results to return. Default is 20. To return all results in the search, pass num=all.
    * @param {number} [options.start] Ordinal position of first result to return. (First position is 0.) Default is 0.
    * @returns The search results
    */
@@ -498,8 +584,6 @@ class DiffBot {
 
     if (options.num != undefined)
       diffbot_url += `&num=${options.num}`;
-    else
-      diffbot_url += `&num=all`;
 
     if (options.start != undefined)
       diffbot_url += `&start=${options.start}`;

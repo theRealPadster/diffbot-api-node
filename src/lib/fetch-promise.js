@@ -4,12 +4,18 @@ const fetch = require('node-fetch');
  * Wrapper to promisify a fetch call
  * @param {string} url The url to fetch
  * @param {string} [method] The HTTP method to use (defaults to GET)
+ * @param {string} [body] Optional HTML markup to pass as POST body
  * @returns The JSON-formatted fetch result
  */
-module.exports = function (url, method = 'GET') {
+module.exports = function (url, method, body) {
   return new Promise(async (resolve, reject) => {
     try {
-      let response = await fetch(url, { method });
+      let params = { method };
+      if (body) {
+        params.body = body;
+        params.headers = { 'Content-Type': 'text/html' };
+      }
+      let response = await fetch(url, params);
       if (!response.ok) {
         throw new Error('response not ok.');
       }

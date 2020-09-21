@@ -20,6 +20,7 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of comments or reviews from pages identified as articles or products. This will not affect pages identified as discussions.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The analyze query results
    */
   analyze(options) {
@@ -47,12 +48,9 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return fetch(diffbot_url, method, options.body);
   }
 
   /**
@@ -66,6 +64,7 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of article comments.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The article query results
    */
   article(options) {
@@ -96,12 +95,9 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return fetch(diffbot_url, method, options.body);
   }
 
   /**
@@ -112,6 +108,7 @@ class Diffbot {
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
    * @param {number|string} [options.maxPages] Set the maximum number of pages in a thread to automatically concatenate in a single response. Default = 1 (no concatenation). Set maxPages=all to retrieve all pages of a thread regardless of length. Each individual page will count as a separate API call.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The discussion query results
    */
   discussion(options) {
@@ -133,12 +130,9 @@ class Diffbot {
     if (options.maxPages != undefined)
       diffbot_url += `&maxPages=${options.maxPages}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return fetch(diffbot_url, method, options.body);
   }
 
   /**
@@ -148,6 +142,7 @@ class Diffbot {
    * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Image API. See fields: https://www.diffbot.com/dev/docs/image/#fields
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The image query results
    */
   image(options) {
@@ -166,12 +161,9 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return fetch(diffbot_url, method, options.body);
   }
 
   /**
@@ -182,6 +174,7 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of product reviews.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The product query results
    */
   product(options) {
@@ -203,12 +196,9 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return fetch(diffbot_url, method, options.body);
   }
 
   /**

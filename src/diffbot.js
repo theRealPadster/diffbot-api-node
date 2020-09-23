@@ -1,4 +1,4 @@
-const fetch = require('./lib/fetch-promise');
+const request = require('./lib/axios-wrapper');
 
 class Diffbot {
   /**
@@ -52,7 +52,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return fetch(diffbot_url);
+    return request(diffbot_url);
   }
 
   /**
@@ -101,7 +101,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return fetch(diffbot_url);
+    return request(diffbot_url);
   }
 
   /**
@@ -138,7 +138,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return fetch(diffbot_url);
+    return request(diffbot_url);
   }
 
   /**
@@ -171,7 +171,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return fetch(diffbot_url);
+    return request(diffbot_url);
   }
 
   /**
@@ -208,7 +208,7 @@ class Diffbot {
     //   diffbot_url += '&html=1';
     // }
 
-    return fetch(diffbot_url);
+    return request(diffbot_url);
   }
 
   /**
@@ -236,7 +236,7 @@ class Diffbot {
     if (options.type)
       diffbot_url += `&type=${options.type}`;
 
-    return fetch(diffbot_url);
+    return request(diffbot_url);
   }
 
   // TODO: clean up weird architecture
@@ -290,7 +290,7 @@ class Diffbot {
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Download a Crawlbot crawl job's results
@@ -322,7 +322,7 @@ class Diffbot {
         if (options.num)
           diffbot_url += `&num=${encodeURIComponent(options.num)}`;
 
-        return fetch(diffbot_url);
+        return request(diffbot_url);
       },
       /**
        * Pause a Crawlbot crawl job
@@ -338,7 +338,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&pause=1`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Resume a paused Crawlbot crawl job
@@ -354,7 +354,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&pause=0`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Restart a Crawlbot crawl job. Removes all crawled data while maintaining crawl settings.
@@ -370,7 +370,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&restart=1`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Delete a Crawlbot crawl job and its data
@@ -386,7 +386,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&delete=1`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Get Crawlbot job details
@@ -401,7 +401,7 @@ class Diffbot {
         if (options.name)
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
 
-        return fetch(diffbot_url);
+        return request(diffbot_url);
       },
     }
   }
@@ -432,7 +432,7 @@ class Diffbot {
     if (options.start != undefined)
       diffbot_url += `&start=${options.start}`;
 
-    return fetch(diffbot_url, 'POST');
+    return request(diffbot_url, 'POST');
   }
 }
 

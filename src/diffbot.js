@@ -102,7 +102,7 @@ class DiffBot {
 
     // TODO: add support for passing the markup in a POST
     // if (options.html) {
-    //   diffbot_url += "&html=1";
+    //   diffbot_url += '&html=1';
     // }
 
     return fetch(diffbot_url);
@@ -226,8 +226,7 @@ class DiffBot {
    * @returns {Object} The query results
    */
   knowledgeGraph(options) {
-    console.log(options);
-    let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}&size=1000`;
+    let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
 
     if (options.from)
       diffbot_url += `&from=${options.from}`;
@@ -261,56 +260,52 @@ class DiffBot {
        * @param {string} [options.notifyWebhook] Pass a URL to be notified when the crawl hits the maxToCrawl or maxToProcess limit, or when the crawl completes. You will receive a POST with X-Crawl-Name and X-Crawl-Status in the headers, and the job's JSON metadata in the POST body. Note that in webhook POSTs the parent jobs will not be sent—only the individual job object will be returned.
        * @returns {Object} The response and crawl job objects
        */
-      new: async function(options) {
-        console.log(options);
-        if (!options.name) {
+      new: function(options) {
+        if (!options.name)
           throw new Error('missing name');
-        }
         else if (!options.seeds || !options.seeds.length)
           throw new Error('missing seeds');
         let websites = options.seeds.split(' ');
-        const webhookURL = 'https://96e7875aace1.ngrok.io/step3webhook'
         const maxToCrawl = websites.length*1000;
         const maxToProcess = maxToCrawl;
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&seeds=${encodeURIComponent(options.seeds)}`
-          + `&notifyWebhook=${webhookURL}`;
+          + `&seeds=${encodeURIComponent(options.seeds)}`;
 
         if (options.apiUrl)
           diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
         else
           diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
-        if(options.maxHops){
-          diffbot_url += `&maxHops=${options.maxHops}`;
-        }
-        else{
-          diffbot_url += `&maxHops=3`;
-        }
-        if(options.maxToProcess){
-          diffbot_url += `&maxToProcess=${options.maxToProcess}`;
-        }
-        else{
-          diffbot_url += `&maxToProcess=${maxToProcess}`;
-        }
-        if(options.useCanonical){
-          diffbot_url += `&useCanonical=${options.useCanonical}`;
-        }
-        else{
-          diffbot_url += `&useCanonical=1`;
-        }
-        if(options.maxToCrawl){
-          diffbot_url += `&maxToCrawl=${options.maxToCrawl}`;
-        }
-        else{
-          diffbot_url += `&maxToCrawl=${maxToCrawl}`;
-        }
 
-        console.log(diffbot_url);
-        //await sleep(2000);
+        if (options.useCanonical != undefined)
+          diffbot_url += `&useCanonical=${+options.useCanonical}`;
+        else
+          diffbot_url += `&useCanonical=1`;
+
+        if (options.maxHops != undefined)
+          diffbot_url += `&maxHops=${options.maxHops}`;
+        else
+          diffbot_url += `&maxHops=3`;
+
+        if (options.maxToCrawl != undefined)
+          diffbot_url += `&maxToCrawl=${options.maxToCrawl}`;
+        else
+          diffbot_url += `&maxToCrawl=${maxToCrawl}`;
+
+        if (options.maxToProcess != undefined)
+          diffbot_url += `&maxToProcess=${options.maxToProcess}`;
+        else
+          diffbot_url += `&maxToCrawl=${maxToProcess}`;
+
+        if (options.notifyWebhook)
+          diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
+        if (options.notifyEmail)
+        diffbot_url += `&notifyEmail=${options.notifyEmail}`;
+
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
+
         return new Promise(async (resolve, reject) => {
           axios.post(diffbot_url)
         .then(response =>{
@@ -327,20 +322,6 @@ class DiffBot {
         .catch(err => {
           reject(err);
         })
-          // try {
-          //   let response = await fetch(diffbot_url, {
-          //     method: 'POST'
-          //   });
-          //   if (!response.ok) {
-          //     throw new Error('response not ok.');
-          //   }
-          //   // TODO: add some better error handling
-          //   const parsed = await response.json();
-          //   resolve(parsed);
-          // } catch(err) {
-          //   console.log("ERROR in parsing req::",err);
-          //   reject(err);
-          // }
         });
       },
       //To check status of existing job
@@ -400,9 +381,6 @@ class DiffBot {
 
         if (options.format)
           diffbot_url += `&format=${encodeURIComponent(options.format)}`;
-        else{
-          diffbot_url += `&format=${encodeURIComponent('json')}`;
-        }
 
         if (options.type)
           diffbot_url += `&type=${encodeURIComponent(options.type)}`;
@@ -477,7 +455,7 @@ class DiffBot {
         return fetch(diffbot_url, 'POST');
       },
       /**
-       * Crawlbot data filtered by search API
+      * Crawlbot data filtered by search API
        * @param {Object} options The options
        * @param {string} options.name Name of the crawl whose data you wish to download.
        * @param {format} [options.format] Request format=csv to download the extracted data in CSV format (default: json). Note that CSV files will only contain top-level fields.
@@ -507,14 +485,6 @@ class DiffBot {
         
             
           return axios.get(diffbot_url)
-          // .then(response =>{
-          //   if(response.status == 200){
-          //     return response.data
-          //   }
-          // })
-          // .catch(err => {
-          //   return err
-          // })
       },
       /* Delete job and data when products retrieved */
       delete: function(options) {

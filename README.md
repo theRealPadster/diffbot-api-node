@@ -10,14 +10,14 @@ Diffbot-API-Node is a Promise-based library to use the [Diffbot](https://www.dif
 ## Features
 
 Currently supports the following features:
-* Analyze (with HTML POST support)
-* Article (with HTML POST support)
-* Discussion (with HTML POST support)
-* Image (with HTML POST support)
-* Product (with HTML POST support)
-* Video (beta) (with HTML POST support)
-* Knowledge Graph
-* Crawl
+* [Analyze](#analyze-api) (with HTML POST support)
+* [Article](#article-api) (with HTML POST support)
+* [Discussion](#discussion-api) (with HTML POST support)
+* [Image](#image-api) (with HTML POST support)
+* [Product](#product-api) (with HTML POST support)
+* [Video](#video-api-beta) (beta) (with HTML POST support)
+* [Knowledge Graph](#knowledge-graph-api)
+* [Crawl](#crawl-api)
   * New (supported params: `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
   * Get (retrieve crawl job results)
   * Details (retrieve crawl job details)
@@ -25,11 +25,12 @@ Currently supports the following features:
   * Resume
   * Restart
   * Delete
-* Search
+* [Search](#search-api)
 
 ## Install
-
-    npm install diffbot-api-node
+```bash
+npm install diffbot-api-node
+```
 
 ## Usage
 
@@ -39,6 +40,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Analyze API
+Diffbot documentation: https://www.diffbot.com/dev/docs/analyze/
 ```javascript
   let analyze = await diffbot.analyze({
     url: 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual',
@@ -52,6 +54,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Article API
+Diffbot documentation: https://www.diffbot.com/dev/docs/article/
 ```javascript
   let article = await diffbot.article({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
@@ -64,6 +67,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Discussion API
+Diffbot documentation: https://www.diffbot.com/dev/docs/discussion/
 ```javascript
   let discussion = await diffbot.discussion({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
@@ -76,6 +80,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Image API
+Diffbot documentation: https://www.diffbot.com/dev/docs/image/
 ```javascript
   let image = await diffbot.image({
     url: 'https://www.deviantart.com/up-tchi/art/Coral-village-852927725',
@@ -87,6 +92,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Product API
+Diffbot documentation: https://www.diffbot.com/dev/docs/product/
 ```javascript
   let product = await diffbot.product({
     url: 'https://www.amazon.com/Resistance-Avalon-Social-Deduction-Game/dp/B009SAAV0C',
@@ -97,6 +103,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Video API (beta)
+Diffbot documentation: https://www.diffbot.com/dev/docs/video/
 ```javascript
   let video = await diffbot.video({
     url: 'https://www.youtube.com/watch?v=HeiPdaTQTfo',
@@ -104,10 +111,10 @@ const diffbot = new Diffbot('your-api-key-goes-here');
   });
   console.log(video.objects[0].title);
   console.log(video.objects[0].html);
-  console.log(video.objects[0].naturalHeight);
 ```
 
 ### Knowledge Graph API
+Diffbot documentation: https://docs.diffbot.com/kgapi
 ```javascript
   // Knowledge Graph
   let kg = await diffbot.knowledgeGraph({
@@ -118,6 +125,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Crawl API
+Diffbot documentation: https://www.diffbot.com/dev/docs/crawl/api.jsp
 ```javascript
   // Crawl (new)
   let crawl = await diffbot.crawl().new({
@@ -168,6 +176,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```
 
 ### Search API
+Diffbot documentation: https://www.diffbot.com/dev/docs/search/
 ```javascript
   let search = await diffbot.search({
     name: 'my-diffbot-crawl',

@@ -3,7 +3,8 @@
   "description": "Promise-based Node.js library for Diffbot APIs",
   "tags": [
     "diffbot",
-    "api"
+    "api",
+    "node"
   ],
   "version": "0.0.11",
   "repository": {

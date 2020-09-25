@@ -8,14 +8,15 @@ Diffbot-API-Node is a Promise-based library to use the [Diffbot](https://www.dif
 ## Features
 
 Currently supports the following features:
-* Analyze (no POST support yet)
-* Article (no POST support yet)
-* Discussion (no POST support yet)
-* Image (no POST support yet)
-* Product (no POST support yet)
+* Analyze (with HTML POST support)
+* Article (with HTML POST support)
+* Discussion (with HTML POST support)
+* Image (with HTML POST support)
+* Product (with HTML POST support)
+* Video (beta) (with HTML POST support)
 * Knowledge Graph
 * Crawl
-  * New (supported params `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
+  * New (supported params: `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
   * Get (retrieve crawl job results)
   * Details (retrieve crawl job details)
   * Pause
@@ -40,6 +41,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
   let analyze = await diffbot.analyze({
     url: 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual',
     discussion: false,
+    body: 'optional-html-post-body-goes-here',
   });
   console.log(analyze.humanLanguage);
   console.log(analyze.title);
@@ -51,6 +53,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```javascript
   let article = await diffbot.article({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
+    body: 'optional-html-post-body-goes-here',
   });
   console.log(article.objects[0].authors);
   console.log(article.objects[0].publisherRegion);
@@ -62,6 +65,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```javascript
   let discussion = await diffbot.discussion({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
+    body: 'optional-html-post-body-goes-here',
   });
   console.log(discussion.objects[0].title);
   console.log(discussion.objects[0].posts);
@@ -73,6 +77,7 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```javascript
   let image = await diffbot.image({
     url: 'https://www.deviantart.com/up-tchi/art/Coral-village-852927725',
+    body: 'optional-html-post-body-goes-here',
   });
   console.log(image.objects[0].title);
   console.log(image.objects[0].url);
@@ -83,9 +88,21 @@ const diffbot = new Diffbot('your-api-key-goes-here');
 ```javascript
   let product = await diffbot.product({
     url: 'https://www.amazon.com/Resistance-Avalon-Social-Deduction-Game/dp/B009SAAV0C',
+    body: 'optional-html-post-body-goes-here',
     discussion: false,
   });
   console.log(product.objects);
+```
+
+### Video API (beta)
+```javascript
+  let video = await diffbot.video({
+    url: 'https://www.youtube.com/watch?v=HeiPdaTQTfo',
+    body: 'optional-html-post-body-goes-here',
+  });
+  console.log(video.objects[0].title);
+  console.log(video.objects[0].html);
+  console.log(video.objects[0].naturalHeight);
 ```
 
 ### Knowledge Graph API

@@ -1,7 +1,9 @@
 # diffbot-api-node
 
-[![npm (scoped)](https://img.shields.io/npm/v/diffbot-api-node.svg)](https://www.npmjs.com/package/diffbot-api-node)
-![npm bundle size](https://img.shields.io/bundlephobia/min/diffbot-api-node?label=minified%20size)
+[![npm](https://img.shields.io/npm/v/diffbot-api-node.svg)](https://www.npmjs.com/package/diffbot-api-node)
+![npm bundle size](https://img.shields.io/bundlephobia/min/diffbot-api-node)
+![npm license](https://img.shields.io/npm/l/diffbot-api-node)
+![github last commit](https://img.shields.io/github/last-commit/therealpadster/diffbot-api-node)
 
 Diffbot-API-Node is a Promise-based library to use the [Diffbot](https://www.diffbot.com/) REST APIs.
 

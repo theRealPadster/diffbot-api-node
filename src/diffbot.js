@@ -202,6 +202,37 @@ class Diffbot {
   }
 
   /**
+   * Execute a video API call
+   * @param {Object} options The call options
+   * @param {string} options.url Web page URL of the video to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Video API. See fields: https://www.diffbot.com/dev/docs/video/#fields
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @returns {Object} The video query results
+   */
+  video(options) {
+
+    if (!options.url)
+      throw new Error('missing url');
+
+    let diffbot_url = `https://api.diffbot.com/v3/video?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields)
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+
+    if (options.timeout)
+      diffbot_url += `&timeout=${options.timeout}`;
+
+    if (options.callback)
+      diffbot_url += `&callback=${callback}`;
+
+    const method = options.body ? 'POST' : 'GET';
+
+    return fetch(diffbot_url, method, options.body);
+  }
+
+  /**
    * Execute a query against the Knowledge Graph
    * @param {Object} options The search options
    * @param {string} options.query The DQL knowledge base query

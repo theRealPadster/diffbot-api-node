@@ -13,6 +13,7 @@ Currently supports the following features:
 * Discussion (with HTML POST support)
 * Image (with HTML POST support)
 * Product (with HTML POST support)
+* Video (beta) (with HTML POST support)
 * Knowledge Graph
 * Crawl
   * New (supported params: `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
@@ -91,6 +92,17 @@ const diffbot = new Diffbot('your-api-key-goes-here');
     discussion: false,
   });
   console.log(product.objects);
+```
+
+### Video API (beta)
+```javascript
+  let video = await diffbot.video({
+    url: 'https://www.youtube.com/watch?v=HeiPdaTQTfo',
+    body: 'optional-html-post-body-goes-here',
+  });
+  console.log(video.objects[0].title);
+  console.log(video.objects[0].html);
+  console.log(video.objects[0].naturalHeight);
 ```
 
 ### Knowledge Graph API

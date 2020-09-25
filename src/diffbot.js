@@ -1,13 +1,12 @@
 const axios = require('axios');
-const { response } = require('express');
 const fetch = require('./lib/fetch-promise');
 
 const sleep = require('util').promisify(setTimeout);
 
-class DiffBot {
+class Diffbot {
   /**
-   * Instantiate a DiffBot
-   * @param {string} token The DiffBot API token to use
+   * Instantiate a Diffbot
+   * @param {string} token The Diffbot API token to use
    */
   constructor(token) {
     if (!token) throw new Error('missing token');
@@ -265,9 +264,7 @@ class DiffBot {
           throw new Error('missing name');
         else if (!options.seeds || !options.seeds.length)
           throw new Error('missing seeds');
-        let websites = options.seeds.split(' ');
-        const maxToCrawl = websites.length*1000;
-        const maxToProcess = maxToCrawl;
+        
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
           + `&seeds=${encodeURIComponent(options.seeds)}`;
@@ -279,50 +276,27 @@ class DiffBot {
 
         if (options.useCanonical != undefined)
           diffbot_url += `&useCanonical=${+options.useCanonical}`;
-        else
-          diffbot_url += `&useCanonical=1`;
 
         if (options.maxHops != undefined)
           diffbot_url += `&maxHops=${options.maxHops}`;
-        else
-          diffbot_url += `&maxHops=3`;
 
         if (options.maxToCrawl != undefined)
           diffbot_url += `&maxToCrawl=${options.maxToCrawl}`;
-        else
-          diffbot_url += `&maxToCrawl=${maxToCrawl}`;
 
         if (options.maxToProcess != undefined)
           diffbot_url += `&maxToProcess=${options.maxToProcess}`;
-        else
-          diffbot_url += `&maxToCrawl=${maxToProcess}`;
 
         if (options.notifyWebhook)
           diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
+    
         if (options.notifyEmail)
-        diffbot_url += `&notifyEmail=${options.notifyEmail}`;
+          diffbot_url += `&notifyEmail=${options.notifyEmail}`;
 
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
-
-        return new Promise(async (resolve, reject) => {
-          axios.post(diffbot_url)
-        .then(response =>{
-          //console.log(response);
-          if(response.status == 200){
-            // console.log(response.data);
-            //console.log("Axios response++++++".response.data,"Axios response");
-            resolve(response.data)
-          }
-          else{
-            reject(response);
-          }
-        })
-        .catch(err => {
-          reject(err);
-        })
-        });
+        console.log(diffbot_url);
+        return fetch(diffbot_url, 'POST');
       },
       //To check status of existing job
       status: async function(options){
@@ -341,21 +315,7 @@ class DiffBot {
 
         await sleep(200);
 
-        return new Promise(async (resolve, reject) => {
-          
-        axios.post(diffbot_url)
-        .then(response =>{
-          if(response.status == 200){
-            resolve(response.data)
-          }
-          else{
-            reject(response);
-          }
-        })
-        .catch(err => {
-          reject(err);
-        })
-      });
+        return fetch(diffbot_url, 'POST');
 
       },
       /**
@@ -562,4 +522,4 @@ class DiffBot {
   }
 }
 
-module.exports = DiffBot;
+module.exports = Diffbot;

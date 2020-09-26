@@ -285,7 +285,7 @@ class Diffbot {
       new: function(options) {
         if (!options.name)
           throw new Error('missing name');
-        else if (!options.seeds || !options.seeds.length)
+        else if (!options.seeds)
           throw new Error('missing seeds');
         
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
@@ -319,7 +319,7 @@ class Diffbot {
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
         console.log(diffbot_url);
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       //To check status of existing job
       status: async function(options){
@@ -463,7 +463,7 @@ class Diffbot {
         else{
           diffbot_url += `&num=all`;
         }
-         
+
           return axios.get(diffbot_url)
       },
       /* Delete job and data when products retrieved */

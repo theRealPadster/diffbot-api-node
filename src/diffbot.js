@@ -1,5 +1,7 @@
+
 const axios = require('axios');
-const fetch = require('./lib/fetch-promise');
+
+const request = require('./lib/axios-wrapper');
 
 const sleep = require('util').promisify(setTimeout);
 
@@ -23,6 +25,7 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of comments or reviews from pages identified as articles or products. This will not affect pages identified as discussions.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The analyze query results
    */
   analyze(options) {
@@ -50,12 +53,9 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return request(diffbot_url, method, options.body);
   }
 
   /**
@@ -69,6 +69,7 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of article comments.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The article query results
    */
   article(options) {
@@ -99,12 +100,9 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return request(diffbot_url, method, options.body);
   }
 
   /**
@@ -115,6 +113,7 @@ class Diffbot {
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
    * @param {number|string} [options.maxPages] Set the maximum number of pages in a thread to automatically concatenate in a single response. Default = 1 (no concatenation). Set maxPages=all to retrieve all pages of a thread regardless of length. Each individual page will count as a separate API call.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The discussion query results
    */
   discussion(options) {
@@ -136,12 +135,9 @@ class Diffbot {
     if (options.maxPages != undefined)
       diffbot_url += `&maxPages=${options.maxPages}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return request(diffbot_url, method, options.body);
   }
 
   /**
@@ -151,6 +147,7 @@ class Diffbot {
    * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Image API. See fields: https://www.diffbot.com/dev/docs/image/#fields
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The image query results
    */
   image(options) {
@@ -169,12 +166,9 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return request(diffbot_url, method, options.body);
   }
 
   /**
@@ -185,6 +179,7 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of product reviews.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The product query results
    */
   product(options) {
@@ -206,12 +201,40 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${callback}`;
 
-    // TODO: add support for passing the markup in a POST
-    // if (options.html) {
-    //   diffbot_url += '&html=1';
-    // }
+    const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url);
+    return request(diffbot_url, method, options.body);
+  }
+
+  /**
+   * Execute a video API call
+   * @param {Object} options The call options
+   * @param {string} options.url Web page URL of the video to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Video API. See fields: https://www.diffbot.com/dev/docs/video/#fields
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @returns {Object} The video query results
+   */
+  video(options) {
+
+    if (!options.url)
+      throw new Error('missing url');
+
+    let diffbot_url = `https://api.diffbot.com/v3/video?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields)
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+
+    if (options.timeout)
+      diffbot_url += `&timeout=${options.timeout}`;
+
+    if (options.callback)
+      diffbot_url += `&callback=${callback}`;
+
+    const method = options.body ? 'POST' : 'GET';
+
+    return request(diffbot_url, method, options.body);
   }
 
   /**
@@ -239,7 +262,7 @@ class Diffbot {
     if (options.type)
       diffbot_url += `&type=${options.type}`;
 
-    return fetch(diffbot_url);
+    return request(diffbot_url);
   }
 
   // TODO: clean up weird architecture
@@ -315,8 +338,7 @@ class Diffbot {
 
         await sleep(200);
 
-        return fetch(diffbot_url, 'POST');
-
+        return request(diffbot_url, 'POST');
       },
       /**
        * Download a Crawlbot crawl job's results
@@ -348,7 +370,7 @@ class Diffbot {
         if (options.num)
           diffbot_url += `&num=${encodeURIComponent(options.num)}`;
 
-        return fetch(diffbot_url);
+        return request(diffbot_url);
       },
       /**
        * Pause a Crawlbot crawl job
@@ -364,7 +386,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&pause=1`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Resume a paused Crawlbot crawl job
@@ -380,7 +402,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&pause=0`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Restart a Crawlbot crawl job. Removes all crawled data while maintaining crawl settings.
@@ -396,7 +418,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&restart=1`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
        * Delete a Crawlbot crawl job and its data
@@ -412,7 +434,7 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + `&delete=1`;
 
-        return fetch(diffbot_url, 'POST');
+        return request(diffbot_url, 'POST');
       },
       /**
       * Crawlbot data filtered by search API
@@ -441,9 +463,7 @@ class Diffbot {
         else{
           diffbot_url += `&num=all`;
         }
-
-        
-            
+         
           return axios.get(diffbot_url)
       },
       /* Delete job and data when products retrieved */
@@ -487,7 +507,7 @@ class Diffbot {
         if (options.name)
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
 
-        return fetch(diffbot_url);
+        return request(diffbot_url);
       },
     }
   }
@@ -518,7 +538,7 @@ class Diffbot {
     if (options.start != undefined)
       diffbot_url += `&start=${options.start}`;
 
-    return fetch(diffbot_url, 'POST');
+    return request(diffbot_url, 'POST');
   }
 }
 

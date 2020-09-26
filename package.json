@@ -3,9 +3,10 @@
   "description": "Promise-based Node.js library for Diffbot APIs",
   "tags": [
     "diffbot",
-    "api"
+    "api",
+    "node"
   ],
-  "version": "0.0.11",
+  "version": "0.0.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/therealpadster/diffbot-api-node.git"
@@ -14,7 +15,7 @@
     "web": "https://github.com/therealpadster/node-diffbot/issues"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "axios": "^0.20.0"
   },
   "keywords": [
     "diffbot",

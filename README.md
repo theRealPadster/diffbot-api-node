@@ -44,8 +44,7 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/analyze/
 ```javascript
   let analyze = await diffbot.analyze({
     url: 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual',
-    discussion: false,
-    body: 'optional-html-post-body-goes-here',
+    body: 'optional-html-post-body',
   });
   console.log(analyze.humanLanguage);
   console.log(analyze.title);
@@ -58,11 +57,10 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/article/
 ```javascript
   let article = await diffbot.article({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
-    body: 'optional-html-post-body-goes-here',
+    body: 'optional-html-post-body',
   });
   console.log(article.objects[0].authors);
   console.log(article.objects[0].publisherRegion);
-  console.log(article.objects[0].sentiment);
   console.log(article.objects[0].tags);
 ```
 
@@ -71,7 +69,7 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/discussion/
 ```javascript
   let discussion = await diffbot.discussion({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
-    body: 'optional-html-post-body-goes-here',
+    body: 'optional-html-post-body',
   });
   console.log(discussion.objects[0].title);
   console.log(discussion.objects[0].posts);
@@ -84,7 +82,7 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/image/
 ```javascript
   let image = await diffbot.image({
     url: 'https://www.deviantart.com/up-tchi/art/Coral-village-852927725',
-    body: 'optional-html-post-body-goes-here',
+    body: 'optional-html-post-body',
   });
   console.log(image.objects[0].title);
   console.log(image.objects[0].url);
@@ -96,8 +94,7 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/product/
 ```javascript
   let product = await diffbot.product({
     url: 'https://www.amazon.com/Resistance-Avalon-Social-Deduction-Game/dp/B009SAAV0C',
-    body: 'optional-html-post-body-goes-here',
-    discussion: false,
+    body: 'optional-html-post-body',
   });
   console.log(product.objects);
 ```
@@ -107,7 +104,7 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/video/
 ```javascript
   let video = await diffbot.video({
     url: 'https://www.youtube.com/watch?v=HeiPdaTQTfo',
-    body: 'optional-html-post-body-goes-here',
+    body: 'optional-html-post-body',
   });
   console.log(video.objects[0].title);
   console.log(video.objects[0].html);

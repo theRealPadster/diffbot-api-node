@@ -1,8 +1,5 @@
-
 const axios = require('axios');
-
 const request = require('./lib/axios-wrapper');
-
 const sleep = require('util').promisify(setTimeout);
 
 class Diffbot {
@@ -285,12 +282,12 @@ class Diffbot {
       new: function(options) {
         if (!options.name)
           throw new Error('missing name');
-        else if (!options.seeds)
+        else if (!options.seeds || !options.seeds.length)
           throw new Error('missing seeds');
-        
+
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&seeds=${encodeURIComponent(options.seeds)}`;
+          + `&seeds=${encodeURIComponent(options.seeds.join(' '))}`;
 
         if (options.apiUrl)
           diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
@@ -311,7 +308,7 @@ class Diffbot {
 
         if (options.notifyWebhook)
           diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
-    
+
         if (options.notifyEmail)
           diffbot_url += `&notifyEmail=${options.notifyEmail}`;
 
@@ -329,7 +326,7 @@ class Diffbot {
         }
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.jobname)}`;
-      
+
         if (options.apiUrl) {
           diffbot_url += `&apiUrl=${encodeURIComponent(options.apiUrl)}`;
         } else {
@@ -479,7 +476,7 @@ class Diffbot {
 
         return new Promise(async (resolve, reject) => {
           console.log(diffbot_url);
-            
+
           axios.post(diffbot_url)
           .then(response =>{
             if(response.status == 200){

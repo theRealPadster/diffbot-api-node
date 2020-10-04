@@ -46,7 +46,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -97,7 +97,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -129,7 +129,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     if (options.maxPages != undefined)
       diffbot_url += `&maxPages=${options.maxPages}`;
@@ -163,7 +163,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -198,7 +198,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -229,7 +229,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -361,7 +361,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&pause=1`;
+          + '&pause=1';
 
         return fetch(diffbot_url, 'POST');
       },
@@ -377,7 +377,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&pause=0`;
+          + '&pause=0';
 
         return fetch(diffbot_url, 'POST');
       },
@@ -393,7 +393,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&restart=1`;
+          + '&restart=1';
 
         return fetch(diffbot_url, 'POST');
       },
@@ -409,7 +409,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&delete=1`;
+          + '&delete=1';
 
         return fetch(diffbot_url, 'POST');
       },
@@ -428,7 +428,7 @@ class Diffbot {
 
         return fetch(diffbot_url);
       },
-    }
+    };
   }
 
   /**

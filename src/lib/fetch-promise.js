@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
  * Wrapper to promisify a fetch call
  * @param {string} url The url to fetch
  * @param {string} [method] The HTTP method to use (defaults to GET)
- * @param {string} [body] Optional HTML markup to pass as POST body
+ * @param {string} [body] Optional HTML markup or plaintext to pass as POST body
  * @returns The JSON-formatted fetch result
  */
 module.exports = function (url, method, body) {
@@ -28,4 +28,4 @@ module.exports = function (url, method, body) {
       reject(err);
     }
   });
-}
+};

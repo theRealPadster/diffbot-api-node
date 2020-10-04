@@ -48,7 +48,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -58,7 +58,7 @@ class Diffbot {
   /**
    * Execute an article API call
    * @param {Object} options The search options
-   * @param {string} options.url Web page URL of the article to process
+   * @param {string} [options.url] Web page URL of the article to process (required unless posting plain text)
    * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API.
    * @param {boolean} [options.paging] Pass paging=false to disable automatic concatenation of multiple-page articles. (By default, Diffbot will concatenate up to 20 pages of a single article.)
    * @param {number} [options.maxTags] Set the maximum number of automatically-generated tags to return. By default a maximum of ten tags will be returned.
@@ -71,10 +71,14 @@ class Diffbot {
    */
   article(options) {
 
-    if (!options.url)
+    // If we don't have a url, and have no body or have an html body, error
+    if (!options.url && (!options.body || options.body.startsWith('<')))
       throw new Error('missing url');
 
-    let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+    let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}`;
+
+    if (options.url)
+      diffbot_url += `&url=${encodeURIComponent(options.url)}`;
 
     if (options.fields)
       diffbot_url += `&fields=${options.fields.join(',')}`;
@@ -95,7 +99,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -127,7 +131,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     if (options.maxPages != undefined)
       diffbot_url += `&maxPages=${options.maxPages}`;
@@ -161,7 +165,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -196,7 +200,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -227,7 +231,7 @@ class Diffbot {
       diffbot_url += `&timeout=${options.timeout}`;
 
     if (options.callback)
-      diffbot_url += `&callback=${callback}`;
+      diffbot_url += `&callback=${options.callback}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -381,7 +385,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&pause=1`;
+          + '&pause=1';
 
         return request(diffbot_url, 'POST');
       },
@@ -397,7 +401,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&pause=0`;
+          + '&pause=0';
 
         return request(diffbot_url, 'POST');
       },
@@ -413,7 +417,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&restart=1`;
+          + '&restart=1';
 
         return request(diffbot_url, 'POST');
       },
@@ -429,7 +433,7 @@ class Diffbot {
 
         let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
           + `&name=${encodeURIComponent(options.name)}`
-          + `&delete=1`;
+          + '&delete=1';
 
         return request(diffbot_url, 'POST');
       },
@@ -506,7 +510,7 @@ class Diffbot {
 
         return request(diffbot_url);
       },
-    }
+    };
   }
 
   /**

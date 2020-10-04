@@ -56,7 +56,7 @@ class Diffbot {
   /**
    * Execute an article API call
    * @param {Object} options The search options
-   * @param {string} options.url Web page URL of the article to process
+   * @param {string} [options.url] Web page URL of the article to process (required unless posting plain text)
    * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API.
    * @param {boolean} [options.paging] Pass paging=false to disable automatic concatenation of multiple-page articles. (By default, Diffbot will concatenate up to 20 pages of a single article.)
    * @param {number} [options.maxTags] Set the maximum number of automatically-generated tags to return. By default a maximum of ten tags will be returned.
@@ -69,10 +69,14 @@ class Diffbot {
    */
   article(options) {
 
-    if (!options.url)
+    // If we don't have a url, and have no body or have an html body, error
+    if (!options.url && (!options.body || options.body.startsWith('<')))
       throw new Error('missing url');
 
-    let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+    let diffbot_url = `https://api.diffbot.com/v3/article?token=${this.token}`;
+
+    if (options.url)
+      diffbot_url += `&url=${encodeURIComponent(options.url)}`;
 
     if (options.fields)
       diffbot_url += `&fields=${options.fields.join(',')}`;

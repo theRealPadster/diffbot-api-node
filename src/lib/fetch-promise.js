@@ -13,7 +13,9 @@ module.exports = function (url, method, body) {
       let params = { method };
       if (body) {
         params.body = body;
-        params.headers = { 'Content-Type': 'text/html' };
+        params.headers = body.startsWith('<') ?
+          { 'Content-Type': 'text/html' }
+          : { 'Content-Type': 'text/plain' };
       }
       let response = await fetch(url, params);
       if (!response.ok) {

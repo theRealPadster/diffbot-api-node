@@ -11,7 +11,7 @@ Diffbot-API-Node is a Promise-based library to use the [Diffbot](https://www.dif
 
 Currently supports the following features:
 * [Analyze](#analyze-api) (with HTML POST support)
-* [Article](#article-api) (with HTML POST support)
+* [Article](#article-api) (with HTML and plaintext POST support)
 * [Discussion](#discussion-api) (with HTML POST support)
 * [Image](#image-api) (with HTML POST support)
 * [Product](#product-api) (with HTML POST support)
@@ -54,11 +54,12 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/analyze/
 ```
 
 ### Article API
-Diffbot documentation: https://www.diffbot.com/dev/docs/article/
+Diffbot documentation: https://www.diffbot.com/dev/docs/article/  
+Note: `url` is optional if including plaintext POST body
 ```javascript
   let article = await diffbot.article({
     url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
-    body: 'optional-html-post-body-goes-here',
+    body: 'optional-html-or-plaintext-post-body-goes-here',
   });
   console.log(article.objects[0].authors);
   console.log(article.objects[0].publisherRegion);

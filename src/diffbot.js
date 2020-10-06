@@ -1,13 +1,15 @@
-const fetch = require('./lib/fetch-promise');
+const request = require('./lib/request');
 
 class Diffbot {
   /**
    * Instantiate a Diffbot
    * @param {string} token The Diffbot API token to use
+   * @param {boolean} [test] Enable test mode (only returns requests without executing)
    */
-  constructor(token) {
+  constructor(token, test = false) {
     if (!token) throw new Error('missing token');
     this.token = token;
+    this.test = test;
   }
 
   /**
@@ -50,7 +52,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body);
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 
   /**
@@ -101,7 +106,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body);
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 
   /**
@@ -136,7 +144,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body);
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 
   /**
@@ -167,7 +178,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body);
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 
   /**
@@ -202,7 +216,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body);
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 
   /**
@@ -233,7 +250,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    return fetch(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body);
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 
   /**
@@ -261,7 +281,10 @@ class Diffbot {
     if (options.type)
       diffbot_url += `&type=${options.type}`;
 
-    return fetch(diffbot_url);
+    let req = request.generate(diffbot_url);
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 
   // TODO: clean up weird architecture
@@ -315,7 +338,10 @@ class Diffbot {
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
 
-        return fetch(diffbot_url, 'POST');
+        let req = request.generate(diffbot_url, 'POST');
+        let ret = this.test ? req : request.fetch(req);
+
+        return ret;
       },
       /**
        * Download a Crawlbot crawl job's results
@@ -347,7 +373,10 @@ class Diffbot {
         if (options.num)
           diffbot_url += `&num=${encodeURIComponent(options.num)}`;
 
-        return fetch(diffbot_url);
+        let req = request.generate(diffbot_url);
+        let ret = this.test ? req : request.fetch(req);
+
+        return ret;
       },
       /**
        * Pause a Crawlbot crawl job
@@ -363,7 +392,10 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + '&pause=1';
 
-        return fetch(diffbot_url, 'POST');
+        let req = request.generate(diffbot_url, 'POST');
+        let ret = this.test ? req : request.fetch(req);
+
+        return ret;
       },
       /**
        * Resume a paused Crawlbot crawl job
@@ -379,7 +411,10 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + '&pause=0';
 
-        return fetch(diffbot_url, 'POST');
+        let req = request.generate(diffbot_url, 'POST');
+        let ret = this.test ? req : request.fetch(req);
+
+        return ret;
       },
       /**
        * Restart a Crawlbot crawl job. Removes all crawled data while maintaining crawl settings.
@@ -395,7 +430,10 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + '&restart=1';
 
-        return fetch(diffbot_url, 'POST');
+        let req = request.generate(diffbot_url, 'POST');
+        let ret = this.test ? req : request.fetch(req);
+
+        return ret;
       },
       /**
        * Delete a Crawlbot crawl job and its data
@@ -411,7 +449,10 @@ class Diffbot {
           + `&name=${encodeURIComponent(options.name)}`
           + '&delete=1';
 
-        return fetch(diffbot_url, 'POST');
+        let req = request.generate(diffbot_url, 'POST');
+        let ret = this.test ? req : request.fetch(req);
+
+        return ret;
       },
       /**
        * Get Crawlbot job details
@@ -426,7 +467,10 @@ class Diffbot {
         if (options.name)
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
 
-        return fetch(diffbot_url);
+        let req = request.generate(diffbot_url);
+        let ret = this.test ? req : request.fetch(req);
+
+        return ret;
       },
     };
   }
@@ -457,7 +501,10 @@ class Diffbot {
     if (options.start != undefined)
       diffbot_url += `&start=${options.start}`;
 
-    return fetch(diffbot_url, 'POST');
+    let req = request.generate(diffbot_url, 'POST');
+    let ret = this.test ? req : request.fetch(req);
+
+    return ret;
   }
 }
 

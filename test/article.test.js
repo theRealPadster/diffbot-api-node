@@ -2,32 +2,29 @@ const { diffbot, expect } = require('./global');
 
 describe('Article Tests', function() {
 
-  this.timeout(20 * 1000);
+  it('should generate the article GET request', async () => {
+    const url = 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order';
 
-  it('should parse the article', async () => {
+    let request = await diffbot.article({ url });
 
-    let article = await diffbot.article({
-      url: 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order',
-    });
-
-    expect(article.objects).to.be.an('array');
-    expect(article.objects.length).to.be.greaterThan(0);
-    expect(article.objects[0].humanLanguage).to.equal('en');
-    expect(article.objects[0].author).to.equal('Russell Brandom');
-    expect(article.objects[0].siteName).to.equal('The Verge');
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}`);
+    expect(request.method).to.equal('GET');
+    expect(request.body).to.be.undefined;
+    expect(request.headers).to.be.an('object').that.is.empty;
 
     return Promise.resolve(true);
   });
 
-  it('should parse the posted text', async () => {
+  it('should generate the article POST request', async () => {
+    const body = 'Now is the time for all good robots to come to the aid of their-- oh never mind, run!';
 
-    let article = await diffbot.article({
-      body: 'Now is the time for all good robots to come to the aid of their-- oh never mind, run!',
-    });
+    let request = await diffbot.article({ body });
 
-    expect(article.objects).to.be.an('array');
-    expect(article.objects.length).to.be.greaterThan(0);
-    expect(article.objects[0].humanLanguage).to.equal('en');
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${process.env.DIFFBOT_API_TOKEN}`);
+    expect(request.method).to.equal('POST');
+    expect(request.body).to.equal(body);
+    expect(request.headers).to.be.an('object');
+    expect(request.headers['Content-Type']).to.equal('text/plain');
 
     return Promise.resolve(true);
   });

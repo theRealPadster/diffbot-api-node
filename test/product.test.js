@@ -1,33 +1,29 @@
 const { diffbot, expect } = require('./global');
-const target_url = 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual';
 
 describe('Product Tests', function() {
 
-  this.timeout(20 * 1000);
+  const url = 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual';
 
-  it('should return data', async () => {
-    const product = await diffbot.product({
-      url: target_url,
-    });
+  it('should generate the product GET request', async () => {
+    const request = await diffbot.product({ url });
 
-    expect(product.objects).to.be.an('array');
-    expect(product.objects.length).to.be.greaterThan(0);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}`);
+    expect(request.method).to.equal('GET');
+    expect(request.body).to.be.undefined;
+    expect(request.headers).to.be.an('object').that.is.empty;
 
     return Promise.resolve(true);
   });
 
-  it('should return requested fields', async () => {
-    const product = await diffbot.product({
-      url: target_url,
-      fields: ['links', 'meta'],
-    });
+  it('should generate the product GET request with the specified fields', async () => {
+    const fields = ['links', 'meta'];
 
-    // TODO: is it correct to just skip these, since they are covered above?
-    // Or does this test make the previous one redundant?
-    // expect(product.objects).to.be.an('array');
-    // expect(product.objects.length).to.be.greaterThan(0);
-    expect(product.objects[0].links).to.be.an('array');
-    expect(product.objects[0].meta).to.be.an('object');
+    const request = await diffbot.product({ url, fields });
+
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}`);
+    expect(request.method).to.equal('GET');
+    expect(request.body).to.be.undefined;
+    expect(request.headers).to.be.an('object').that.is.empty;
 
     return Promise.resolve(true);
   });

@@ -2,18 +2,17 @@ const { diffbot, expect } = require('./global');
 
 describe('Image Tests', function() {
 
-  this.timeout(20 * 1000);
+  it('should generate the image POST request', async () => {
+    const url = 'https://www.google.com/';
+    const body = '<html><body><h2>This is the Google logo</h2><div><img src="images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"></div></body></html>';
 
-  it('should find the posted image', async () => {
+    const request = await diffbot.image({ url, body });
 
-    const image = await diffbot.image({
-      url: 'https://www.google.com/',
-      body: '<html><body><h2>This is the Google logo</h2><div><img src="images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"></div></body></html>'
-    });
-
-    expect(image.objects).to.be.an('array');
-    expect(image.objects.length).to.be.greaterThan(0);
-    expect(image.objects[0].url).to.equal('https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png');
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/image?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}`);
+    expect(request.method).to.equal('POST');
+    expect(request.body).to.equal(body);
+    expect(request.headers).to.be.an('object');
+    expect(request.headers['Content-Type']).to.equal('text/html');
 
     return Promise.resolve(true);
   });

@@ -1,12 +1,9 @@
-require('dotenv').config();
-const Diffbot = require('../src/diffbot.js');
-const diffbot = new Diffbot(process.env.DIFFBOT_API_TOKEN);
+const { diffbot, expect } = require('./global');
 const target_url = 'https://four-all-ice-creame.myshopify.com/collections/ice-cream-cubes-individual/products/ice-cream-cubes-individual';
-const expect = require('chai').expect;
 
 describe('Product Tests', function() {
 
-  this.timeout(15 * 1000);
+  this.timeout(20 * 1000);
 
   it('should return data', async () => {
     const product = await diffbot.product({

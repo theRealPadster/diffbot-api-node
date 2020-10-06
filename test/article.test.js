@@ -1,11 +1,8 @@
-require('dotenv').config();
-const Diffbot = require('../src/diffbot.js');
-const diffbot = new Diffbot(process.env.DIFFBOT_API_TOKEN);
-const expect = require('chai').expect;
+const { diffbot, expect } = require('./global');
 
 describe('Article Tests', function() {
 
-  this.timeout(15 * 1000);
+  this.timeout(20 * 1000);
 
   it('should parse the article', async () => {
 

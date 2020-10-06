@@ -190,4 +190,4 @@ You must make a `.env` file with your diffbot API token in order to run the test
 
 e.g. `echo "DIFFBOT_API_TOKEN=YOURTOKENGOESHERE" > .env`
 
-Then just run `mocha`.
+Then just run `npm test`.

@@ -3,6 +3,7 @@
 [![npm](https://img.shields.io/npm/v/diffbot-api-node.svg)](https://www.npmjs.com/package/diffbot-api-node)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/diffbot-api-node)
 ![npm license](https://img.shields.io/npm/l/diffbot-api-node)
+[![codecov](https://codecov.io/gh/theRealPadster/diffbot-api-node/branch/master/graph/badge.svg)](https://codecov.io/gh/theRealPadster/diffbot-api-node)
 ![github last commit](https://img.shields.io/github/last-commit/therealpadster/diffbot-api-node)
 [![Build Status](https://travis-ci.com/theRealPadster/diffbot-api-node.svg?branch=master)](https://travis-ci.com/theRealPadster/diffbot-api-node)
 

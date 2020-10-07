@@ -25,13 +25,16 @@
   "license": "MIT",
   "main": "src/diffbot.js",
   "scripts": {
-    "test": "mocha test/**/*.test.js"
+    "test": "nyc mocha test/**/*.test.js",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "homepage": "https://github.com/therealpadster/diffbot-api-node",
   "devDependencies": {
     "chai": "^4.2.0",
+    "codecov": "^3.8.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.10.0",
-    "mocha": "^8.1.2"
+    "mocha": "^8.1.2",
+    "nyc": "^15.1.0"
   }
 }

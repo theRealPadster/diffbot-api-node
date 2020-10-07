@@ -457,7 +457,7 @@ class Diffbot {
     if (options.start != undefined)
       diffbot_url += `&start=${options.start}`;
 
-    return fetch(diffbot_url, 'POST');
+    return fetch(diffbot_url);
   }
 }
 

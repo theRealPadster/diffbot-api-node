@@ -260,26 +260,26 @@ class Diffbot {
    * Execute a query against the Knowledge Graph
    * @param {Object} options The search options
    * @param {string} options.query The DQL knowledge base query
+   * @param {string} [options.type] Type of search: "query", "text", or "queryTextFallback"
+   * @param {number} [options.size] Max number of results in page
    * @param {number} [options.from] Ordinal position of first result to return. (First position is 0.) Default is 0.
    * @param {boolean} [options.nonCanonicalFacts] Return non-canonical facts. Default is no non-canonical facts.
-   * @param {number} [options.size] Max number of results in page
-   * @param {string} [options.type] Type of search: "query", "text", or "queryTextFallback"
    * @returns {Object} The query results
    */
   knowledgeGraph(options) {
     let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
+
+    if (options.type)
+      diffbot_url += `&type=${options.type}`;
+
+    if (options.size)
+      diffbot_url += `&size=${options.size}`;
 
     if (options.from)
       diffbot_url += `&from=${options.from}`;
 
     if (options.nonCanonicalFacts != undefined)
       diffbot_url += `&nonCanonicalFacts=${+options.nonCanonicalFacts}`;
-
-    if (options.size)
-      diffbot_url += `&size=${options.size}`;
-
-    if (options.type)
-      diffbot_url += `&type=${options.type}`;
 
     let req = request.generate(diffbot_url);
     let ret = this.test ? req : request.fetch(req);

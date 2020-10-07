@@ -501,7 +501,7 @@ class Diffbot {
     if (options.start != undefined)
       diffbot_url += `&start=${options.start}`;
 
-    let req = request.generate(diffbot_url, 'POST');
+    let req = request.generate(diffbot_url);
     let ret = this.test ? req : request.fetch(req);
 
     return ret;

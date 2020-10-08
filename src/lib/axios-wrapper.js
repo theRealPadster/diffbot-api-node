@@ -19,7 +19,7 @@ module.exports = function (url, method = 'GET', data) {
     axios(params)
       .then(response => {
         if(response.status == 200){
-          resolve(response.data)
+          resolve(response.data);
         }
         else{
           reject(response);
@@ -29,4 +29,4 @@ module.exports = function (url, method = 'GET', data) {
         reject(err);
       });
   });
-}
+};

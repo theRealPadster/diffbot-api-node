@@ -280,6 +280,7 @@ class Diffbot {
        * @param {number} [options.maxHops] Specify the depth of your crawl. A maxHops=0 will limit processing to the seed URL(s) only -- no other links will be processed; maxHops=1 will process all (otherwise matching) pages whose links appear on seed URL(s); maxHops=2 will process pages whose links appear on those pages; and so on. By default (maxHops=-1) Crawlbot will crawl and process links at any depth.
        * @param {number} [options.maxToCrawl] Specify max pages to spider. Default: 100,000.
        * @param {number} [options.maxToProcess] Specify max pages to process through Diffbot APIs. Default: 100,000.
+       * @param {string} [options.notifyEmail] Send a message to this email address when the crawl hits the maxToCrawl or maxToProcess limit, or when the crawl completes.
        * @param {string} [options.notifyWebhook] Pass a URL to be notified when the crawl hits the maxToCrawl or maxToProcess limit, or when the crawl completes. You will receive a POST with X-Crawl-Name and X-Crawl-Status in the headers, and the job's JSON metadata in the POST body. Note that in webhook POSTs the parent jobs will not be sent—only the individual job object will be returned.
        * @returns {Object} The response and crawl job objects
        */
@@ -310,16 +311,16 @@ class Diffbot {
         if (options.maxToProcess != undefined)
           diffbot_url += `&maxToProcess=${options.maxToProcess}`;
 
-        if (options.notifyWebhook)
-          diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
-
         if (options.notifyEmail)
           diffbot_url += `&notifyEmail=${options.notifyEmail}`;
+
+        if (options.notifyWebhook)
+          diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
 
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
-        console.log(diffbot_url);
+
         return request(diffbot_url, 'POST');
       },
       //To check status of existing job

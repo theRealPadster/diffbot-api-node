@@ -463,38 +463,10 @@ class Diffbot {
           diffbot_url += `&num=${options.num}`;
         }
         else{
-          diffbot_url += `&num=all`;
+          diffbot_url += '&num=all';
         }
 
-          return axios.get(diffbot_url)
-      },
-      /* Delete job and data when products retrieved */
-      delete: function(options) {
-        // TODO: Do I police the optional fields or leave the user to get a 400 error?
-        if (!options.name) {
-          throw new Error('missing name');
-        }
-
-        let diffbot_url = `https://api.diffbot.com/v3/crawl?token=${this.token}`
-          + `&name=${encodeURIComponent(options.name)}`
-          + `&delete=1`;
-
-        return new Promise(async (resolve, reject) => {
-          console.log(diffbot_url);
-
-          axios.post(diffbot_url)
-          .then(response =>{
-            if(response.status == 200){
-              resolve(response.data)
-            }
-            else{
-              reject(response);
-            }
-          })
-          .catch(err => {
-            reject(err);
-          })
-        });
+        return axios.get(diffbot_url);
       },
       /**
        * Get Crawlbot job details

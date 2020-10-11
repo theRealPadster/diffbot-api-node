@@ -35,4 +35,12 @@ describe('Article Tests', function() {
 
     return Promise.resolve(true);
   });
+
+  it('should error on no url', async () => {
+    expect(() => {
+      return diffbot.article({});
+    }).to.throw('missing url');
+
+    return Promise.resolve(true);
+  });
 });

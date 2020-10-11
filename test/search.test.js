@@ -2,9 +2,10 @@ const { diffbot, expect } = require('./global');
 
 describe('Search Tests', function() {
 
+  const name = 'my-diffbot-crawl';
+  const query = 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}';
+
   it('should generate the search GET request', async () => {
-    const name = 'my-diffbot-crawl';
-    const query = 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}';
     const num = 'all';
     const start = 1;
 
@@ -14,6 +15,22 @@ describe('Search Tests', function() {
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;
+
+    return Promise.resolve(true);
+  });
+
+  it('should error on no name', async () => {
+    expect(() => {
+      return diffbot.search({ query });
+    }).to.throw('missing name');
+
+    return Promise.resolve(true);
+  });
+
+  it('should error on no query', async () => {
+    expect(() => {
+      return diffbot.search({ name });
+    }).to.throw('missing query');
 
     return Promise.resolve(true);
   });

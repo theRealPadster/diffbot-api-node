@@ -32,4 +32,12 @@ describe('Image Tests', function() {
 
     return Promise.resolve(true);
   });
+
+  it('should error on no url', async () => {
+    expect(() => {
+      return diffbot.image({});
+    }).to.throw('missing url');
+
+    return Promise.resolve(true);
+  });
 });

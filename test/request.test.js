@@ -62,4 +62,18 @@ describe('Request Wrapper Tests', function() {
 
     return Promise.resolve(true);
   });
+
+  it('should error on invalid response', async () => {
+    const url = 'https://jsonplaceholder.typicode.com/posts/1000';
+
+    const req = request.generate(url);
+    expect(req.url).to.equal(url);
+    expect(req.method).to.equal('GET');
+    expect(req.body).to.be.undefined;
+    expect(req.headers).to.be.an('object').that.is.empty;
+
+    expect(request.fetch(req)).to.eventually.be.rejectedWith('response not ok.');
+
+    return Promise.resolve(true);
+  });
 });

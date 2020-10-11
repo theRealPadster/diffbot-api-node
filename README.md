@@ -188,8 +188,8 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/search/
 
 ## Testing
 
-You must make a `.env` file with your diffbot API token in order to run the test suite.
+The test suite verifies that the requests generated are accurate, as per the docs, without actually making any API calls. The only requests executed are sample calls made to [example.com](https://example.com) and [JSONPlaceholder](https://jsonplaceholder.typicode.com).
 
-e.g. `echo "DIFFBOT_API_TOKEN=YOURTOKENGOESHERE" > .env`
+By not executing the actual Diffbot API calls, it preserves any API call limits, allows the test suite to run much faster, and ensures that development is possible without needing to have a valid Diffbot API key.
 
-Then just run `npm test`.
+To run the test suite, just run `npm test`.

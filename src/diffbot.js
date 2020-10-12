@@ -291,6 +291,7 @@ class Diffbot {
   crawl() {
     return {
       token: this.token,
+      test: this.test,
       /**
        * Generate a new Crawlbot crawl job
        * @param {Object} options The search options
@@ -332,7 +333,7 @@ class Diffbot {
           diffbot_url += `&maxToProcess=${options.maxToProcess}`;
 
         if (options.notifyWebhook)
-          diffbot_url += `&notifyWebhook=${options.notifyWebhook}`;
+          diffbot_url += `&notifyWebhook=${encodeURIComponent(options.notifyWebhook)}`;
 
         // TODO: add supprt for the other optional params
         // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
@@ -371,7 +372,7 @@ class Diffbot {
           diffbot_url += `&type=${encodeURIComponent(options.type)}`;
 
         if (options.num)
-          diffbot_url += `&num=${encodeURIComponent(options.num)}`;
+          diffbot_url += `&num=${options.num}`;
 
         let req = request.generate(diffbot_url);
         let ret = this.test ? req : request.fetch(req);

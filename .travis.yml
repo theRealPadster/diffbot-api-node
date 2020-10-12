@@ -4,7 +4,6 @@ node_js:
 branches:
   only:
   - master
-  - request-generation
 script:
   - npm run test
   - npm run report-coverage

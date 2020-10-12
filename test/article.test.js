@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, FAKE_TOKEN } = require('./global');
 
 describe('Article Tests', function() {
 
@@ -14,7 +14,7 @@ describe('Article Tests', function() {
 
     let request = await diffbot.article({ url, fields, paging, maxTags, tagConfidence, discussion, timeout, callback });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&paging=${paging}&maxTags=${maxTags}&tagConfidence=${tagConfidence}&discussion=${discussion}&timeout=${timeout}&callback=${callback}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&paging=${paging}&maxTags=${maxTags}&tagConfidence=${tagConfidence}&discussion=${discussion}&timeout=${timeout}&callback=${callback}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;
@@ -27,7 +27,7 @@ describe('Article Tests', function() {
 
     let request = await diffbot.article({ body });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${process.env.DIFFBOT_API_TOKEN}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${FAKE_TOKEN}`);
     expect(request.method).to.equal('POST');
     expect(request.body).to.equal(body);
     expect(request.headers).to.be.an('object');

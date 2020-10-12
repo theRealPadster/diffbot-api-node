@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, FAKE_TOKEN } = require('./global');
 
 describe('Product Tests', function() {
 
@@ -11,7 +11,7 @@ describe('Product Tests', function() {
     const callback = 'callbackFn';
     const request = await diffbot.product({ url, fields, discussion, timeout, callback });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;
@@ -24,7 +24,7 @@ describe('Product Tests', function() {
 
     const request = await diffbot.product({ url, fields });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

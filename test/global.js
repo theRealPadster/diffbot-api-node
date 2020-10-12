@@ -4,5 +4,6 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-exports.diffbot = new Diffbot(process.env.DIFFBOT_API_TOKEN, true);
+exports.FAKE_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+exports.diffbot = new Diffbot(this.FAKE_TOKEN, true);
 exports.expect = chai.expect;

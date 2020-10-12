@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, FAKE_TOKEN } = require('./global');
 
 describe('Knowledge Graph Tests', function() {
 
@@ -11,7 +11,7 @@ describe('Knowledge Graph Tests', function() {
 
     let request = await diffbot.knowledgeGraph({ query, type, size, from, nonCanonicalFacts });
 
-    expect(request.url).to.equal(`https://kg.diffbot.com/kg/dql_endpoint?token=${process.env.DIFFBOT_API_TOKEN}&query=${encodeURIComponent(query)}&type=${type}&size=${size}&from=${from}&nonCanonicalFacts=${+nonCanonicalFacts}`);
+    expect(request.url).to.equal(`https://kg.diffbot.com/kg/dql_endpoint?token=${FAKE_TOKEN}&query=${encodeURIComponent(query)}&type=${type}&size=${size}&from=${from}&nonCanonicalFacts=${+nonCanonicalFacts}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

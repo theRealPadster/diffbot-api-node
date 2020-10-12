@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, FAKE_TOKEN } = require('./global');
 
 describe('Video Tests', function() {
 
@@ -10,7 +10,7 @@ describe('Video Tests', function() {
 
     const request = await diffbot.video({ url, fields, timeout, callback });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;
@@ -24,7 +24,7 @@ describe('Video Tests', function() {
 
     const request = await diffbot.video({ url, body });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${process.env.DIFFBOT_API_TOKEN}&url=${encodeURIComponent(url)}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}`);
     expect(request.method).to.equal('POST');
     expect(request.body).to.equal(body);
     expect(request.headers).to.be.an('object');

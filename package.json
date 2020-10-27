@@ -15,7 +15,7 @@
     "web": "https://github.com/therealpadster/node-diffbot/issues"
   },
   "dependencies": {
-    "axios": "^0.20.0"
+    "axios": "^0.21.0"
   },
   "keywords": [
     "diffbot",
@@ -34,8 +34,8 @@
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.8.0",
     "dotenv": "^8.2.0",
-    "eslint": "^7.10.0",
-    "mocha": "^8.1.2",
+    "eslint": "^7.12.0",
+    "mocha": "^8.2.0",
     "nyc": "^15.1.0"
   }
 }

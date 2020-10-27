@@ -56,15 +56,15 @@ describe('Request Wrapper Tests', function() {
     expect(req.body).to.be.undefined;
     expect(req.headers).to.be.an('object').that.is.empty;
 
-    const res = await request.fetch(req);
+    const res = await request.exec(req);
     expect(res).to.be.an('object');
     expect(res.id).to.equal(1);
 
     return Promise.resolve(true);
   });
 
-  it('should error on invalid response', async () => {
-    const url = 'https://jsonplaceholder.typicode.com/posts/1000';
+  it('should error on non-200 status', async () => {
+    const url = 'http://example.com/404';
 
     const req = request.generate(url);
     expect(req.url).to.equal(url);
@@ -72,7 +72,7 @@ describe('Request Wrapper Tests', function() {
     expect(req.body).to.be.undefined;
     expect(req.headers).to.be.an('object').that.is.empty;
 
-    expect(request.fetch(req)).to.eventually.be.rejectedWith('response not ok.');
+    expect(request.exec(req)).to.eventually.be.rejectedWith('Request failed with status code 404');
 
     return Promise.resolve(true);
   });

@@ -53,7 +53,7 @@ class Diffbot {
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }
@@ -107,7 +107,7 @@ class Diffbot {
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }
@@ -145,7 +145,7 @@ class Diffbot {
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }
@@ -179,7 +179,7 @@ class Diffbot {
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }
@@ -217,7 +217,7 @@ class Diffbot {
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }
@@ -251,7 +251,7 @@ class Diffbot {
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }
@@ -282,7 +282,7 @@ class Diffbot {
       diffbot_url += `&nonCanonicalFacts=${+options.nonCanonicalFacts}`;
 
     let req = request.generate(diffbot_url);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }
@@ -340,7 +340,7 @@ class Diffbot {
         // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
 
         let req = request.generate(diffbot_url, 'POST');
-        let ret = this.test ? req : request.fetch(req);
+        let ret = this.test ? req : request.exec(req);
 
         return ret;
       },
@@ -375,7 +375,7 @@ class Diffbot {
           diffbot_url += `&num=${options.num}`;
 
         let req = request.generate(diffbot_url);
-        let ret = this.test ? req : request.fetch(req);
+        let ret = this.test ? req : request.exec(req);
 
         return ret;
       },
@@ -394,7 +394,7 @@ class Diffbot {
           + '&pause=1';
 
         let req = request.generate(diffbot_url, 'POST');
-        let ret = this.test ? req : request.fetch(req);
+        let ret = this.test ? req : request.exec(req);
 
         return ret;
       },
@@ -413,7 +413,7 @@ class Diffbot {
           + '&pause=0';
 
         let req = request.generate(diffbot_url, 'POST');
-        let ret = this.test ? req : request.fetch(req);
+        let ret = this.test ? req : request.exec(req);
 
         return ret;
       },
@@ -432,7 +432,7 @@ class Diffbot {
           + '&restart=1';
 
         let req = request.generate(diffbot_url, 'POST');
-        let ret = this.test ? req : request.fetch(req);
+        let ret = this.test ? req : request.exec(req);
 
         return ret;
       },
@@ -451,7 +451,7 @@ class Diffbot {
           + '&delete=1';
 
         let req = request.generate(diffbot_url, 'POST');
-        let ret = this.test ? req : request.fetch(req);
+        let ret = this.test ? req : request.exec(req);
 
         return ret;
       },
@@ -469,7 +469,7 @@ class Diffbot {
           diffbot_url += `&name=${encodeURIComponent(options.name)}`;
 
         let req = request.generate(diffbot_url);
-        let ret = this.test ? req : request.fetch(req);
+        let ret = this.test ? req : request.exec(req);
 
         return ret;
       },
@@ -503,7 +503,7 @@ class Diffbot {
       diffbot_url += `&start=${options.start}`;
 
     let req = request.generate(diffbot_url);
-    let ret = this.test ? req : request.fetch(req);
+    let ret = this.test ? req : request.exec(req);
 
     return ret;
   }

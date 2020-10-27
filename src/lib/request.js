@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 // TODO: figure out how to get JSDocs to work properly
 /**
@@ -35,27 +35,23 @@ exports.generate = function(url, method = 'GET', body) {
 };
 
 /**
- * Wrapper to promisify a fetch call
+ * Wrapper for axios calls
  * @param {Request} request The request to make
- * @returns The JSON-formatted fetch result
+ * @returns The JSON-formatted result
  */
-exports.fetch = function (request) {
+exports.exec = function (request) {
   return new Promise(async (resolve, reject) => {
-    try {
-      let params = {
-        method: request.method,
-        body: request.body,
-        headers: request.headers,
-      };
-      let response = await fetch(request.url, params);
-      if (!response.ok) {
-        throw new Error('response not ok.');
-      }
-      // TODO: add some better error handling
-      const parsed = await response.json();
-      resolve(parsed);
-    } catch(err) {
-      reject(err);
-    }
+    let params = {
+      method: request.method,
+      url: request.url,
+      data: request.body,
+      headers: request.headers,
+    };
+
+    axios(params)
+      .then(response => resolve(response.data))
+      .catch(err => {
+        reject(err);
+      });
   });
 };

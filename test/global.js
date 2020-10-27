@@ -1,4 +1,3 @@
-require('dotenv').config();
 const Diffbot = require('../src/diffbot.js');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');

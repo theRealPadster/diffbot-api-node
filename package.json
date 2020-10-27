@@ -15,7 +15,7 @@
     "web": "https://github.com/therealpadster/node-diffbot/issues"
   },
   "dependencies": {
-    "axios": "^0.20.0"
+    "axios": "^0.21.0"
   },
   "keywords": [
     "diffbot",

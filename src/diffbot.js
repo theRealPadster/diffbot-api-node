@@ -507,6 +507,29 @@ class Diffbot {
 
     return ret;
   }
+
+  /**
+   * Execute an account API call
+   * @param {Object} options The account options
+   * @param {number} [options.days] Pass the number of days (&days=365) for which you would like to retrieve API call volumes (default = 31).
+   * @param {boolean} [options.invoices] Pass &invoices=true to return invoice and payment history.
+   * @returns {Object} The account query results
+   */
+  account(options) {
+
+    let diffbot_url = `https://api.diffbot.com/v4/account?token=${this.token}`;
+
+    if (options.days)
+      diffbot_url += `&days=${options.days}`;
+
+    if (options.invoices != undefined)
+      diffbot_url += `&invoices=${options.invoices}`;
+
+    let req = request.generate(diffbot_url);
+    let ret = this.test ? req : request.exec(req);
+
+    return ret;
+  }
 }
 
 module.exports = Diffbot;

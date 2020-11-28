@@ -28,6 +28,7 @@ Currently supports the following features:
   * Restart
   * Delete
 * [Search](#search-api)
+* [Account](#account-api)
 
 ## Install
 ```bash
@@ -184,6 +185,17 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/search/
   });
   console.log(article.objects[0].title);
   console.log(article.objects[0].pageUrl);
+```
+
+### Account API
+Diffbot documentation: https://docs.diffbot.com/docs/en/api-account
+```javascript
+  let account = await diffbot.account({
+    days: 60,
+    invoices: true,
+  });
+  console.log(account.plan);
+  console.log(analyze.usage);
 ```
 
 ## Testing

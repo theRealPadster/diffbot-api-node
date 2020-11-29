@@ -15,10 +15,11 @@ const axios = require('axios');
  * @param {string} url The URL
  * @param {string} [method] The HTTP method to use (defaults to GET)
  * @param {string} [body] Optional HTML markup or plaintext to pass as POST body
+ * @param {Object} [customHeaders] Optional additional request headers object
  * @returns {Request} The request object
  */
-exports.generate = function(url, method = 'GET', body) {
-  let headers = {};
+exports.generate = function(url, method = 'GET', body, customHeaders) {
+  let headers = { ...customHeaders };
   if (body) {
     if (body.startsWith('<'))
       headers = { 'Content-Type': 'text/html' };

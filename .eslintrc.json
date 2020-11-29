@@ -15,7 +15,7 @@
     "sourceType": "module",
     "allowImportExportEverywhere": false,
     "codeFrame": false,
-    "ecmaVersion": 8,
+    "ecmaVersion": 2018,
     "ecmaFeatures": {
       "modules": true,
       "blockBindings": true

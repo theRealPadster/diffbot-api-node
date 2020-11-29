@@ -151,6 +151,52 @@ class Diffbot {
   }
 
   /**
+   * Execute an event API call
+   * @param {Object} options The event options
+   * @param {string} options.url Web page URL of the event to process
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Event API. See fields: https://docs.diffbot.com/docs/en/api-event
+   * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
+   * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
+   * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
+   * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-event#custom-javascript
+   * @returns {Object} The analyze query results
+   */
+  event(options) {
+
+    if (!options.url)
+      throw new Error('missing url');
+
+    let diffbot_url = `https://api.diffbot.com/v3/event?token=${this.token}&url=${encodeURIComponent(options.url)}`;
+
+    if (options.fields)
+      diffbot_url += `&fields=${options.fields.join(',')}`;
+
+    if (options.timeout)
+      diffbot_url += `&timeout=${options.timeout}`;
+
+    if (options.callback)
+      diffbot_url += `&callback=${options.callback}`;
+
+    if (options.proxy)
+      diffbot_url += `&proxy=${options.proxy}`;
+
+    if (options.proxyAuth)
+      diffbot_url += `&proxyAuth=${options.proxyAuth}`;
+
+    const method = options.body ? 'POST' : 'GET';
+
+    let req = request.generate(diffbot_url, method, options.body,
+      options.customJS ? { // strip out newlines and whitespace
+        'X-Forward-X-Evaluate': options.customJS.replace(/(\r?\n|\r)\s+/g, ''),
+      } : null);
+    let ret = this.test ? req : request.exec(req);
+
+    return ret;
+  }
+
+  /**
    * Execute an image API call
    * @param {Object} options The call options
    * @param {string} options.url Web page URL of the image to process

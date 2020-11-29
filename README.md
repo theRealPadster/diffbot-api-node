@@ -15,6 +15,7 @@ Currently supports the following features:
 * [Analyze](#analyze-api) (with HTML POST support)
 * [Article](#article-api) (with HTML and plaintext POST support)
 * [Discussion](#discussion-api) (with HTML POST support)
+* [Event](#event-api) (with HTML POST support)
 * [Image](#image-api) (with HTML POST support)
 * [Product](#product-api) (with HTML POST support)
 * [Video](#video-api-beta) (beta) (with HTML POST support)
@@ -79,6 +80,18 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/discussion/
   console.log(discussion.objects[0].posts);
   console.log(discussion.objects[0].participants);
   console.log(discussion.objects[0].sentiment);
+```
+
+### Event API
+Diffbot documentation: https://docs.diffbot.com/docs/en/api-event
+```javascript
+  let evt = await diffbot.event({
+    url: 'https://www.eventbrite.ca/e/relit-2020-bring-your-brave-tickets-109259768910',
+    proxy: '168.212.226.204',
+    body: 'optional-html-post-body',
+  });
+  console.log(evt.objects[0].venue);
+  console.log(evt.objects[0].description);
 ```
 
 ### Image API
@@ -195,7 +208,7 @@ Diffbot documentation: https://docs.diffbot.com/docs/en/api-account
     invoices: true,
   });
   console.log(account.plan);
-  console.log(analyze.usage);
+  console.log(account.usage);
 ```
 
 ## Testing

@@ -15,10 +15,10 @@ Currently supports the following features:
 * [Analyze](#analyze-api) (with HTML POST support)
 * [Article](#article-api) (with HTML and plaintext POST support)
 * [Discussion](#discussion-api) (with HTML POST support)
-* [Event](#event-api) (with HTML POST support)
+* [Event](#event-api-beta) (beta) (with HTML POST support)
 * [Image](#image-api) (with HTML POST support)
 * [Product](#product-api) (with HTML POST support)
-* [Video](#video-api-beta) (beta) (with HTML POST support)
+* [Video](#video-api) (with HTML POST support)
 * [Knowledge Graph](#knowledge-graph-api)
 * [Crawl](#crawl-api)
   * New (supported params: `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
@@ -82,7 +82,7 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/discussion/
   console.log(discussion.objects[0].sentiment);
 ```
 
-### Event API
+### Event API (beta)
 Diffbot documentation: https://docs.diffbot.com/docs/en/api-event
 ```javascript
   let evt = await diffbot.event({
@@ -116,7 +116,7 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/product/
   console.log(product.objects);
 ```
 
-### Video API (beta)
+### Video API
 Diffbot documentation: https://www.diffbot.com/dev/docs/video/
 ```javascript
   let video = await diffbot.video({

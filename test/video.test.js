@@ -7,10 +7,12 @@ describe('Video Tests', function() {
     const fields = ['links','meta'];
     const timeout = 60000;
     const callback = 'callbackFn';
+    const proxy = '168.212.226.204';
+    const proxyAuth = 'username:password';
 
-    const request = await diffbot.video({ url, fields, timeout, callback });
+    const request = await diffbot.video({ url, fields, timeout, callback, proxy, proxyAuth });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

@@ -22,6 +22,8 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of comments or reviews from pages identified as articles or products. This will not affect pages identified as discussions.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
+   * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The analyze query results
    */
@@ -50,6 +52,12 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${options.callback}`;
 
+    if (options.proxy)
+      diffbot_url += `&proxy=${options.proxy}`;
+
+    if (options.proxyAuth)
+      diffbot_url += `&proxyAuth=${options.proxyAuth}`;
+
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
@@ -69,6 +77,9 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of article comments.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
+   * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
+   * @param {string[]} [options.naturalLanguage] Used to request the output of the Diffbot Natural Language API in the field naturalLanguage. Example: &naturalLanguage=entities,facts,categories,sentiment.
    * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The article query results
    */
@@ -104,6 +115,15 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${options.callback}`;
 
+    if (options.proxy)
+      diffbot_url += `&proxy=${options.proxy}`;
+
+    if (options.proxyAuth)
+      diffbot_url += `&proxyAuth=${options.proxyAuth}`;
+
+    if (options.naturalLanguage)
+      diffbot_url += `&naturalLanguage=${options.naturalLanguage.join(',')}`;
+
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
@@ -120,6 +140,8 @@ class Diffbot {
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
    * @param {number|string} [options.maxPages] Set the maximum number of pages in a thread to automatically concatenate in a single response. Default = 1 (no concatenation). Set maxPages=all to retrieve all pages of a thread regardless of length. Each individual page will count as a separate API call.
+   * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
+   * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The discussion query results
    */
@@ -141,6 +163,12 @@ class Diffbot {
 
     if (options.maxPages != undefined)
       diffbot_url += `&maxPages=${options.maxPages}`;
+
+    if (options.proxy)
+      diffbot_url += `&proxy=${options.proxy}`;
+
+    if (options.proxyAuth)
+      diffbot_url += `&proxyAuth=${options.proxyAuth}`;
 
     const method = options.body ? 'POST' : 'GET';
 
@@ -203,6 +231,8 @@ class Diffbot {
    * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Image API. See fields: https://www.diffbot.com/dev/docs/image/#fields
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
+   * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The image query results
    */
@@ -222,6 +252,12 @@ class Diffbot {
     if (options.callback)
       diffbot_url += `&callback=${options.callback}`;
 
+    if (options.proxy)
+      diffbot_url += `&proxy=${options.proxy}`;
+
+    if (options.proxyAuth)
+      diffbot_url += `&proxyAuth=${options.proxyAuth}`;
+
     const method = options.body ? 'POST' : 'GET';
 
     let req = request.generate(diffbot_url, method, options.body);
@@ -238,6 +274,8 @@ class Diffbot {
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of product reviews.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.
+   * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
+   * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
    * @returns {Object} The product query results
    */
@@ -259,6 +297,12 @@ class Diffbot {
 
     if (options.callback)
       diffbot_url += `&callback=${options.callback}`;
+
+    if (options.proxy)
+      diffbot_url += `&proxy=${options.proxy}`;
+
+    if (options.proxyAuth)
+      diffbot_url += `&proxyAuth=${options.proxyAuth}`;
 
     const method = options.body ? 'POST' : 'GET';
 

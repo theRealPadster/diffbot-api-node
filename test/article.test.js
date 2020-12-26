@@ -11,10 +11,13 @@ describe('Article Tests', function() {
     const discussion = false;
     const timeout = 60000;
     const callback = 'callbackFn';
+    const proxy = '168.212.226.204';
+    const proxyAuth = 'username:password';
+    const naturalLanguage = ['entities','facts'];
 
-    let request = await diffbot.article({ url, fields, paging, maxTags, tagConfidence, discussion, timeout, callback });
+    let request = await diffbot.article({ url, fields, paging, maxTags, tagConfidence, discussion, timeout, callback, proxy, proxyAuth, naturalLanguage });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&paging=${paging}&maxTags=${maxTags}&tagConfidence=${tagConfidence}&discussion=${discussion}&timeout=${timeout}&callback=${callback}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&paging=${paging}&maxTags=${maxTags}&tagConfidence=${tagConfidence}&discussion=${discussion}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}&naturalLanguage=${naturalLanguage.join(',')}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

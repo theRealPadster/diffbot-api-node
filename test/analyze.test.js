@@ -10,10 +10,12 @@ describe('Analyze Tests', function() {
     const discussion = false;
     const timeout = 60000;
     const callback = 'callbackFn';
+    const proxy = '168.212.226.204';
+    const proxyAuth = 'username:password';
 
-    let request = await diffbot.analyze({ url, mode, fallback, fields, discussion, timeout, callback });
+    let request = await diffbot.analyze({ url, mode, fallback, fields, discussion, timeout, callback, proxy, proxyAuth });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/analyze?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&mode=${mode}&fallback=${fallback}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/analyze?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&mode=${mode}&fallback=${fallback}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

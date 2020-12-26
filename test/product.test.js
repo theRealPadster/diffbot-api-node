@@ -9,9 +9,12 @@ describe('Product Tests', function() {
     const discussion = false;
     const timeout = 60000;
     const callback = 'callbackFn';
-    const request = await diffbot.product({ url, fields, discussion, timeout, callback });
+    const proxy = '168.212.226.204';
+    const proxyAuth = 'username:password';
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}`);
+    const request = await diffbot.product({ url, fields, discussion, timeout, callback, proxy, proxyAuth });
+
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

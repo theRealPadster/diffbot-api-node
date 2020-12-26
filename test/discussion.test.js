@@ -8,10 +8,12 @@ describe('Discussion Tests', function() {
     const timeout = 60000;
     const callback = 'callbackFn';
     const maxPages = 3;
+    const proxy = '168.212.226.204';
+    const proxyAuth = 'username:password';
 
-    let request = await diffbot.discussion({ url, fields, timeout, callback, maxPages });
+    let request = await diffbot.discussion({ url, fields, timeout, callback, maxPages, proxy, proxyAuth });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/discussion?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}&maxPages=${maxPages}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/discussion?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}&maxPages=${maxPages}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

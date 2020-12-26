@@ -361,7 +361,9 @@ class Diffbot {
    * @param {string} [options.type] Type of search: "query", "text", or "queryTextFallback"
    * @param {number} [options.size] Max number of results in page
    * @param {number} [options.from] Ordinal position of first result to return. (First position is 0.) Default is 0.
+   * @param {string} [options.jsonmode] jsonmode=extended returns origin information for facts
    * @param {boolean} [options.nonCanonicalFacts] Return non-canonical facts. Default is no non-canonical facts.
+   * @param {boolean} [options.noDedupArticles] Indicates that articles should not be deduplicated but all of them returned
    * @returns {Object} The query results
    */
   knowledgeGraph(options) {
@@ -376,8 +378,14 @@ class Diffbot {
     if (options.from)
       diffbot_url += `&from=${options.from}`;
 
+    if (options.jsonmode)
+      diffbot_url += `&jsonmode=${options.jsonmode}`;
+
     if (options.nonCanonicalFacts != undefined)
       diffbot_url += `&nonCanonicalFacts=${+options.nonCanonicalFacts}`;
+
+    if (options.noDedupArticles != undefined)
+      diffbot_url += `&noDedupArticles=${+options.noDedupArticles}`;
 
     let req = request.generate(diffbot_url);
     let ret = this.test ? req : request.exec(req);

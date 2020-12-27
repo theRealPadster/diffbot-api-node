@@ -367,6 +367,12 @@ class Diffbot {
    * @returns {Object} The query results
    */
   knowledgeGraph(options) {
+
+    if (!options.query)
+      throw new Error('missing query');
+    else if (options.jsonmode && options.jsonmode != 'extended')
+      throw new Error('invalid jsonmode');
+
     let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
 
     if (options.type)
@@ -404,11 +410,27 @@ class Diffbot {
        * @param {string} options.name Job name. This should be a unique identifier and can be used to modify your crawl or retrieve its output.
        * @param {string[]} options.seeds Seed URL(s). If the seed contains a non-www subdomain ("http://blog.diffbot.com" or "http://support.diffbot.com") Crawlbot will restrict spidering to the specified subdomain.
        * @param {string} [options.apiUrl] Full Diffbot API URL through which to process pages. E.g., &apiUrl=https://api.diffbot.com/v3/article to process matching links via the Article API. The Diffbot API URL can include querystring parameters to tailor the output. For example, &apiUrl=https://api.diffbot.com/v3/product?fields=querystring,meta will process matching links using the Product API, and also return the querystring and meta fields. Uses the Analyze API (Smart Processing) by default.
+       * @param {string} [options.urlCrawlPattern] Specify ||-separated strings to limit pages crawled to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. !product to exclude URLs containing the string "product," and the ^ and $ characters to limit matches to the beginning or end of the URL. The use of a urlCrawlPattern will allow Crawlbot to spider outside of the seed domain; it will follow all matching URLs regardless of domain.
+       * @param {string} [options.urlCrawlRegEx] Specify a regular expression to limit pages crawled to those URLs that contain a match to your expression. This will override any urlCrawlPattern value.
+       * @param {string} [options.urlProcessPattern] Specify ||-separated strings to limit pages processed to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. !/category to exclude URLs containing the string "/category," and the ^ and $ characters to limit matches to the beginning or end of the URL.
+       * @param {string} [options.urlProcessRegEx] Specify a regular expression to limit pages processed to those URLs that contain a match to your expression. This will override any urlProcessPattern value.
+       * @param {string} [options.pageProcessPattern] Specify ||-separated strings to limit pages processed to those whose HTML contains any of the content strings.
        * @param {boolean} [options.useCanonical] Pass useCanonical=false to disable deduplication of pages based on a canonical link definition.
+       * @param {boolean} [options.obeyRobots] Pass obeyRobots=false to ignore a site's robots.txt instructions.
+       * @param {boolean} [options.restrictDomain] Pass restrictDomain=false to allow limited crawling across subdomains/domains. See more here: https://docs.diffbot.com/docs/en/guides-restrict-domain.
+       * @param {boolean} [options.useProxies] Set value to true to force the use of proxy IPs for the crawl. This will utilize proxy servers for both crawling and processing of pages.
        * @param {number} [options.maxHops] Specify the depth of your crawl. A maxHops=0 will limit processing to the seed URL(s) only -- no other links will be processed; maxHops=1 will process all (otherwise matching) pages whose links appear on seed URL(s); maxHops=2 will process pages whose links appear on those pages; and so on. By default (maxHops=-1) Crawlbot will crawl and process links at any depth.
        * @param {number} [options.maxToCrawl] Specify max pages to spider. Default: 100,000.
        * @param {number} [options.maxToProcess] Specify max pages to process through Diffbot APIs. Default: 100,000.
+       * @param {number} [options.maxToCrawlPerSubdomain] Specify max pages to spider per subdomain. Default: no limit (-1)
+       * @param {number} [options.maxToProcessPerSubdomain] Specify max pages to process per subdomain. Default: no limit (-1)
+       * @param {string} [options.notifyEmail] Send a message to this email address when the crawl hits the maxToCrawl or maxToProcess limit, or when the crawl completes.
        * @param {string} [options.notifyWebhook] Pass a URL to be notified when the crawl hits the maxToCrawl or maxToProcess limit, or when the crawl completes. You will receive a POST with X-Crawl-Name and X-Crawl-Status in the headers, and the job's JSON metadata in the POST body. Note that in webhook POSTs the parent jobs will not be sent—only the individual job object will be returned.
+       * @param {number} [options.crawlDelay] Wait this many seconds between each URL crawled from a single IP address. Specify the number of seconds as an integer or floating-point number (e.g., crawlDelay=0.25).
+       * @param {number} [options.repeat] Specify the number of days as a floating-point (e.g. repeat=7.0) to repeat this crawl. By default crawls will not be repeated.
+       * @param {number} [options.seedRecrawlFrequency] Useful for specifying a frequency, in number of days, to recrawl seed urls, which is independent of the overall recrawl frequency given by repeat. Defaults to seedRecrawlFrequency=-1 to use the default frequency.
+       * @param {boolean} [options.onlyProcessIfNew] By default repeat crawls will only process new (previously unprocessed) pages. Set to false to process all content on repeat crawls.
+       * @param {number} [options.maxRounds] Specify the maximum number of crawl repeats. By default (maxRounds=0) repeating crawls will continue indefinitely.
        * @returns {Object} The response and crawl job objects
        */
       new: function(options) {
@@ -426,8 +448,35 @@ class Diffbot {
         else
           diffbot_url += `&apiUrl=${encodeURIComponent('https://api.diffbot.com/v3/analyze?mode=auto')}`;
 
+        // TODO: Do I need to uri encode all patterns/regexes?
+        if (options.urlCrawlPattern)
+          diffbot_url += `&urlCrawlPattern=${encodeURIComponent(options.urlCrawlPattern)}`;
+
+        if (options.urlCrawlRegEx)
+          diffbot_url += `&urlCrawlRegEx=${encodeURIComponent(options.urlCrawlRegEx)}`;
+
+        if (options.urlProcessPattern)
+          diffbot_url += `&urlProcessPattern=${encodeURIComponent(options.urlProcessPattern)}`;
+
+        if (options.urlProcessRegEx)
+          diffbot_url += `&urlProcessRegEx=${encodeURIComponent(options.urlProcessRegEx)}`;
+
+        if (options.pageProcessPattern)
+          diffbot_url += `&pageProcessPattern=${encodeURIComponent(options.pageProcessPattern)}`;
+
+        // TODO: add support for customHeaders
+
         if (options.useCanonical != undefined)
           diffbot_url += `&useCanonical=${+options.useCanonical}`;
+
+        if (options.obeyRobots != undefined)
+          diffbot_url += `&obeyRobots=${+options.obeyRobots}`;
+
+        if (options.restrictDomain != undefined)
+          diffbot_url += `&restrictDomain=${+options.restrictDomain}`;
+
+        if (options.useProxies != undefined)
+          diffbot_url += `&useProxies=${+options.useProxies}`;
 
         if (options.maxHops != undefined)
           diffbot_url += `&maxHops=${options.maxHops}`;
@@ -438,12 +487,32 @@ class Diffbot {
         if (options.maxToProcess != undefined)
           diffbot_url += `&maxToProcess=${options.maxToProcess}`;
 
+        if (options.maxToCrawlPerSubdomain != undefined)
+          diffbot_url += `&maxToCrawlPerSubdomain=${options.maxToCrawlPerSubdomain}`;
+
+        if (options.maxToProcessPerSubdomain != undefined)
+          diffbot_url += `&maxToProcessPerSubdomain=${options.maxToProcessPerSubdomain}`;
+
+        if (options.notifyEmail)
+          diffbot_url += `&notifyEmail=${encodeURIComponent(options.notifyEmail)}`;
+
         if (options.notifyWebhook)
           diffbot_url += `&notifyWebhook=${encodeURIComponent(options.notifyWebhook)}`;
 
-        // TODO: add supprt for the other optional params
-        // urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern
-        // and possibly some of the others (https://docs.diffbot.com/docs/en/api-crawlbot-api)
+        if (options.crawlDelay != undefined)
+          diffbot_url += `&crawlDelay=${options.crawlDelay}`;
+
+        if (options.repeat != undefined)
+          diffbot_url += `&repeat=${options.repeat}`;
+
+        if (options.seedRecrawlFrequency != undefined)
+          diffbot_url += `&seedRecrawlFrequency=${options.seedRecrawlFrequency}`;
+
+        if (options.onlyProcessIfNew != undefined)
+          diffbot_url += `&onlyProcessIfNew=${+options.onlyProcessIfNew}`;
+
+        if (options.maxRounds != undefined)
+          diffbot_url += `&maxRounds=${options.maxRounds}`;
 
         let req = request.generate(diffbot_url, 'POST');
         let ret = this.test ? req : request.exec(req);

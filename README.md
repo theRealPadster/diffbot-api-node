@@ -21,7 +21,7 @@ Currently supports the following features:
 * [Video](#video-api) (with HTML POST support)
 * [Knowledge Graph](#knowledge-graph-api)
 * [Crawl](#crawl-api)
-  * New (supported params: `name`, `seeds`, `apiUrl`, `useCanonical`, `maxHops`, `maxToCrawl`, `maxToProcess`, `notifyWebhook`)
+  * New (all params supported except `customHeaders`)
   * Get (retrieve crawl job results)
   * Details (retrieve crawl job details)
   * Pause

@@ -11,15 +11,31 @@ describe('Crawl Tests', function() {
 
     it('should generate the new crawl request', async () => {
 
+      const urlCrawlPattern = '!product||sandwich';
+      const urlCrawlRegEx = 'product';
+      const urlProcessPattern = '!/category';
+      const urlProcessRegEx = '/products';
+      const pageProcessPattern = 'sandwich';
       const useCanonical = false;
+      const obeyRobots = false;
+      const restrictDomain = false;
+      const useProxies = true;
       const maxHops = 0;
       const maxToCrawl = 1000;
       const maxToProcess = 100;
+      const maxToCrawlPerSubdomain = 500;
+      const maxToProcessPerSubdomain = 50;
+      const notifyEmail = 'foo@bar.com';
       const notifyWebhook = 'https://foo.com/webhook';
+      const crawlDelay = 0.25;
+      const repeat = 7.0;
+      const seedRecrawlFrequency = 2;
+      const onlyProcessIfNew = false;
+      const maxRounds = 10;
 
-      const request = await diffbot.crawl().new({ name, seeds, apiUrl, useCanonical, maxHops, maxToCrawl, maxToProcess, notifyWebhook });
+      const request = await diffbot.crawl().new({ name, seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, useCanonical, obeyRobots, restrictDomain, useProxies, maxHops, maxToCrawl, maxToProcess, maxToCrawlPerSubdomain, maxToProcessPerSubdomain, notifyEmail, notifyWebhook, crawlDelay, repeat, seedRecrawlFrequency, onlyProcessIfNew, maxRounds });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&seeds=${encodeURIComponent(seeds.join(' '))}&apiUrl=${encodeURIComponent(apiUrl)}&useCanonical=${+useCanonical}&maxHops=${maxHops}&maxToCrawl=${maxToCrawl}&maxToProcess=${maxToProcess}&notifyWebhook=${encodeURIComponent(notifyWebhook)}`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&seeds=${encodeURIComponent(seeds.join(' '))}&apiUrl=${encodeURIComponent(apiUrl)}&urlCrawlPattern=${encodeURIComponent(urlCrawlPattern)}&urlCrawlRegEx=${encodeURIComponent(urlCrawlRegEx)}&urlProcessPattern=${encodeURIComponent(urlProcessPattern)}&urlProcessRegEx=${encodeURIComponent(urlProcessRegEx)}&pageProcessPattern=${encodeURIComponent(pageProcessPattern)}&useCanonical=${+useCanonical}&obeyRobots=${+obeyRobots}&restrictDomain=${+restrictDomain}&useProxies=${+useProxies}&maxHops=${maxHops}&maxToCrawl=${maxToCrawl}&maxToProcess=${maxToProcess}&maxToCrawlPerSubdomain=${maxToCrawlPerSubdomain}&maxToProcessPerSubdomain=${maxToProcessPerSubdomain}&notifyEmail=${encodeURIComponent(notifyEmail)}&notifyWebhook=${encodeURIComponent(notifyWebhook)}&crawlDelay=${crawlDelay}&repeat=${repeat}&seedRecrawlFrequency=${seedRecrawlFrequency}&onlyProcessIfNew=${+onlyProcessIfNew}&maxRounds=${maxRounds}`);
       expect(request.method).to.equal('POST');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;

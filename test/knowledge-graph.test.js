@@ -2,8 +2,9 @@ const { diffbot, expect, FAKE_TOKEN } = require('./global');
 
 describe('Knowledge Graph Tests', function() {
 
+  const query = 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}';
+
   it('should generate the knowledge graph GET request', async () => {
-    const query = 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}';
     const type = 'query';
     const size = 100;
     const from = 1;
@@ -17,6 +18,24 @@ describe('Knowledge Graph Tests', function() {
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;
+
+    return Promise.resolve(true);
+  });
+
+  it('should error on knowledge graph request with no query', async () => {
+
+    expect(() => {
+      return diffbot.knowledgeGraph({});
+    }).to.throw('missing query');
+
+    return Promise.resolve(true);
+  });
+
+  it('should error on knowledge graph request with invalid jsonmode', async () => {
+
+    expect(() => {
+      return diffbot.knowledgeGraph({ query, jsonmode: 'json' });
+    }).to.throw('invalid jsonmode');
 
     return Promise.resolve(true);
   });

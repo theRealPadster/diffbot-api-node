@@ -1,4 +1,4 @@
-const { diffbot, expect, FAKE_TOKEN } = require('./global');
+const { diffbot, expect } = require('./global');
 
 describe('Event Tests', function() {
 
@@ -13,7 +13,7 @@ describe('Event Tests', function() {
 
     let request = await diffbot.event({ url, fields, timeout, callback, proxy, proxyAuth });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/event?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/event?token=${diffbot.token}&url=${encodeURIComponent(url)}&fields=${fields.join(',')}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;
@@ -41,7 +41,7 @@ describe('Event Tests', function() {
 
     let request = await diffbot.event({ url, customJS });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/event?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/event?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object');
@@ -55,7 +55,7 @@ describe('Event Tests', function() {
 
     const request = await diffbot.event({ url, body });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/event?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/event?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
     expect(request.method).to.equal('POST');
     expect(request.body).to.equal(body);
     expect(request.headers).to.be.an('object');

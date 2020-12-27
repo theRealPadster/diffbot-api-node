@@ -1,4 +1,4 @@
-const { diffbot, expect, FAKE_TOKEN } = require('./global');
+const { diffbot, expect } = require('./global');
 
 const name = 'testcrawl';
 const seeds = ['https://example.com','https://google.com'];
@@ -35,7 +35,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().new({ name, seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, useCanonical, obeyRobots, restrictDomain, useProxies, maxHops, maxToCrawl, maxToProcess, maxToCrawlPerSubdomain, maxToProcessPerSubdomain, notifyEmail, notifyWebhook, crawlDelay, repeat, seedRecrawlFrequency, onlyProcessIfNew, maxRounds });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&seeds=${encodeURIComponent(seeds.join(' '))}&apiUrl=${encodeURIComponent(apiUrl)}&urlCrawlPattern=${encodeURIComponent(urlCrawlPattern)}&urlCrawlRegEx=${encodeURIComponent(urlCrawlRegEx)}&urlProcessPattern=${encodeURIComponent(urlProcessPattern)}&urlProcessRegEx=${encodeURIComponent(urlProcessRegEx)}&pageProcessPattern=${encodeURIComponent(pageProcessPattern)}&useCanonical=${+useCanonical}&obeyRobots=${+obeyRobots}&restrictDomain=${+restrictDomain}&useProxies=${+useProxies}&maxHops=${maxHops}&maxToCrawl=${maxToCrawl}&maxToProcess=${maxToProcess}&maxToCrawlPerSubdomain=${maxToCrawlPerSubdomain}&maxToProcessPerSubdomain=${maxToProcessPerSubdomain}&notifyEmail=${encodeURIComponent(notifyEmail)}&notifyWebhook=${encodeURIComponent(notifyWebhook)}&crawlDelay=${crawlDelay}&repeat=${repeat}&seedRecrawlFrequency=${seedRecrawlFrequency}&onlyProcessIfNew=${+onlyProcessIfNew}&maxRounds=${maxRounds}`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${diffbot.token}&name=${encodeURIComponent(name)}&seeds=${encodeURIComponent(seeds.join(' '))}&apiUrl=${encodeURIComponent(apiUrl)}&urlCrawlPattern=${encodeURIComponent(urlCrawlPattern)}&urlCrawlRegEx=${encodeURIComponent(urlCrawlRegEx)}&urlProcessPattern=${encodeURIComponent(urlProcessPattern)}&urlProcessRegEx=${encodeURIComponent(urlProcessRegEx)}&pageProcessPattern=${encodeURIComponent(pageProcessPattern)}&useCanonical=${+useCanonical}&obeyRobots=${+obeyRobots}&restrictDomain=${+restrictDomain}&useProxies=${+useProxies}&maxHops=${maxHops}&maxToCrawl=${maxToCrawl}&maxToProcess=${maxToProcess}&maxToCrawlPerSubdomain=${maxToCrawlPerSubdomain}&maxToProcessPerSubdomain=${maxToProcessPerSubdomain}&notifyEmail=${encodeURIComponent(notifyEmail)}&notifyWebhook=${encodeURIComponent(notifyWebhook)}&crawlDelay=${crawlDelay}&repeat=${repeat}&seedRecrawlFrequency=${seedRecrawlFrequency}&onlyProcessIfNew=${+onlyProcessIfNew}&maxRounds=${maxRounds}`);
       expect(request.method).to.equal('POST');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;
@@ -47,7 +47,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().new({ name, seeds });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&seeds=${encodeURIComponent(seeds.join(' '))}&apiUrl=${encodeURIComponent(apiUrl)}`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${diffbot.token}&name=${encodeURIComponent(name)}&seeds=${encodeURIComponent(seeds.join(' '))}&apiUrl=${encodeURIComponent(apiUrl)}`);
       expect(request.method).to.equal('POST');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;
@@ -84,7 +84,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().get({ name, format, type, num });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl/data?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&format=${encodeURIComponent(format)}&type=${encodeURIComponent(type)}&num=${num}`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl/data?token=${diffbot.token}&name=${encodeURIComponent(name)}&format=${encodeURIComponent(format)}&type=${encodeURIComponent(type)}&num=${num}`);
       expect(request.method).to.equal('GET');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;
@@ -126,7 +126,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().pause({ name });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&pause=1`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${diffbot.token}&name=${encodeURIComponent(name)}&pause=1`);
       expect(request.method).to.equal('POST');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;
@@ -150,7 +150,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().resume({ name });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&pause=0`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${diffbot.token}&name=${encodeURIComponent(name)}&pause=0`);
       expect(request.method).to.equal('POST');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;
@@ -174,7 +174,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().restart({ name });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&restart=1`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${diffbot.token}&name=${encodeURIComponent(name)}&restart=1`);
       expect(request.method).to.equal('POST');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;
@@ -198,7 +198,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().delete({ name });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}&delete=1`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${diffbot.token}&name=${encodeURIComponent(name)}&delete=1`);
       expect(request.method).to.equal('POST');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;
@@ -222,7 +222,7 @@ describe('Crawl Tests', function() {
 
       const request = await diffbot.crawl().details({ name });
 
-      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${FAKE_TOKEN}&name=${encodeURIComponent(name)}`);
+      expect(request.url).to.equal(`https://api.diffbot.com/v3/crawl?token=${diffbot.token}&name=${encodeURIComponent(name)}`);
       expect(request.method).to.equal('GET');
       expect(request.body).to.be.undefined;
       expect(request.headers).to.be.an('object').that.is.empty;

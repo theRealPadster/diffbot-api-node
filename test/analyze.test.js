@@ -1,4 +1,4 @@
-const { diffbot, expect, FAKE_TOKEN } = require('./global');
+const { diffbot, expect } = require('./global');
 
 describe('Analyze Tests', function() {
 
@@ -15,7 +15,7 @@ describe('Analyze Tests', function() {
 
     let request = await diffbot.analyze({ url, mode, fallback, fields, discussion, timeout, callback, proxy, proxyAuth });
 
-    expect(request.url).to.equal(`https://api.diffbot.com/v3/analyze?token=${FAKE_TOKEN}&url=${encodeURIComponent(url)}&mode=${mode}&fallback=${fallback}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/analyze?token=${diffbot.token}&url=${encodeURIComponent(url)}&mode=${mode}&fallback=${fallback}&fields=${fields.join(',')}&discussion=${discussion}&timeout=${timeout}&callback=${callback}&proxy=${proxy}&proxyAuth=${proxyAuth}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

@@ -25,6 +25,7 @@
   "license": "MIT",
   "main": "src/diffbot.js",
   "scripts": {
+    "generate-types": "tsc",
     "test": "nyc mocha test/**/*.test.js",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
@@ -35,6 +36,7 @@
     "codecov": "^3.8.2",
     "eslint": "^7.28.0",
     "mocha": "^9.0.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "typescript": "^4.3.5"
   }
 }

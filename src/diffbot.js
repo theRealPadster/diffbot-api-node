@@ -43,7 +43,7 @@ class Diffbot {
 
     if (options.fields)
       diffbot_url += `&fields=${options.fields.join(',')}`;
-    
+
     // Use of `paging` for the analyze endpoint is undocumented, but does work and was recommended by Diffbot support
     // See: https://github.com/theRealPadster/diffbot-api-node/issues/16
     if (options.paging != undefined)
@@ -76,7 +76,7 @@ class Diffbot {
    * Execute an article API call
    * @param {Object} options The search options
    * @param {string} [options.url] Web page URL of the article to process (required unless posting plain text)
-   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API.
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API. See fields: https://www.diffbot.com/dev/docs/article/#fields
    * @param {boolean} [options.paging] Pass paging=false to disable automatic concatenation of multiple-page articles. (By default, Diffbot will concatenate up to 20 pages of a single article.)
    * @param {number} [options.maxTags] Set the maximum number of automatically-generated tags to return. By default a maximum of ten tags will be returned.
    * @param {number} [options.tagConfidence] Set the minimum relevance score of tags to return, between 0.0 and 1.0. By default only tags with a score equal to or above 0.5 will be returned.
@@ -276,7 +276,7 @@ class Diffbot {
    * Execute a product API call
    * @param {Object} options The search options
    * @param {string} options.url Web page URL of the product to process
-   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Product API.
+   * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Product API. See fields: https://www.diffbot.com/dev/docs/product/#fields
    * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of product reviews.
    * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
    * @param {string} [options.callback] Use for jsonp requests. Needed for cross-domain ajax.

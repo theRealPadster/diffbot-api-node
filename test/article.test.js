@@ -25,6 +25,36 @@ describe('Article Tests', function() {
     return Promise.resolve(true);
   });
 
+  it('should generate the article GET request with custom JS', async () => {
+    const url = 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order';
+    function start(){};
+    function end(){};
+    const customJS = function() {
+      start();
+      setTimeout(function() {
+        var loadMoreNode = document.querySelector('a.loadMore');
+        if (loadMoreNode != null) {
+          loadMoreNode.click();
+          setTimeout(function() {
+            end();
+          }, 800);
+        } else {
+          end();
+        }
+      }, 500);
+    }.toString();
+
+    let request = await diffbot.article({ url, customJS });
+
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
+    expect(request.method).to.equal('GET');
+    expect(request.body).to.be.undefined;
+    expect(request.headers).to.be.an('object');
+    expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+
+    return Promise.resolve(true);
+  });
+
   it('should generate the article POST request', async () => {
     const body = 'Now is the time for all good robots to come to the aid of their-- oh never mind, run!';
 

@@ -21,6 +21,36 @@ describe('Discussion Tests', function() {
     return Promise.resolve(true);
   });
 
+  it('should generate the discussion GET request with custom JS', async () => {
+    const url = 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order';
+    function start(){};
+    function end(){};
+    const customJS = function() {
+      start();
+      setTimeout(function() {
+        var loadMoreNode = document.querySelector('a.loadMore');
+        if (loadMoreNode != null) {
+          loadMoreNode.click();
+          setTimeout(function() {
+            end();
+          }, 800);
+        } else {
+          end();
+        }
+      }, 500);
+    }.toString();
+
+    let request = await diffbot.discussion({ url, customJS });
+
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/discussion?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
+    expect(request.method).to.equal('GET');
+    expect(request.body).to.be.undefined;
+    expect(request.headers).to.be.an('object');
+    expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+
+    return Promise.resolve(true);
+  });
+
   it('should generate the discussion POST request', async () => {
     const url = 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order';
     const body = '<html><body><h1>Article title</h1><div><h2>Person 1</h2><p>Blah blah</p></div><div><h2>Person 2</h2><p>Hah hah</p></div></body></html>';

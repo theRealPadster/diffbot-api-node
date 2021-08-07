@@ -20,6 +20,36 @@ describe('Video Tests', function() {
     return Promise.resolve(true);
   });
 
+  it('should generate the video GET request with custom JS', async () => {
+    const url = 'https://www.youtube.com/watch?v=HeiPdaTQTfo';
+    function start(){};
+    function end(){};
+    const customJS = function() {
+      start();
+      setTimeout(function() {
+        var loadMoreNode = document.querySelector('a.loadMore');
+        if (loadMoreNode != null) {
+          loadMoreNode.click();
+          setTimeout(function() {
+            end();
+          }, 800);
+        } else {
+          end();
+        }
+      }, 500);
+    }.toString();
+
+    let request = await diffbot.video({ url, customJS });
+
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
+    expect(request.method).to.equal('GET');
+    expect(request.body).to.be.undefined;
+    expect(request.headers).to.be.an('object');
+    expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+
+    return Promise.resolve(true);
+  });
+
   it('should generate the video POST request', async () => {
     const url = 'https://www.youtube.com/watch?v=HeiPdaTQTfo';
     const body = '<html><body><video><source src="movie.mp4" type="video/mp4"></video></body></html>';

@@ -20,6 +20,36 @@ describe('Image Tests', function() {
     return Promise.resolve(true);
   });
 
+  it('should generate the image GET request with custom JS', async () => {
+    const url = 'https://www.deviantart.com/up-tchi/art/Coral-village-852927725';
+    function start(){};
+    function end(){};
+    const customJS = function() {
+      start();
+      setTimeout(function() {
+        var loadMoreNode = document.querySelector('a.loadMore');
+        if (loadMoreNode != null) {
+          loadMoreNode.click();
+          setTimeout(function() {
+            end();
+          }, 800);
+        } else {
+          end();
+        }
+      }, 500);
+    }.toString();
+
+    let request = await diffbot.image({ url, customJS });
+
+    expect(request.url).to.equal(`https://api.diffbot.com/v3/image?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
+    expect(request.method).to.equal('GET');
+    expect(request.body).to.be.undefined;
+    expect(request.headers).to.be.an('object');
+    expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+
+    return Promise.resolve(true);
+  });
+
   it('should generate the image POST request', async () => {
     const url = 'https://www.google.com/';
     const body = '<html><body><h2>This is the Google logo</h2><div><img src="images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"></div></body></html>';

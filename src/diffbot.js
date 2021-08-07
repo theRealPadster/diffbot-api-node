@@ -26,6 +26,7 @@ class Diffbot {
    * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
    * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-javascript
    * @returns {Object} The analyze query results
    */
   analyze(options) {
@@ -43,7 +44,7 @@ class Diffbot {
 
     if (options.fields)
       diffbot_url += `&fields=${options.fields.join(',')}`;
-    
+
     // Use of `paging` for the analyze endpoint is undocumented, but does work and was recommended by Diffbot support
     // See: https://github.com/theRealPadster/diffbot-api-node/issues/16
     if (options.paging != undefined)
@@ -66,7 +67,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    let req = request.generate(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body,
+      options.customJS ? { // strip out newlines and whitespace
+        'X-Forward-X-Evaluate': options.customJS.replace(/(\r?\n|\r)\s+/g, ''),
+      } : null);
     let ret = this.test ? req : request.exec(req);
 
     return ret;
@@ -87,6 +91,7 @@ class Diffbot {
    * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string[]} [options.naturalLanguage] Used to request the output of the Diffbot Natural Language API in the field naturalLanguage. Example: &naturalLanguage=entities,facts,categories,sentiment.
    * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-article#custom-javascript
    * @returns {Object} The article query results
    */
   article(options) {
@@ -132,7 +137,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    let req = request.generate(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body,
+      options.customJS ? { // strip out newlines and whitespace
+        'X-Forward-X-Evaluate': options.customJS.replace(/(\r?\n|\r)\s+/g, ''),
+      } : null);
     let ret = this.test ? req : request.exec(req);
 
     return ret;
@@ -149,6 +157,7 @@ class Diffbot {
    * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
    * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-discussion#custom-javascript
    * @returns {Object} The discussion query results
    */
   discussion(options) {
@@ -178,7 +187,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    let req = request.generate(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body,
+      options.customJS ? { // strip out newlines and whitespace
+        'X-Forward-X-Evaluate': options.customJS.replace(/(\r?\n|\r)\s+/g, ''),
+      } : null);
     let ret = this.test ? req : request.exec(req);
 
     return ret;
@@ -240,6 +252,7 @@ class Diffbot {
    * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
    * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-image#custom-javascript
    * @returns {Object} The image query results
    */
   image(options) {
@@ -266,7 +279,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    let req = request.generate(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body,
+      options.customJS ? { // strip out newlines and whitespace
+        'X-Forward-X-Evaluate': options.customJS.replace(/(\r?\n|\r)\s+/g, ''),
+      } : null);
     let ret = this.test ? req : request.exec(req);
 
     return ret;
@@ -283,6 +299,7 @@ class Diffbot {
    * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
    * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-product#custom-javascript
    * @returns {Object} The product query results
    */
   product(options) {
@@ -312,7 +329,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    let req = request.generate(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body,
+      options.customJS ? { // strip out newlines and whitespace
+        'X-Forward-X-Evaluate': options.customJS.replace(/(\r?\n|\r)\s+/g, ''),
+      } : null);
     let ret = this.test ? req : request.exec(req);
 
     return ret;
@@ -328,6 +348,7 @@ class Diffbot {
    * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
    * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
    * @param {string} [options.body] Optional HTML markup to pass as POST body
+   * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-video#custom-javascript
    * @returns {Object} The video query results
    */
   video(options) {
@@ -354,7 +375,10 @@ class Diffbot {
 
     const method = options.body ? 'POST' : 'GET';
 
-    let req = request.generate(diffbot_url, method, options.body);
+    let req = request.generate(diffbot_url, method, options.body,
+      options.customJS ? { // strip out newlines and whitespace
+        'X-Forward-X-Evaluate': options.customJS.replace(/(\r?\n|\r)\s+/g, ''),
+      } : null);
     let ret = this.test ? req : request.exec(req);
 
     return ret;

@@ -130,7 +130,6 @@ Diffbot documentation: https://www.diffbot.com/dev/docs/video/
 ### Knowledge Graph API
 Diffbot documentation: https://docs.diffbot.com/kgapi
 ```javascript
-  // Knowledge Graph
   let kg = await diffbot.knowledgeGraph({
     query: 'type:LocalBusiness location.{country.name:"Canada" city.name:"Ottawa" isCurrent:true}'
   });

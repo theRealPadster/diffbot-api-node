@@ -22,6 +22,7 @@ declare class Diffbot {
      * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
+     * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-javascript
      * @returns {Object} The analyze query results
      */
     analyze(options: {
@@ -36,6 +37,7 @@ declare class Diffbot {
         proxy?: string;
         proxyAuth?: string;
         body?: string;
+        customJS?: string;
     }): any;
     /**
      * Execute an article API call
@@ -52,6 +54,7 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string[]} [options.naturalLanguage] Used to request the output of the Diffbot Natural Language API in the field naturalLanguage. Example: &naturalLanguage=entities,facts,categories,sentiment.
      * @param {string} [options.body] Optional HTML markup to pass as POST body
+     * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-article#custom-javascript
      * @returns {Object} The article query results
      */
     article(options: {
@@ -67,6 +70,7 @@ declare class Diffbot {
         proxyAuth?: string;
         naturalLanguage?: string[];
         body?: string;
+        customJS?: string;
     }): any;
     /**
      * Execute a discussion API call
@@ -79,6 +83,7 @@ declare class Diffbot {
      * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
+     * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-discussion#custom-javascript
      * @returns {Object} The discussion query results
      */
     discussion(options: {
@@ -90,6 +95,7 @@ declare class Diffbot {
         proxy?: string;
         proxyAuth?: string;
         body?: string;
+        customJS?: string;
     }): any;
     /**
      * Execute an event API call
@@ -124,6 +130,7 @@ declare class Diffbot {
      * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
+     * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-image#custom-javascript
      * @returns {Object} The image query results
      */
     image(options: {
@@ -134,6 +141,7 @@ declare class Diffbot {
         proxy?: string;
         proxyAuth?: string;
         body?: string;
+        customJS?: string;
     }): any;
     /**
      * Execute a product API call
@@ -146,6 +154,7 @@ declare class Diffbot {
      * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
+     * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-product#custom-javascript
      * @returns {Object} The product query results
      */
     product(options: {
@@ -157,6 +166,7 @@ declare class Diffbot {
         proxy?: string;
         proxyAuth?: string;
         body?: string;
+        customJS?: string;
     }): any;
     /**
      * Execute a video API call
@@ -168,6 +178,7 @@ declare class Diffbot {
      * @param {string} [options.proxy] Used to specify the IP address of a custom proxy that will be used to fetch the target page, instead of Diffbot's default IPs/proxies. (Ex: &proxy=168.212.226.204)
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
+     * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-video#custom-javascript
      * @returns {Object} The video query results
      */
     video(options: {
@@ -178,6 +189,7 @@ declare class Diffbot {
         proxy?: string;
         proxyAuth?: string;
         body?: string;
+        customJS?: string;
     }): any;
     /**
      * Execute a query against the Knowledge Graph

@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, customJS } = require('./global');
 
 describe('Discussion Tests', function() {
 
@@ -23,22 +23,6 @@ describe('Discussion Tests', function() {
 
   it('should generate the discussion GET request with custom JS', async () => {
     const url = 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order';
-    function start(){};
-    function end(){};
-    const customJS = function() {
-      start();
-      setTimeout(function() {
-        var loadMoreNode = document.querySelector('a.loadMore');
-        if (loadMoreNode != null) {
-          loadMoreNode.click();
-          setTimeout(function() {
-            end();
-          }, 800);
-        } else {
-          end();
-        }
-      }, 500);
-    }.toString();
 
     let request = await diffbot.discussion({ url, customJS });
 

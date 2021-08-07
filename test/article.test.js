@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, customJS } = require('./global');
 
 describe('Article Tests', function() {
 
@@ -27,22 +27,6 @@ describe('Article Tests', function() {
 
   it('should generate the article GET request with custom JS', async () => {
     const url = 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order';
-    function start(){};
-    function end(){};
-    const customJS = function() {
-      start();
-      setTimeout(function() {
-        var loadMoreNode = document.querySelector('a.loadMore');
-        if (loadMoreNode != null) {
-          loadMoreNode.click();
-          setTimeout(function() {
-            end();
-          }, 800);
-        } else {
-          end();
-        }
-      }, 500);
-    }.toString();
 
     let request = await diffbot.article({ url, customJS });
 

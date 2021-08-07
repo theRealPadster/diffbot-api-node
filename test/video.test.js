@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, customJS } = require('./global');
 
 describe('Video Tests', function() {
 
@@ -22,22 +22,6 @@ describe('Video Tests', function() {
 
   it('should generate the video GET request with custom JS', async () => {
     const url = 'https://www.youtube.com/watch?v=HeiPdaTQTfo';
-    function start(){};
-    function end(){};
-    const customJS = function() {
-      start();
-      setTimeout(function() {
-        var loadMoreNode = document.querySelector('a.loadMore');
-        if (loadMoreNode != null) {
-          loadMoreNode.click();
-          setTimeout(function() {
-            end();
-          }, 800);
-        } else {
-          end();
-        }
-      }, 500);
-    }.toString();
 
     let request = await diffbot.video({ url, customJS });
 

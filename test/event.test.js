@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, customJS } = require('./global');
 
 describe('Event Tests', function() {
 
@@ -22,23 +22,6 @@ describe('Event Tests', function() {
   });
 
   it('should generate the event GET request with custom JS', async () => {
-    function start(){};
-    function end(){};
-    const customJS = function() {
-      start();
-      setTimeout(function() {
-        var loadMoreNode = document.querySelector('a.loadMore');
-        if (loadMoreNode != null) {
-          loadMoreNode.click();
-          setTimeout(function() {
-            end();
-          }, 800);
-        } else {
-          end();
-        }
-      }, 500);
-    }.toString();
-
     let request = await diffbot.event({ url, customJS });
 
     expect(request.url).to.equal(`https://api.diffbot.com/v3/event?token=${diffbot.token}&url=${encodeURIComponent(url)}`);

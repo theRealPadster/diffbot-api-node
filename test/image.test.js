@@ -1,4 +1,4 @@
-const { diffbot, expect } = require('./global');
+const { diffbot, expect, customJS } = require('./global');
 
 describe('Image Tests', function() {
 
@@ -22,22 +22,6 @@ describe('Image Tests', function() {
 
   it('should generate the image GET request with custom JS', async () => {
     const url = 'https://www.deviantart.com/up-tchi/art/Coral-village-852927725';
-    function start(){};
-    function end(){};
-    const customJS = function() {
-      start();
-      setTimeout(function() {
-        var loadMoreNode = document.querySelector('a.loadMore');
-        if (loadMoreNode != null) {
-          loadMoreNode.click();
-          setTimeout(function() {
-            end();
-          }, 800);
-        } else {
-          end();
-        }
-      }, 500);
-    }.toString();
 
     let request = await diffbot.image({ url, customJS });
 

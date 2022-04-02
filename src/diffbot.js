@@ -553,7 +553,7 @@ class Diffbot {
        * Download a Crawlbot crawl job's results
        * @param {Object} options The options
        * @param {string} options.name Name of the crawl whose data you wish to download.
-       * @param {format} [options.format] Request format=csv to download the extracted data in CSV format (default: json). Note that CSV files will only contain top-level fields.
+       * @param {string} [options.format] Request format=csv to download the extracted data in CSV format (default: json). Note that CSV files will only contain top-level fields.
        * @param {string} [options.type] Request type=urls to retrieve the crawl URL Report (CSV).
        * @param {number} [options.num] Pass an integer value (e.g. num=100) to request a subset of URLs, most recently crawled first.
        * @returns The crawl job's results

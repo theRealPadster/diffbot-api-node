@@ -3,11 +3,11 @@ const axios = require('axios');
 // TODO: figure out how to get JSDocs to work properly
 /**
  * Generate a simple request object
- * @typedef {Object} Request
+ * @typedef {object} Request
  * @param {string} url The URL
  * @param {string} method The HTTP method to use (defaults to GET)
  * @param {string} [body] Optional HTML markup or plaintext to pass as POST body
- * @param {Object} headers The request headers
+ * @param {object} headers The request headers
  */
 
 /**
@@ -15,16 +15,21 @@ const axios = require('axios');
  * @param {string} url The URL
  * @param {string} [method] The HTTP method to use (defaults to GET)
  * @param {string} [body] Optional HTML markup or plaintext to pass as POST body
- * @param {Object} [customHeaders] Optional additional request headers object
+ * @param {object} [customHeaders] Optional additional request headers object
  * @returns {Request} The request object
  */
 exports.generate = function(url, method = 'GET', body, customHeaders) {
-  let headers = { ...customHeaders };
+  // Add 'X-Forward-' to all the custom headers
+  const headers = Object.entries({...customHeaders}).reduce((acc, [key, value]) => {
+    acc['X-Forward-' + key] = value;
+    return acc;
+  }, {});
+
   if (body) {
     if (body.startsWith('<'))
-      headers = { 'Content-Type': 'text/html' };
+      headers['Content-Type'] = 'text/html';
     else
-      headers = { 'Content-Type': 'text/plain' };
+      headers['Content-Type'] = 'text/plain';
   }
 
   return {

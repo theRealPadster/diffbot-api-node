@@ -24,3 +24,4 @@ const FAKE_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 exports.diffbot = new Diffbot(FAKE_TOKEN, true);
 exports.expect = chai.expect;
 exports.customJS = customJS.toString();
+exports.customHeaders = { 'User-Agent': 'Diffbot' };

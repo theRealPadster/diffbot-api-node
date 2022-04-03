@@ -1,4 +1,4 @@
-const { diffbot, expect, customJS } = require('./global');
+const { diffbot, expect, customJS, customHeaders } = require('./global');
 
 describe('Product Tests', function() {
 
@@ -35,14 +35,15 @@ describe('Product Tests', function() {
     return Promise.resolve(true);
   });
 
-  it('should generate the product GET request with custom JS', async () => {
-    let request = await diffbot.product({ url, customJS });
+  it('should generate the product GET request with custom headers', async () => {
+    let request = await diffbot.product({ url, customJS, customHeaders });
 
     expect(request.url).to.equal(`https://api.diffbot.com/v3/product?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object');
     expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+    expect(request.headers['X-Forward-User-Agent']).to.equal(customHeaders['User-Agent']);
 
     return Promise.resolve(true);
   });

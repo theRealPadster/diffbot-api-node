@@ -1,4 +1,4 @@
-const { diffbot, expect, customJS } = require('./global');
+const { diffbot, expect, customJS, customHeaders } = require('./global');
 
 describe('Image Tests', function() {
 
@@ -20,16 +20,17 @@ describe('Image Tests', function() {
     return Promise.resolve(true);
   });
 
-  it('should generate the image GET request with custom JS', async () => {
+  it('should generate the image GET request with custom headers', async () => {
     const url = 'https://www.deviantart.com/up-tchi/art/Coral-village-852927725';
 
-    let request = await diffbot.image({ url, customJS });
+    let request = await diffbot.image({ url, customJS, customHeaders });
 
     expect(request.url).to.equal(`https://api.diffbot.com/v3/image?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object');
     expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+    expect(request.headers['X-Forward-User-Agent']).to.equal(customHeaders['User-Agent']);
 
     return Promise.resolve(true);
   });

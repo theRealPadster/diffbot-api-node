@@ -57,7 +57,7 @@ declare class Diffbot {
      * @param {string[]} [options.naturalLanguage] Used to request the output of the Diffbot Natural Language API in the field naturalLanguage. Example: &naturalLanguage=entities,facts,categories,sentiment.
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-article#custom-javascript
-     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-headers
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-article#custom-headers
      * @returns {object} The article query results
      */
     article(options: {
@@ -88,7 +88,7 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-discussion#custom-javascript
-     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-headers
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-discussion#custom-headers
      * @returns {object} The discussion query results
      */
     discussion(options: {
@@ -114,7 +114,7 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-event#custom-javascript
-     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-headers
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-event#custom-headers
      * @returns {object} The analyze query results
      */
     event(options: {
@@ -139,7 +139,7 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-image#custom-javascript
-     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-headers
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-image#custom-headers
      * @returns {object} The image query results
      */
     image(options: {
@@ -165,7 +165,7 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-product#custom-javascript
-     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-headers
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-product#custom-headers
      * @returns {object} The product query results
      */
     product(options: {
@@ -191,7 +191,7 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-video#custom-javascript
-     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-headers
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-video#custom-headers
      * @returns {object} The video query results
      */
     video(options: {

@@ -1,4 +1,4 @@
-const { diffbot, expect, customJS } = require('./global');
+const { diffbot, expect, customJS, customHeaders } = require('./global');
 
 describe('Video Tests', function() {
 
@@ -20,16 +20,17 @@ describe('Video Tests', function() {
     return Promise.resolve(true);
   });
 
-  it('should generate the video GET request with custom JS', async () => {
+  it('should generate the video GET request with custom headers', async () => {
     const url = 'https://www.youtube.com/watch?v=HeiPdaTQTfo';
 
-    let request = await diffbot.video({ url, customJS });
+    let request = await diffbot.video({ url, customJS, customHeaders });
 
     expect(request.url).to.equal(`https://api.diffbot.com/v3/video?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object');
     expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+    expect(request.headers['X-Forward-User-Agent']).to.equal(customHeaders['User-Agent']);
 
     return Promise.resolve(true);
   });

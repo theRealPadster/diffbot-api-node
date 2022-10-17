@@ -12,13 +12,13 @@ Diffbot-API-Node is a Promise-based library to use the [Diffbot](https://www.dif
 ## Features
 
 Currently supports the following features:
-* [Analyze](#analyze-api) (with HTML POST support)
-* [Article](#article-api) (with HTML and plaintext POST support)
-* [Discussion](#discussion-api) (with HTML POST support)
-* [Event](#event-api-beta) (beta) (with HTML POST support)
-* [Image](#image-api) (with HTML POST support)
-* [Product](#product-api) (with HTML POST support)
-* [Video](#video-api) (with HTML POST support)
+* [Analyze](#analyze-api)
+* [Article](#article-api)
+* [Discussion](#discussion-api)
+* [Event](#event-api-beta) (beta)
+* [Image](#image-api)
+* [Product](#product-api)
+* [Video](#video-api)
 * [Knowledge Graph](#knowledge-graph-api)
 * [Crawl](#crawl-api)
   * New (all params supported except `customHeaders`)

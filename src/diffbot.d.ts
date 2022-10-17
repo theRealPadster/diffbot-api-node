@@ -10,7 +10,7 @@ declare class Diffbot {
     test: boolean;
     /**
      * Execute an analyze API call
-     * @param {Object} options The analyze options
+     * @param {object} options The analyze options
      * @param {string} options.url Web page URL of the analyze to process
      * @param {string} [options.mode] By default the Analyze API will fully extract all pages that match an existing Automatic API -- articles, products or image pages. Set mode to a specific page-type (e.g., mode=article) to extract content only from that specific page-type. All other pages will simply return the default Analyze fields.
      * @param {string} [options.fallback] Force any non-extracted pages (those with a type of "other") through a specific API. For example, to route all "other" pages through the Article API, pass &fallback=article. Pages that utilize this functionality will return a fallbackType field at the top-level of the response and a originalType field within each extracted object, both of which will indicate the fallback API used.
@@ -23,7 +23,8 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-javascript
-     * @returns {Object} The analyze query results
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-analyze#custom-headers
+     * @returns {object} The analyze query results
      */
     analyze(options: {
         url: string;
@@ -38,10 +39,11 @@ declare class Diffbot {
         proxyAuth?: string;
         body?: string;
         customJS?: string;
-    }): any;
+        customHeaders?: object;
+    }): object;
     /**
      * Execute an article API call
-     * @param {Object} options The search options
+     * @param {object} options The search options
      * @param {string} [options.url] Web page URL of the article to process (required unless posting plain text)
      * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Article API. See fields: https://www.diffbot.com/dev/docs/article/#fields
      * @param {boolean} [options.paging] Pass paging=false to disable automatic concatenation of multiple-page articles. (By default, Diffbot will concatenate up to 20 pages of a single article.)
@@ -55,7 +57,8 @@ declare class Diffbot {
      * @param {string[]} [options.naturalLanguage] Used to request the output of the Diffbot Natural Language API in the field naturalLanguage. Example: &naturalLanguage=entities,facts,categories,sentiment.
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-article#custom-javascript
-     * @returns {Object} The article query results
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-article#custom-headers
+     * @returns {object} The article query results
      */
     article(options: {
         url?: string;
@@ -71,10 +74,11 @@ declare class Diffbot {
         naturalLanguage?: string[];
         body?: string;
         customJS?: string;
-    }): any;
+        customHeaders?: object;
+    }): object;
     /**
      * Execute a discussion API call
-     * @param {Object} options The call options
+     * @param {object} options The call options
      * @param {string} options.url Web page URL of the discussion to process
      * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Discussion API. See fields: https://www.diffbot.com/dev/docs/discussion/#fields
      * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
@@ -84,7 +88,8 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-discussion#custom-javascript
-     * @returns {Object} The discussion query results
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-discussion#custom-headers
+     * @returns {object} The discussion query results
      */
     discussion(options: {
         url: string;
@@ -96,10 +101,11 @@ declare class Diffbot {
         proxyAuth?: string;
         body?: string;
         customJS?: string;
-    }): any;
+        customHeaders?: object;
+    }): object;
     /**
      * Execute an event API call
-     * @param {Object} options The event options
+     * @param {object} options The event options
      * @param {string} options.url Web page URL of the event to process
      * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Event API. See fields: https://docs.diffbot.com/docs/en/api-event
      * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
@@ -108,7 +114,8 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-event#custom-javascript
-     * @returns {Object} The analyze query results
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-event#custom-headers
+     * @returns {object} The analyze query results
      */
     event(options: {
         url: string;
@@ -119,10 +126,11 @@ declare class Diffbot {
         proxyAuth?: string;
         body?: string;
         customJS?: string;
-    }): any;
+        customHeaders?: object;
+    }): object;
     /**
      * Execute an image API call
-     * @param {Object} options The call options
+     * @param {object} options The call options
      * @param {string} options.url Web page URL of the image to process
      * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Image API. See fields: https://www.diffbot.com/dev/docs/image/#fields
      * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
@@ -131,7 +139,8 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-image#custom-javascript
-     * @returns {Object} The image query results
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-image#custom-headers
+     * @returns {object} The image query results
      */
     image(options: {
         url: string;
@@ -142,10 +151,11 @@ declare class Diffbot {
         proxyAuth?: string;
         body?: string;
         customJS?: string;
-    }): any;
+        customHeaders?: object;
+    }): object;
     /**
      * Execute a product API call
-     * @param {Object} options The search options
+     * @param {object} options The search options
      * @param {string} options.url Web page URL of the product to process
      * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Product API. See fields: https://www.diffbot.com/dev/docs/product/#fields
      * @param {boolean} [options.discussion] Pass discussion=false to disable automatic extraction of product reviews.
@@ -155,7 +165,8 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-product#custom-javascript
-     * @returns {Object} The product query results
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-product#custom-headers
+     * @returns {object} The product query results
      */
     product(options: {
         url: string;
@@ -167,10 +178,11 @@ declare class Diffbot {
         proxyAuth?: string;
         body?: string;
         customJS?: string;
-    }): any;
+        customHeaders?: object;
+    }): object;
     /**
      * Execute a video API call
-     * @param {Object} options The call options
+     * @param {object} options The call options
      * @param {string} options.url Web page URL of the video to process
      * @param {string[]} [options.fields] Used to specify optional fields to be returned by the Video API. See fields: https://www.diffbot.com/dev/docs/video/#fields
      * @param {number} [options.timeout] Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested URL. The default timeout for the third-party response is 30 seconds (30000).
@@ -179,7 +191,8 @@ declare class Diffbot {
      * @param {string} [options.proxyAuth] Used to specify the authentication parameters that will be used with the proxy specified in the &proxy parameter. (Ex: &proxyAuth=username:password)
      * @param {string} [options.body] Optional HTML markup to pass as POST body
      * @param {string} [options.customJS] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-video#custom-javascript
-     * @returns {Object} The video query results
+     * @param {object} [options.customHeaders] This functionality is currently in beta. See docs for details: https://docs.diffbot.com/docs/en/api-video#custom-headers
+     * @returns {object} The video query results
      */
     video(options: {
         url: string;
@@ -190,10 +203,11 @@ declare class Diffbot {
         proxyAuth?: string;
         body?: string;
         customJS?: string;
-    }): any;
+        customHeaders?: object;
+    }): object;
     /**
      * Execute a query against the Knowledge Graph
-     * @param {Object} options The search options
+     * @param {object} options The search options
      * @param {string} options.query The DQL knowledge base query
      * @param {string} [options.type] Type of search: "query", "text", or "queryTextFallback"
      * @param {number} [options.size] Max number of results in page
@@ -201,7 +215,7 @@ declare class Diffbot {
      * @param {string} [options.jsonmode] jsonmode=extended returns origin information for facts
      * @param {boolean} [options.nonCanonicalFacts] Return non-canonical facts. Default is no non-canonical facts.
      * @param {boolean} [options.noDedupArticles] Indicates that articles should not be deduplicated but all of them returned
-     * @returns {Object} The query results
+     * @returns {object} The query results
      */
     knowledgeGraph(options: {
         query: string;
@@ -211,13 +225,13 @@ declare class Diffbot {
         jsonmode?: string;
         nonCanonicalFacts?: boolean;
         noDedupArticles?: boolean;
-    }): any;
+    }): object;
     crawl(): {
         token: string;
         test: boolean;
         /**
          * Generate a new Crawlbot crawl job
-         * @param {Object} options The search options
+         * @param {object} options The search options
          * @param {string} options.name Job name. This should be a unique identifier and can be used to modify your crawl or retrieve its output.
          * @param {string[]} options.seeds Seed URL(s). If the seed contains a non-www subdomain ("http://blog.diffbot.com" or "http://support.diffbot.com") Crawlbot will restrict spidering to the specified subdomain.
          * @param {string} [options.apiUrl] Full Diffbot API URL through which to process pages. E.g., &apiUrl=https://api.diffbot.com/v3/article to process matching links via the Article API. The Diffbot API URL can include querystring parameters to tailor the output. For example, &apiUrl=https://api.diffbot.com/v3/product?fields=querystring,meta will process matching links using the Product API, and also return the querystring and meta fields. Uses the Analyze API (Smart Processing) by default.
@@ -242,7 +256,7 @@ declare class Diffbot {
          * @param {number} [options.seedRecrawlFrequency] Useful for specifying a frequency, in number of days, to recrawl seed urls, which is independent of the overall recrawl frequency given by repeat. Defaults to seedRecrawlFrequency=-1 to use the default frequency.
          * @param {boolean} [options.onlyProcessIfNew] By default repeat crawls will only process new (previously unprocessed) pages. Set to false to process all content on repeat crawls.
          * @param {number} [options.maxRounds] Specify the maximum number of crawl repeats. By default (maxRounds=0) repeating crawls will continue indefinitely.
-         * @returns {Object} The response and crawl job objects
+         * @returns {object} The response and crawl job objects
          */
         new: (options: {
             name: string;
@@ -269,10 +283,10 @@ declare class Diffbot {
             seedRecrawlFrequency?: number;
             onlyProcessIfNew?: boolean;
             maxRounds?: number;
-        }) => any;
+        }) => object;
         /**
          * Download a Crawlbot crawl job's results
-         * @param {Object} options The options
+         * @param {object} options The options
          * @param {string} options.name Name of the crawl whose data you wish to download.
          * @param {string} [options.format] Request format=csv to download the extracted data in CSV format (default: json). Note that CSV files will only contain top-level fields.
          * @param {string} [options.type] Request type=urls to retrieve the crawl URL Report (CSV).
@@ -311,17 +325,17 @@ declare class Diffbot {
         delete: (options: any) => any;
         /**
          * Get Crawlbot job details
-         * @param {Object} options The options
+         * @param {object} options The options
          * @param {string} [options.name] Name of crawl to retrieve.
-         * @returns {Object} This will return a JSON response of your token's crawls (and Bulk API) jobs in the jobs object. If you have specified a single job name, only one job's details will be returned.
+         * @returns {object} This will return a JSON response of your token's crawls (and Bulk API) jobs in the jobs object. If you have specified a single job name, only one job's details will be returned.
          */
         details: (options: {
             name?: string;
-        }) => any;
+        }) => object;
     };
     /**
      * Search a Crawlbot crawl job's results
-     * @param {Object} options The options
+     * @param {object} options The options
      * @param {string} options.name Name of the crawl whose data you wish to download.
      * @param {string} options.query Search query. Must be URL-encoded. Please see query operators: https://www.diffbot.com/dev/docs/search/#query
      * @param {number|string} [options.num] Number of results to return. Default is 20. To return all results in the search, pass num=all.
@@ -336,13 +350,13 @@ declare class Diffbot {
     }): any;
     /**
      * Execute an account API call
-     * @param {Object} options The account options
+     * @param {object} options The account options
      * @param {number} [options.days] Pass the number of days (&days=365) for which you would like to retrieve API call volumes (default = 31).
      * @param {boolean} [options.invoices] Pass &invoices=true to return invoice and payment history.
-     * @returns {Object} The account query results
+     * @returns {object} The account query results
      */
     account(options: {
         days?: number;
         invoices?: boolean;
-    }): any;
+    }): object;
 }

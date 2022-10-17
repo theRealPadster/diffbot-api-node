@@ -1,4 +1,4 @@
-const { diffbot, expect, customJS } = require('./global');
+const { diffbot, expect, customJS, customHeaders } = require('./global');
 
 describe('Article Tests', function() {
 
@@ -25,16 +25,17 @@ describe('Article Tests', function() {
     return Promise.resolve(true);
   });
 
-  it('should generate the article GET request with custom JS', async () => {
+  it('should generate the article GET request with custom headers', async () => {
     const url = 'https://www.theverge.com/2020/8/25/21400240/epic-apple-ruling-unreal-engine-fortnite-temporary-restraining-order';
 
-    let request = await diffbot.article({ url, customJS });
+    let request = await diffbot.article({ url, customJS, customHeaders });
 
     expect(request.url).to.equal(`https://api.diffbot.com/v3/article?token=${diffbot.token}&url=${encodeURIComponent(url)}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object');
     expect(request.headers['X-Forward-X-Evaluate']).to.equal(customJS.replace(/(\r?\n|\r)\s+/g, ''));
+    expect(request.headers['X-Forward-User-Agent']).to.equal(customHeaders['User-Agent']);
 
     return Promise.resolve(true);
   });

@@ -2,6 +2,7 @@
   "include": ["src/diffbot.js"],
   "exclude": [],
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,

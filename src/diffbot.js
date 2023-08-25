@@ -431,7 +431,7 @@ class Diffbot {
     else if (options.jsonmode && options.jsonmode != 'extended')
       throw new Error('invalid jsonmode');
 
-    let diffbot_url = `https://kg.diffbot.com/kg/dql_endpoint?token=${this.token}&query=${encodeURIComponent(options.query)}`;
+      let diffbot_url = `https://kg.diffbot.com/kg/v3/dql?token=${this.token}&query=${encodeURIComponent(options.query)}`;
 
     if (options.type)
       diffbot_url += `&type=${options.type}`;

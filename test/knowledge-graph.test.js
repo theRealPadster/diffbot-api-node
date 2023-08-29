@@ -14,7 +14,7 @@ describe('Knowledge Graph Tests', function() {
 
     let request = await diffbot.knowledgeGraph({ query, type, size, from, jsonmode, nonCanonicalFacts, noDedupArticles });
 
-    expect(request.url).to.equal(`https://kg.diffbot.com/kg/dql_endpoint?token=${diffbot.token}&query=${encodeURIComponent(query)}&type=${type}&size=${size}&from=${from}&jsonmode=${jsonmode}&nonCanonicalFacts=${+nonCanonicalFacts}&noDedupArticles=${+noDedupArticles}`);
+    expect(request.url).to.equal(`https://kg.diffbot.com/kg/v3/dql?token=${diffbot.token}&query=${encodeURIComponent(query)}&type=${type}&size=${size}&from=${from}&jsonmode=${jsonmode}&nonCanonicalFacts=${+nonCanonicalFacts}&noDedupArticles=${+noDedupArticles}`);
     expect(request.method).to.equal('GET');
     expect(request.body).to.be.undefined;
     expect(request.headers).to.be.an('object').that.is.empty;

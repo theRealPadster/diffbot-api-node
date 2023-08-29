@@ -46,7 +46,7 @@ exports.generate = function(url, method = 'GET', body, customHeaders) {
  * @returns The JSON-formatted result
  */
 exports.exec = function (request) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     let params = {
       method: request.method,
       url: request.url,

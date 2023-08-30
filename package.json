@@ -26,6 +26,8 @@
   "main": "src/diffbot.js",
   "scripts": {
     "generate-types": "tsc",
+    "lint": "eslint --fix src",
+    "lint:ci": "eslint src",
     "test": "nyc mocha test/**/*.test.js",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },

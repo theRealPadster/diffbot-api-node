@@ -9,7 +9,7 @@
   "version": "0.9.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/therealpadster/diffbot-api-node.git"
+    "url": "git+https://github.com/therealpadster/diffbot-api-node.git"
   },
   "bugs": {
     "web": "https://github.com/therealpadster/diffbot-api-node/issues"

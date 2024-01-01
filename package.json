@@ -15,7 +15,7 @@
     "web": "https://github.com/therealpadster/diffbot-api-node/issues"
   },
   "dependencies": {
-    "axios": "^1.6.2"
+    "axios": "^1.6.3"
   },
   "keywords": [
     "diffbot",
@@ -36,9 +36,9 @@
     "chai": "^4.3.10",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.8.3",
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   }
 }

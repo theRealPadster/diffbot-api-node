@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/therealpadster/diffbot-api-node",
   "devDependencies": {
-    "chai": "^4.3.10",
+    "chai": "^6.2.0",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.8.3",
     "eslint": "^8.56.0",

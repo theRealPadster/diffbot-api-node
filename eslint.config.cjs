@@ -1,55 +1,55 @@
 const {
-    defineConfig,
-} = require("eslint/config");
+  defineConfig,
+} = require('eslint/config');
 
-const globals = require("globals");
-const js = require("@eslint/js");
+const globals = require('globals');
+const js = require('@eslint/js');
 
 const {
-    FlatCompat,
-} = require("@eslint/eslintrc");
+  FlatCompat,
+} = require('@eslint/eslintrc');
 
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all
 });
 
 module.exports = defineConfig([{
-    extends: compat.extends("eslint:recommended"),
+  extends: compat.extends('eslint:recommended'),
 
-    languageOptions: {
-        globals: {
-            ...globals.browser,
-            ...globals.commonjs,
-            ...globals.node,
-            ...globals.mocha,
-            Atomics: "readonly",
-            SharedArrayBuffer: "readonly",
-        },
-
-        ecmaVersion: 2018,
-        sourceType: "commonjs",
-
-        parserOptions: {
-            allowImportExportEverywhere: false,
-            codeFrame: false,
-
-            ecmaFeatures: {
-                modules: true,
-                blockBindings: true,
-            },
-        },
+  languageOptions: {
+    globals: {
+      ...globals.browser,
+      ...globals.commonjs,
+      ...globals.node,
+      ...globals.mocha,
+      Atomics: 'readonly',
+      SharedArrayBuffer: 'readonly',
     },
 
-    rules: {
-        indent: ["warn", 2, {
-            SwitchCase: 1,
-        }],
+    ecmaVersion: 2018,
+    sourceType: 'commonjs',
 
-        "linebreak-style": ["error", "unix"],
-        quotes: ["error", "single"],
-        semi: ["error", "always"],
-        "no-console": "error",
+    parserOptions: {
+      allowImportExportEverywhere: false,
+      codeFrame: false,
+
+      ecmaFeatures: {
+        modules: true,
+        blockBindings: true,
+      },
     },
+  },
+
+  rules: {
+    indent: ['warn', 2, {
+      SwitchCase: 1,
+    }],
+
+    'linebreak-style': ['error', 'unix'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'always'],
+    'no-console': 'error',
+  },
 }]);

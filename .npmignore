@@ -1,3 +1,10 @@
+# nyc test coverage
+.nyc_output
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
 # Custom files I don't want added to the npm package
 .vscode/
 .github/

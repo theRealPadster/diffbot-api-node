@@ -1,0 +1,4 @@
+# Custom files I don't want added to the npm package
+.vscode/
+.github/
+.nvmrc

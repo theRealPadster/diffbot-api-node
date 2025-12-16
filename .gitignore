@@ -106,7 +106,6 @@ dist
 # MacOS .DS_Store files
 .DS_Store
 
-# Custom files I don't want added to npm
-.vscode/
+# Custom files I don't want added to git
 sandbox.js
 TODO

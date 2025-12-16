@@ -6,7 +6,7 @@
     "api",
     "node"
   ],
-  "version": "0.9.8",
+  "version": "0.9.9",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/therealpadster/diffbot-api-node.git"

@@ -28,8 +28,7 @@
     "generate-types": "tsc",
     "lint": "eslint --fix src",
     "lint:ci": "eslint src",
-    "test": "nyc mocha test/**/*.test.js",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "test": "nyc --reporter=text --reporter=lcov mocha test/**/*.test.js"
   },
   "homepage": "https://github.com/therealpadster/diffbot-api-node",
   "devDependencies": {
@@ -37,7 +36,6 @@
     "@eslint/js": "^9.39.2",
     "chai": "^6.2.1",
     "chai-as-promised": "^8.0.2",
-    "codecov": "^3.8.3",
     "eslint": "^9.39.2",
     "globals": "^17.0.0",
     "mocha": "^11.7.5",

@@ -33,7 +33,7 @@
   "homepage": "https://github.com/therealpadster/diffbot-api-node",
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "chai": "^6.2.1",
     "chai-as-promised": "^8.0.2",
     "eslint": "^9.39.2",
